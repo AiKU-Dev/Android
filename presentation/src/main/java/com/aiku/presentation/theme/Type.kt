@@ -1,4 +1,4 @@
-package com.aiku.aiku.ui.theme
+package com.aiku.presentation.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

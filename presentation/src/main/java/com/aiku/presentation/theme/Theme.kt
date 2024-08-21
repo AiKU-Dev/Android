@@ -1,4 +1,4 @@
-package com.aiku.aiku.ui.theme
+package com.aiku.presentation.theme
 
 import android.app.Activity
 import android.os.Build

@@ -1,4 +1,4 @@
-package com.aiku.aiku.ui.theme
+package com.aiku.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
