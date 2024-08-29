@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option java_package = "com.aiku.data"; // 클래스가 생성될 package
+option java_multiple_files = true;
+
+message UserEntity {
+  string image = 1;
+  string name = 2;
+  string phoneNumber = 3;
+
+  message GroupEntity {
+    int64 id = 1;
+    string name = 2;
+    string description = 3;
+    repeated int64 members = 4;
+  }
+
+  repeated GroupEntity groups = 4;
+}
