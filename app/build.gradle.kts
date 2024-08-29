@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.protobuf)
     kotlin("kapt")
     alias(libs.plugins.hilt)
 }
@@ -40,6 +41,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.4"
@@ -52,6 +54,11 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":presentation"))
+    implementation(project(":core"))
+    implementation(project(":data"))
+    implementation(project(":domain"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -73,8 +80,11 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
 
-    implementation(project(":presentation"))
-    implementation(project(":core"))
-    implementation(project(":data"))
-    implementation(project(":domain"))
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
 }
