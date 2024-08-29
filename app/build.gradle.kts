@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -20,9 +23,23 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildFeatures {
+            buildConfig = true // BuildConfig 생성 활성화
+        }
+
+        val properties = Properties()
+        properties.load(FileInputStream("local.properties"))
+
+        buildConfigField("String", "NATIVE_TEST_APP_KEY", "\"${properties["native_test_app_key"]}\"")
+
+        // manifestPlaceholders 설정
+        manifestPlaceholders["KAKAO_NATIVE_TEST_APP_KEY"] = "kakao" + "\"${properties["native_test_app_key"]}\""
+
     }
 
     buildTypes {
+        
         release {
             isMinifyEnabled = false
             proguardFiles(

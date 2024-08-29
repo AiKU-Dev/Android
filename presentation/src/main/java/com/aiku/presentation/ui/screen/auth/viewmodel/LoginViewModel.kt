@@ -23,6 +23,9 @@ class LoginViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Initial)
     override val uiState: StateFlow<UiState> = _uiState
 
+    //TODO - 현재 : 카카오에서 사용자정보를 성공적으로 받아오면 로그인 성공으로 판단
+    // -> idToken검증 성공 : UiState.Success, idToken검증 실패 : UiState.Error(exception)
+
     fun login(useKakaoTalk: Boolean) {
         viewModelScope.launch {
             loginUseCase.execute(useKakaoTalk)

@@ -33,7 +33,6 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
-
     val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
@@ -63,7 +62,6 @@ fun LoginScreen(
                 }
             )
 
-            // 추가로 Image를 넣고 싶다면 여기에 추가하면 됩니다.
 //            Image(
 //                modifier = Modifier.padding(start = 27.dp),
 //                painter = painterResource(id = R.drawable.ic_kakao_message_circle),
@@ -77,11 +75,12 @@ fun LoginScreen(
         is UiState.Loading -> {
         }
         is UiState.Success -> {
-
+            //TODO : 홈 화면으로 전환
         }
         is UiState.Error -> {
             val errorMessage = (uiState as UiState.Error).error?.message
             Log.e("LoginScreen", "Error occurred: $errorMessage")
+            //TODO : 회원가입 화면으로 전환
         }
         else -> {
             // 초기 상태 또는 다른 상태 처리

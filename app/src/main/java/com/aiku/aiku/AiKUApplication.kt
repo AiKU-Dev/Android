@@ -11,7 +11,7 @@ class AiKUApplication : Application() {
         super.onCreate()
 
         // Kakao SDK 초기화
-        KakaoSdk.init(this, getString(R.string.native_test_app_key))
+        KakaoSdk.init(this, BuildConfig.NATIVE_TEST_APP_KEY)
     }
 
 
