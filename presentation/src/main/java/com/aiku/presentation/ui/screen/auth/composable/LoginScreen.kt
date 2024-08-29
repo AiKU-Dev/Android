@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.screen.auth.composable
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,14 +10,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.aiku.core.base.UiState
-import com.aiku.domain.delegate.UserDelegate
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.theme.BrandColor
 import com.aiku.presentation.theme.FullWidthButtonTextSize
@@ -33,7 +28,7 @@ fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
     val scrollState = rememberScrollState()
-    val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
+    //val uiState by loginViewModel.uiState.collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -71,21 +66,21 @@ fun LoginScreen(
     }
 
     // UI 상태에 따라 처리
-    when (uiState) {
-        is UiState.Loading -> {
-        }
-        is UiState.Success -> {
-            //TODO : 홈 화면으로 전환
-        }
-        is UiState.Error -> {
-            val errorMessage = (uiState as UiState.Error).error?.message
-            Log.e("LoginScreen", "Error occurred: $errorMessage")
-            //TODO : 회원가입 화면으로 전환
-        }
-        else -> {
-            // 초기 상태 또는 다른 상태 처리
-        }
-    }
+//    when (uiState) {
+//        is UiState.Loading -> {
+//        }
+//        is UiState.Success -> {
+//            //TODO : 홈 화면으로 전환
+//        }
+//        is UiState.Error -> {
+//            val errorMessage = (uiState as UiState.Error).error?.message
+//            Log.e("LoginScreen", "Error occurred: $errorMessage")
+//            //TODO : 회원가입 화면으로 전환
+//        }
+//        else -> {
+//            // 초기 상태 또는 다른 상태 처리
+//        }
+//    }
 }
 
 @Preview

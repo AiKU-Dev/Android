@@ -31,7 +31,7 @@ class LoginRepositoryImpl @Inject constructor(
 
                 // 로그인 성공 후 사용자 정보 요청
                 val user = fetchKakaoUserInfo()
-                emit(LoginResult(token = response.token, user = user))
+                //emit(LoginResult(token = response.token, user = user))
             } else {
                 emit(LoginResult(error = response.error))
             }
@@ -54,7 +54,7 @@ class LoginRepositoryImpl @Inject constructor(
 
                 // 로그인 성공 후 사용자 정보 요청
                 val user = fetchKakaoUserInfo()
-                emit(LoginResult(token = response.token, user = user))
+                //emit(LoginResult(token = response.token, user = user))
             } else {
                 emit(LoginResult(error = response.error))
             }

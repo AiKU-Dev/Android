@@ -1,6 +1,9 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.protobuf)
     kotlin("kapt")
     alias(libs.plugins.hilt)
 }
@@ -36,6 +39,8 @@ android {
 
 dependencies {
 
+    implementation(project(":domain"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -49,6 +54,27 @@ dependencies {
 
     implementation(libs.v2.all) //kakao sdk
 
-    implementation(project(":domain"))
-    implementation(project(":core"))
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi.kotlin)
+    implementation(libs.logging.interceptor)
+
+    implementation(libs.datastore)
+    implementation(libs.protobuf.javalite)
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.19.4"
+    }
+
+    generateProtoTasks {
+        all().forEach { tasks ->
+            tasks.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
 }

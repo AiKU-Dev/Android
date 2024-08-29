@@ -10,7 +10,7 @@ data class LoginResponse(
 // mapper
 fun LoginResponse.toLoginResult(): LoginResult {
     return LoginResult(
-        token = this.token,
+        //token = this.token,
         error = this.error
     )
 }
