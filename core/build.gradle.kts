@@ -59,7 +59,4 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
 
-    implementation(project(":domain"))
-    implementation(project(":presentation"))
-    implementation(project(":data"))
 }

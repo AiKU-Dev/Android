@@ -1,3 +1,13 @@
 <resources>
+
     <string name="app_name">AiKU</string>
+
+    <!--    테스트 앱-->
+    <string name="native_test_app_key">d6b061f805f9916fd8873fdff6ddca16</string>
+    <string name="kakao_native_test_app_key">kakaod6b061f805f9916fd8873fdff6ddca16</string>
+
+    <!--    실제 앱-->
+    <string name="native_app_key">b6f52f15d62cac7230b0766e658f1fe7</string>
+    <string name="kakao_native_app_key">kakaob6f52f15d62cac7230b0766e658f1fe7</string>
+
 </resources>

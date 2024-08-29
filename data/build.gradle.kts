@@ -47,5 +47,8 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
 
+    implementation(libs.v2.all) //kakao sdk
+
     implementation(project(":domain"))
+    implementation(project(":core"))
 }

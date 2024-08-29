@@ -61,6 +61,8 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose)
 
     implementation(project(":domain"))
+    implementation(project(":core"))
 }
