@@ -61,11 +61,11 @@ object NetworkModule {
             if (response.isSuccessful.not()) {
                 val errorBody = response.body?.string().also {
                     if (it == null) {
-                        throw ErrorResponse(message = "Unknown error", code = UNKNOWN)
+                        throw ErrorResponse(UNKNOWN)
                     }
                 }
                 val exception = moshi.adapter(ErrorResponse::class.java).fromJson(errorBody!!)
-                throw exception ?: ErrorResponse(message = "Unknown error", code = UNKNOWN)
+                throw exception ?: ErrorResponse(UNKNOWN)
             }
             response
         }

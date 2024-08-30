@@ -20,6 +20,7 @@ fun ProfileEditScreen(
         }
         is SaveProfileUiState.Success -> {
             // 대충 프로필 변경 성공
+            // 다음 페이지로 이동
         }
         is SaveProfileUiState.AlreadyExistPhoneNumber -> {
             // 대충 이미 존재하는 전화번호일 때 UI

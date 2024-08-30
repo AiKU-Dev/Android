@@ -16,22 +16,21 @@ class SaveUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    // TODO : 메시지를 Domain에 두는 것이 맞는가?
     operator fun invoke(user: User): Flow<Unit> {
         if (user.name.isEmpty())
-            throw ErrorResponse(REQUIRE_NICKNAME_INPUT, "닉네임을 입력해주세요.")
+            throw ErrorResponse(REQUIRE_NICKNAME_INPUT)
 
         if (user.phoneNumber.isEmpty())
-            throw ErrorResponse(REQUIRE_PHONE_NUMBER_INPUT, "전화번호를 입력해주세요.")
+            throw ErrorResponse(REQUIRE_PHONE_NUMBER_INPUT)
 
         if (user.name.length > MAX_NICKNAME_LENGTH)
-            throw ErrorResponse(NICKNAME_LENGTH_EXCEED, "닉네임은 5자 이하로 입력해주세요.")
+            throw ErrorResponse(NICKNAME_LENGTH_EXCEED)
 
         if (RegexUtil.isValidNickname(user.name).not())
-            throw ErrorResponse(INVALID_NICKNAME_FORMAT, "닉네임 형식이 올바르지 않습니다.")
+            throw ErrorResponse(INVALID_NICKNAME_FORMAT)
 
         if (RegexUtil.isValidPhoneNumber(user.phoneNumber).not())
-            throw ErrorResponse(INVALID_PHONE_NUMBER_FORMAT, "전화번호 형식이 올바르지 않습니다.")
+            throw ErrorResponse(INVALID_PHONE_NUMBER_FORMAT)
 
         return userRepository.saveUser(user)
     }
