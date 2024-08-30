@@ -1,16 +1,15 @@
 package com.aiku.presentation.ui.signup.composable
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aiku.presentation.ui.signup.viewmodel.SaveProfileUiState
-import com.aiku.presentation.ui.signup.viewmodel.MyPageViewModel
+import com.aiku.presentation.ui.signup.viewmodel.CreateProfileViewModel
 
 @Composable
 fun ProfileEditScreen(
-    viewModel: MyPageViewModel = hiltViewModel()
+    viewModel: CreateProfileViewModel = hiltViewModel()
 ) {
 
     val saveProfileUiState by viewModel.saveProfileUiState.collectAsStateWithLifecycle()
@@ -36,6 +35,11 @@ fun ProfileEditScreen(
         is SaveProfileUiState.InvalidPhoneNumberFormat -> {
             // 대충 잘못된 전화번호 형식일 때 UI
         }
+        is SaveProfileUiState.NicknameLengthExceed -> {
+            // 대충 닉네임 길이 초과일 때 UI
+        }
+        SaveProfileUiState.RequireNicknameInput -> TODO()
+        SaveProfileUiState.RequirePhoneNumberInput -> TODO()
         is SaveProfileUiState.Idle -> {
             // 아무것도 아닌 상태
         }
