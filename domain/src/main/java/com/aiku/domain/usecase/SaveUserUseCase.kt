@@ -17,19 +17,19 @@ class SaveUserUseCase @Inject constructor(
 ) {
 
     operator fun invoke(user: User): Flow<Unit> {
-        if (user.name.isEmpty())
+        if (user.isNicknameEmpty())
             throw ErrorResponse(REQUIRE_NICKNAME_INPUT)
 
-        if (user.phoneNumber.isEmpty())
+        if (user.isPhoneNumberEmpty())
             throw ErrorResponse(REQUIRE_PHONE_NUMBER_INPUT)
 
-        if (user.name.length > MAX_NICKNAME_LENGTH)
+        if (user.isNicknameLengthExceed(MAX_NICKNAME_LENGTH))
             throw ErrorResponse(NICKNAME_LENGTH_EXCEED)
 
-        if (RegexUtil.isValidNickname(user.name).not())
+        if (user.isInvalidNicknameFormat())
             throw ErrorResponse(INVALID_NICKNAME_FORMAT)
 
-        if (RegexUtil.isValidPhoneNumber(user.phoneNumber).not())
+        if (user.isInvalidPhoneNumberFormat())
             throw ErrorResponse(INVALID_PHONE_NUMBER_FORMAT)
 
         return userRepository.saveUser(user)
