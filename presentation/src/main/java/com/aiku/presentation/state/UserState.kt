@@ -16,7 +16,7 @@ data class UserState(
 
     fun toUser() = User(
         image = image,
-        name = name,
+        nickname = name,
         phoneNumber = phoneNumber,
         groups = groups.map { it.toGroup() }
     )
@@ -24,7 +24,7 @@ data class UserState(
 
 fun User.toUserState() = UserState(
     image = image,
-    name = name,
+    name = nickname,
     phoneNumber = phoneNumber,
     groups = groups.map { it.toGroupState() }
 )

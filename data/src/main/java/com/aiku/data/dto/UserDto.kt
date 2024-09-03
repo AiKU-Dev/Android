@@ -17,7 +17,7 @@ data class UserDto(
 
     fun toUser() = User(
         image = image ?: "",
-        name = name ?: "",
+        nickname = name ?: "",
         phoneNumber = phoneNumber ?: "",
         groups = groups?.map { it.toGroup() } ?: emptyList()
     )
@@ -25,7 +25,7 @@ data class UserDto(
 
 fun User.toUserDto() = UserDto(
     image = image,
-    name = name,
+    name = nickname,
     phoneNumber = phoneNumber,
     groups = groups.map { it.toGroupDto() }
 )
