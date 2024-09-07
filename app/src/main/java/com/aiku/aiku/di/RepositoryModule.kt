@@ -1,10 +1,13 @@
 package com.aiku.aiku.di
 
 import com.aiku.aiku.qualifer.IoDispatcher
+import com.aiku.data.repository.LoginRepositoryImpl
 import com.aiku.data.repository.UserRepositoryImpl
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
+import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.repository.UserRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,5 +27,13 @@ object RepositoryModule {
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): UserRepository {
         return UserRepositoryImpl(userLocalDataSource, userRemoteDataSource, coroutineDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginRepository(
+        loginRepositoryImpl: LoginRepositoryImpl
+    ): LoginRepository {
+        return loginRepositoryImpl
     }
 }

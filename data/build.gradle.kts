@@ -59,6 +59,8 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.protobuf.javalite)
+
+    implementation(libs.v2.all)
 }
 
 protobuf {

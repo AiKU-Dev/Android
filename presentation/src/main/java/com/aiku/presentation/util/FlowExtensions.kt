@@ -4,6 +4,7 @@ import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
 
 internal fun<T> Flow<T>.onError(action: suspend (ErrorResponse) -> Unit): Flow<T> {
     return this.catch { e ->

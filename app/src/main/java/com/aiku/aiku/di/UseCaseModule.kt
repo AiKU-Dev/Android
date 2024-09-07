@@ -1,6 +1,8 @@
 package com.aiku.aiku.di
 
+import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.repository.UserRepository
+import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import dagger.Module
 import dagger.Provides
@@ -18,5 +20,11 @@ object UseCaseModule {
         userRepository: UserRepository
     ): SaveUserUseCase {
         return SaveUserUseCase(userRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLoginUseCase(loginRepository: LoginRepository): LoginUseCase {
+        return LoginUseCase(loginRepository)
     }
 }
