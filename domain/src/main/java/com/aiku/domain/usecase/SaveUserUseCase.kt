@@ -18,19 +18,19 @@ class SaveUserUseCase @Inject constructor(
 
     operator fun invoke(user: User): Flow<Unit> {
         if (user.isNicknameEmpty())
-            throw ErrorResponse(REQUIRE_NICKNAME_INPUT)
+            throw ErrorResponse(REQUIRE_NICKNAME_INPUT, "TODO")
 
         if (user.isPhoneNumberEmpty())
-            throw ErrorResponse(REQUIRE_PHONE_NUMBER_INPUT)
+            throw ErrorResponse(REQUIRE_PHONE_NUMBER_INPUT, "TODO")
 
         if (user.isNicknameLengthExceed(MAX_NICKNAME_LENGTH))
-            throw ErrorResponse(NICKNAME_LENGTH_EXCEED)
+            throw ErrorResponse(NICKNAME_LENGTH_EXCEED, "TODO")
 
         if (user.isInvalidNicknameFormat())
-            throw ErrorResponse(INVALID_NICKNAME_FORMAT)
+            throw ErrorResponse(INVALID_NICKNAME_FORMAT, "TODO")
 
         if (user.isInvalidPhoneNumberFormat())
-            throw ErrorResponse(INVALID_PHONE_NUMBER_FORMAT)
+            throw ErrorResponse(INVALID_PHONE_NUMBER_FORMAT, "TODO")
 
         return userRepository.saveUser(user)
     }

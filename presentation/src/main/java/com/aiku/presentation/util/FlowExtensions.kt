@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flow
 internal fun<T> Flow<T>.onError(action: suspend (ErrorResponse) -> Unit): Flow<T> {
     return this.catch { e ->
         if (e !is ErrorResponse)
-            action(ErrorResponse(UNKNOWN))
+            action(ErrorResponse(UNKNOWN, "Unknown"))
         else action(e)
     }
 }

@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.signup.composable
+package com.aiku.presentation.ui.screen.signup.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -33,6 +33,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
@@ -47,8 +48,8 @@ import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.dialog.DefaultCharacterDialog
 import com.aiku.presentation.ui.component.dialog.MinimalDialog
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
-import com.aiku.presentation.ui.signup.viewmodel.CreateProfileViewModel
-import com.aiku.presentation.ui.signup.viewmodel.SaveProfileUiState
+import com.aiku.presentation.ui.screen.signup.viewmodel.CreateProfileViewModel
+import com.aiku.presentation.ui.screen.signup.viewmodel.SaveProfileUiState
 import com.aiku.presentation.util.asImageBitmap
 import com.aiku.presentation.util.parseImageBitmap
 import com.aiku.presentation.util.takePhotoFromAlbum
@@ -58,6 +59,7 @@ import com.aiku.presentation.util.takePhotoFromAlbumIntent
 @Composable
 fun ProfileEditScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     viewModel: CreateProfileViewModel = hiltViewModel(),
 ) {
 

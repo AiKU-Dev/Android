@@ -11,17 +11,17 @@ class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository ){
 
     // 카카오톡으로 로그인
-    private suspend fun loginWithKakaoTalk(): Flow<String?> {
+    private fun loginWithKakaoTalk(): Flow<String?> {
         return loginRepository.loginWithKakaoTalk()
     }
 
     // 카카오 계정으로 로그인
-    private suspend fun loginWithKakaoAccount(): Flow<String?> {
+    private fun loginWithKakaoAccount(): Flow<String?> {
         return loginRepository.loginWithKakaoAccount()
     }
 
     // 로그인 방법 선택
-    suspend fun execute(useKakaoTalk: Boolean): Flow<String?> {
+    fun execute(useKakaoTalk: Boolean): Flow<String?> {
         return if (useKakaoTalk) {
             loginWithKakaoTalk()
         } else {

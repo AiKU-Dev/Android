@@ -12,36 +12,30 @@ class LoginRepositoryImpl @Inject constructor(
     private val loginRemoteDataSource: LoginRemoteDataSource
 ) : LoginRepository {
 
-    override suspend fun loginWithKakaoTalk(): Flow<String?> = flow {
+    override fun loginWithKakaoTalk(): Flow<String?> = flow {
         val response = loginRemoteDataSource.loginWithKakaoTalk()
         if (response.token != null) {
             emit(null) // 로그인 성공
         } else {
             throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
         }
-    }.catch { e ->
-        throw e
     }
 
-    override suspend fun loginWithKakaoAccount(): Flow<String?> = flow {
+    override fun loginWithKakaoAccount(): Flow<String?> = flow {
         val response = loginRemoteDataSource.loginWithKakaoAccount()
         if (response.token != null) {
             emit(null) // 로그인 성공
         } else {
             throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
         }
-    }.catch { e ->
-        throw e
     }
 
-    override suspend fun loginWithToken(refreshToken: String): Flow<String?> = flow {
+    override fun loginWithToken(refreshToken: String): Flow<String?> = flow {
         val response = loginRemoteDataSource.loginWithToken(refreshToken)
         if (response.success) {
             emit(response.data)
         } else {
             throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
         }
-    }.catch { e ->
-        throw e
     }
 }

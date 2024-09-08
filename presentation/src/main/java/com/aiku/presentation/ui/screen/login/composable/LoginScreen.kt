@@ -20,7 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.aiku.domain.usecase.LoginUseCase
+import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.theme.FullWidthButtonTextSize
 import com.aiku.presentation.theme.KakaoBlack
@@ -35,8 +37,9 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
+    navController: NavController,
+    loginUseCase: LoginUseCase,
     loginViewModel: LoginViewModel = hiltViewModel(),
-    loginUseCase: LoginUseCase
 ) {
 
     val scrollState = rememberScrollState()
@@ -73,13 +76,23 @@ fun LoginScreen(
 
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
 
-//    when (loginUiState) {
-//        LoginUiState.Idle -> TODO()
-//        LoginUiState.Loading -> TODO()
-//        LoginUiState.Success -> TODO()
-//        LoginUiState.InvalidIdToken -> TODO()
-//        LoginUiState.UserNotFound -> TODO()
-//    }
+    when (loginUiState) {
+        LoginUiState.Idle -> {
+            //TODO()
+        }
+        LoginUiState.Loading -> {
+            //TODO()
+        }
+        LoginUiState.Success ->  {
+            navController.navigate(SignUpRoute.PROFILE_EDIT.name)
+        }
+        LoginUiState.InvalidIdToken -> {
+
+        }
+        LoginUiState.UserNotFound -> {
+
+        }
+    }
 
 
 }

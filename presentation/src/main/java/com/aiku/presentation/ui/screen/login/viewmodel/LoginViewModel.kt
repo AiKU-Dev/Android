@@ -41,7 +41,6 @@ class LoginViewModel @Inject constructor(
 
 
     fun login(useKakaoTalk: Boolean, loginUseCase: LoginUseCase) {
-        viewModelScope.launch {
             loginUseCase.execute(useKakaoTalk)
                 .onStart {
                     _loginUiState.emit(LoginUiState.Loading)
@@ -57,8 +56,8 @@ class LoginViewModel @Inject constructor(
                     }
                     _loginUiState.emit(uiState)
                 }
-                .launchIn(this)
-        }
+                .launchIn(viewModelScope)
+
     }
 
     fun autoLogin(loginUseCase: LoginUseCase) {
