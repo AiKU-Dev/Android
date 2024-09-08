@@ -37,7 +37,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:host="oauth"
-                    android:scheme= "${NATIVE_TEST_APP_KEY}"/>
+                    android:scheme= "${KAKAO_NATIVE_TEST_APP_KEY}"/>
             </intent-filter>
         </activity>
     </application>

@@ -21,9 +21,9 @@ fun SplashScreen(
     val animationCompleted = remember { mutableStateOf(false) }
 
     // 자동 로그인 시도
-    LaunchedEffect(Unit) {
-        loginViewModel.autoLogin()
-    }
+//    LaunchedEffect(Unit) {
+//        loginViewModel.autoLogin()
+//    }
 
     // animation 완료 후, 화면 전환
     LaunchedEffect(animationCompleted.value) {

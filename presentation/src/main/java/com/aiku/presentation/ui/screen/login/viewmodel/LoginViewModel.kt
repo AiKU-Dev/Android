@@ -21,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
     private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
@@ -41,7 +40,7 @@ class LoginViewModel @Inject constructor(
         )
 
 
-    fun login(useKakaoTalk: Boolean) {
+    fun login(useKakaoTalk: Boolean, loginUseCase: LoginUseCase) {
         viewModelScope.launch {
             loginUseCase.execute(useKakaoTalk)
                 .onStart {
@@ -62,7 +61,7 @@ class LoginViewModel @Inject constructor(
         }
     }
 
-    fun autoLogin() {
+    fun autoLogin(loginUseCase: LoginUseCase) {
         viewModelScope.launch {
             val tokenFlow = loginUseCase.autoLogin()
 

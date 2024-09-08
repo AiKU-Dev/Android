@@ -33,11 +33,5 @@ object RepositoryModule {
         return UserRepositoryImpl(userLocalDataSource, userRemoteDataSource, coroutineDispatcher)
     }
 
-    @Provides
-    @Singleton
-    fun provideAuthRepository(
-        authLocalDataSource: AuthLocalDataSource
-    ): AuthRepository {
-        return AuthRepositoryImpl(authLocalDataSource)
-    }
+
 }

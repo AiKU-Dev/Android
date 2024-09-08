@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.theme.FullWidthButtonTextSize
 import com.aiku.presentation.theme.KakaoBlack
@@ -34,7 +35,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
-    loginViewModel: LoginViewModel = hiltViewModel()
+    loginViewModel: LoginViewModel = hiltViewModel(),
+    loginUseCase: LoginUseCase
 ) {
 
     val scrollState = rememberScrollState()
@@ -62,7 +64,7 @@ fun LoginScreen(
                     )
                 },
                 onClick = {
-                    loginViewModel.login(useKakaoTalk = true)
+                    loginViewModel.login(useKakaoTalk = true, loginUseCase)
                 }
             )
 
@@ -80,12 +82,4 @@ fun LoginScreen(
 //    }
 
 
-}
-
-@Preview
-@Composable
-private fun LoginPreview() {
-    AiKUTheme {
-        LoginScreen()
-    }
 }
