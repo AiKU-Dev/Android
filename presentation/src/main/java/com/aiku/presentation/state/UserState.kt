@@ -9,14 +9,14 @@ import kotlinx.parcelize.Parcelize
 @Immutable
 data class UserState(
     val image: String,
-    val name: String,
+    val nickname: String,
     val phoneNumber: String,
     val groups: List<GroupState>
 ): Parcelable {
 
     fun toUser() = User(
         image = image,
-        name = name,
+        nickname = nickname,
         phoneNumber = phoneNumber,
         groups = groups.map { it.toGroup() }
     )
@@ -24,7 +24,7 @@ data class UserState(
 
 fun User.toUserState() = UserState(
     image = image,
-    name = name,
+    nickname = nickname,
     phoneNumber = phoneNumber,
     groups = groups.map { it.toGroupState() }
 )

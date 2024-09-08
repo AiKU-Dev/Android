@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 공통 -->
+    <string name="ok">확인</string>
+    <string name="cancel">취소</string>
+    <string name="next">다음</string>
+
+    <!-- 기본 캐릭터 -->
+    <string name="character_man">기본 캐릭터1</string>
+    <string name="character_baby">기본 캐릭터2</string>
+    <string name="character_scratch">기본 캐릭터3</string>
+    <string name="character_girl">기본 캐릭터4</string>
+
+    <!-- 프로필 생성 -->
+    <string name="profile_setup_instruction">친구들에게 보여질\n프로필을 만들어주세요!</string>
+    <string name="profile_nickname_setup_placeholder">이름을 입력하세요</string>
+    <string name="profile_nickname_setup_label">최대 6자 입력이 가능합니다.</string>
+    <string name="profile_image_setup_content_description">프로필 이미지 설정</string>
+    <string name="profile_phone_number_setup_placeholder">010 0000 0000</string>
+    <string name="already_exist_nickname">이미 존재하는 닉네임입니다.</string>
+    <string name="select_using_default_character">기본 캐릭터로 선택</string>
+    <string name="select_using_album">앨범에서 선택</string>
+    <string name="select_character">캐릭터를 선택해주세요!</string>
+    <string name="default_character_content_description">기본 캐릭터</string>
+
+</resources>

@@ -26,7 +26,7 @@ class UserDataProviderImpl @Inject constructor(
         started = SharingStarted.Lazily,
         initialValue = UserState(
             image = "",
-            name = "",
+            nickname = "",
             phoneNumber = "",
             groups = emptyList()
         )

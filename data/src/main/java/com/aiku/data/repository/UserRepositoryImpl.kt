@@ -35,8 +35,8 @@ class UserRepositoryImpl @Inject constructor(
         }.onStart {
             val userDto = userRemoteDataSource.getUser()
             userLocalDataSource.saveUser(userDto.toUser().toUserEntity())
-        }.flowOn(coroutineDispatcher).flatMapLatest {
+        }.flatMapLatest {
             it.map { userEntity -> userEntity.toUser() }
-        }
+        }.flowOn(coroutineDispatcher)
     }
 }

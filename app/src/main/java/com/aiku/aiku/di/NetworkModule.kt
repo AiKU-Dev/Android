@@ -55,17 +55,17 @@ object NetworkModule {
     @Singleton
     fun provideHttpExceptionInterceptor(
         moshi: Moshi
-    ) : (chain: Interceptor. Chain) -> Response {
+    ) : (chain: Interceptor.Chain) -> Response {
         return { chain ->
             val response = chain.proceed(chain.request())
             if (response.isSuccessful.not()) {
                 val errorBody = response.body?.string().also {
                     if (it == null) {
-                        throw ErrorResponse(message = "Unknown error", code = UNKNOWN)
+                        throw ErrorResponse(UNKNOWN)
                     }
                 }
                 val exception = moshi.adapter(ErrorResponse::class.java).fromJson(errorBody!!)
-                throw exception ?: ErrorResponse(message = "Unknown error", code = UNKNOWN)
+                throw exception ?: ErrorResponse(UNKNOWN)
             }
             response
         }
