@@ -1,12 +1,15 @@
 package com.aiku.domain.usecase
 
+import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
-    private val loginRepository: LoginRepository
-) {
+    private val loginRepository: LoginRepository,
+    private val authRepository: AuthRepository ){
+
     // 카카오톡으로 로그인
     private suspend fun loginWithKakaoTalk(): Flow<String?> {
         return loginRepository.loginWithKakaoTalk()
@@ -24,5 +27,21 @@ class LoginUseCase @Inject constructor(
         } else {
             loginWithKakaoAccount()
         }
+    }
+
+    // 자동 로그인
+    suspend fun autoLogin(): Flow<String?>? {
+        val savedToken = authRepository.getAuthToken().first()
+        return if (savedToken != null) {
+            loginRepository.loginWithToken(savedToken)
+        } else {
+            null
+        }
+    }
+
+    fun getToken() = authRepository.getAuthToken()
+
+    suspend fun logout() {
+        authRepository.clearAuthToken()
     }
 }

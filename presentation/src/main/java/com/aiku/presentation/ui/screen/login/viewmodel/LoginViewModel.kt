@@ -2,7 +2,9 @@ package com.aiku.presentation.ui.screen.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aiku.domain.exception.EXPIRED_TOKEN
 import com.aiku.domain.exception.INVALID_ID_TOKEN
+import com.aiku.domain.exception.INVALID_TOKEN
 import com.aiku.domain.exception.USER_NOT_FOUND
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.util.onError
@@ -30,6 +32,14 @@ class LoginViewModel @Inject constructor(
             initialValue = LoginUiState.Idle
         )
 
+    private val _autoLoginUiState = MutableStateFlow<AutoLoginUiState>(AutoLoginUiState.Idle)
+    val autoLoginUiState: StateFlow<AutoLoginUiState> =
+        _autoLoginUiState.stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = AutoLoginUiState.Idle
+        )
+
 
     fun login(useKakaoTalk: Boolean) {
         viewModelScope.launch {
@@ -48,7 +58,40 @@ class LoginViewModel @Inject constructor(
                     }
                     _loginUiState.emit(uiState)
                 }
-                .launchIn(this) // Use 'this' to specify the current coroutine scope
+                .launchIn(this)
+        }
+    }
+
+    fun autoLogin() {
+        viewModelScope.launch {
+            val tokenFlow = loginUseCase.autoLogin()
+
+            // tokenFlow가 null인 경우
+            if (tokenFlow == null) {
+                _autoLoginUiState.emit(AutoLoginUiState.TokenAbsent)
+                return@launch
+            }
+
+            tokenFlow
+                .onStart {
+                    _autoLoginUiState.emit(AutoLoginUiState.Loading)
+                }
+                .onEach { token ->
+                    if (token != null) {
+                        _autoLoginUiState.emit(AutoLoginUiState.Success)
+                    } else {
+                        _autoLoginUiState.emit(AutoLoginUiState.Idle)
+                    }
+                }
+                .onError { error ->
+                    val uiState = when (error.code) {
+                        INVALID_TOKEN -> AutoLoginUiState.InvalidToken
+                        EXPIRED_TOKEN -> AutoLoginUiState.ExpiredToken
+                        else -> AutoLoginUiState.Idle
+                    }
+                    _autoLoginUiState.emit(uiState)
+                }
+                .launchIn(this)
         }
     }
 
@@ -60,4 +103,13 @@ sealed interface LoginUiState {
     data object Success : LoginUiState
     data object InvalidIdToken : LoginUiState
     data object UserNotFound : LoginUiState
+}
+
+sealed interface AutoLoginUiState {
+    data object Idle : AutoLoginUiState
+    data object Loading : AutoLoginUiState
+    data object Success : AutoLoginUiState
+    data object TokenAbsent : AutoLoginUiState
+    data object InvalidToken : AutoLoginUiState
+    data object ExpiredToken : AutoLoginUiState
 }

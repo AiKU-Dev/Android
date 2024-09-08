@@ -1,6 +1,7 @@
 package com.aiku.data.source.remote
 
 import android.content.Context
+import com.aiku.data.model.remote.BaseResponse
 import com.aiku.data.model.remote.LoginResponse
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
@@ -8,6 +9,8 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -58,13 +61,18 @@ class LoginRemoteDataSource @Inject constructor(
         return suspendCancellableCoroutine { continuation ->
             loginAction { token, error ->
                 if (error != null) {
-                    continuation.resume(LoginResponse(null, ErrorResponse(UNKNOWN, "An unknown error occurred")))
+                    continuation.resume(
+                        LoginResponse(
+                            null,
+                            ErrorResponse(UNKNOWN, "An unknown error occurred")
+                        )
+                    )
                 } else if (token != null) {
                     continuation.resume(LoginResponse(token, null)) //임시
 
                     // TODO: idToken 서버로 전송 (token.idToken)
                     //  성공 : continuation.resume(LoginResponse(token, null))
-                    //  실패 :
+                    //  실패 : 회원정보 없음, idToken 양식이상
 //                    val error = when (serverResponse.errorCode) {
 //                        USER_NOT_FOUND -> ErrorResponse(USER_NOT_FOUND, "User not found")
 //                        INVALID_ID_TOKEN -> ErrorResponse(INVALID_ID_TOKEN, "ID token is invalid")
@@ -73,7 +81,12 @@ class LoginRemoteDataSource @Inject constructor(
 //                    continuation.resume(LoginResponse(null, error))
 
                 } else {
-                    continuation.resume(LoginResponse(null, ErrorResponse(UNKNOWN, "An unknown error occurred")))
+                    continuation.resume(
+                        LoginResponse(
+                            null,
+                            ErrorResponse(UNKNOWN, "An unknown error occurred")
+                        )
+                    )
                 }
             }
 
@@ -81,6 +94,13 @@ class LoginRemoteDataSource @Inject constructor(
                 // 로그인 요청 취소 처리
             }
         }
+    }
+
+    fun loginWithToken(refreshToken: String) : BaseResponse<String> {
+        // TODO : refreshToken 서버로 전송 후, accessToken 재발급
+        //  성공 : 발급받은 accessToken 저장 후, 로그인 성공
+        //  실패 : refreshToken 양식 이상, 만료된 refreshToken
+        return BaseResponse(true, null, "재발급된 accessToken")
     }
 }
 

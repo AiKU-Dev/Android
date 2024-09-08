@@ -20,7 +20,7 @@ class LoginRepositoryImpl @Inject constructor(
             throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
         }
     }.catch { e ->
-        throw e // propagate error
+        throw e
     }
 
     override suspend fun loginWithKakaoAccount(): Flow<String?> = flow {
@@ -31,6 +31,17 @@ class LoginRepositoryImpl @Inject constructor(
             throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
         }
     }.catch { e ->
-        throw e // propagate error
+        throw e
+    }
+
+    override suspend fun loginWithToken(refreshToken: String): Flow<String?> = flow {
+        val response = loginRemoteDataSource.loginWithToken(refreshToken)
+        if (response.success) {
+            emit(response.data)
+        } else {
+            throw response.error?.let { ErrorResponse(it.code, response.error.message) }!!
+        }
+    }.catch { e ->
+        throw e
     }
 }

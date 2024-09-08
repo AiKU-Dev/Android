@@ -12,7 +12,9 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,13 +27,16 @@ import com.aiku.presentation.theme.KakaoYellow
 import com.aiku.presentation.theme.PrimaryColor
 import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.ui.component.FullWidthButton
+import com.aiku.presentation.ui.screen.login.viewmodel.AutoLoginUiState
 import com.aiku.presentation.ui.screen.login.viewmodel.LoginUiState
 import com.aiku.presentation.ui.screen.login.viewmodel.LoginViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun LoginScreen(
     loginViewModel: LoginViewModel = hiltViewModel()
 ) {
+
     val scrollState = rememberScrollState()
 
     Column(
@@ -67,20 +72,11 @@ fun LoginScreen(
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
 
     when (loginUiState) {
-        is LoginUiState.Idle -> {
-        }
-        is LoginUiState.Loading -> {
-            CircularProgressIndicator()
-        }
-        is LoginUiState.Success -> {
-            Text("Login Successful!")
-        }
-        is LoginUiState.InvalidIdToken -> {
-            Text("Invalid ID Token!")
-        }
-        is LoginUiState.UserNotFound -> {
-            Text("User Not Found!")
-        }
+        LoginUiState.Idle -> TODO()
+        LoginUiState.Loading -> TODO()
+        LoginUiState.Success -> TODO()
+        LoginUiState.InvalidIdToken -> TODO()
+        LoginUiState.UserNotFound -> TODO()
     }
 
 

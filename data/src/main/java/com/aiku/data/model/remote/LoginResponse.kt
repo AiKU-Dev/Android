@@ -7,3 +7,10 @@ data class LoginResponse(
     val token: OAuthToken?,
     val error: ErrorResponse?
 )
+
+//TODO : core로 이동
+data class BaseResponse<T>(
+    val success: Boolean,
+    val error: ErrorResponse?,
+    val data: T? = null
+)
