@@ -36,6 +36,6 @@ class SaveUserUseCase @Inject constructor(
     }
 
     companion object {
-        const val MAX_NICKNAME_LENGTH = 5
+        const val MAX_NICKNAME_LENGTH = 6
     }
 }

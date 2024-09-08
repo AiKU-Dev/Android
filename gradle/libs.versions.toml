@@ -23,6 +23,7 @@ composeViewModel = "2.8.4"
 dataStore = "1.1.1"
 protobuf = "0.9.4"
 protobufJavalite = "4.26.1"
+glide = "1.0.0-beta01"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -61,6 +62,8 @@ compose-viewmodel-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-
 
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobufJavalite" }
+
+compose-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

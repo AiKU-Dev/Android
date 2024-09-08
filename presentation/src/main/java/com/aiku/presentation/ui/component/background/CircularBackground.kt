@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.component
+package com.aiku.presentation.ui.component.background
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -24,15 +24,12 @@ import com.aiku.presentation.theme.Green
 fun CircularBackground(
     modifier: Modifier = Modifier,
     color: Color = Green,
-    borderWidth: Dp = 1.dp,
-    borderColor: Color = color,
     onClick: () -> Unit = {},
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .background(color = color, shape = CircleShape)
-            .border(width = borderWidth, color = borderColor, shape = CircleShape)
             .aspectRatio(1f)
             .clip(CircleShape)
             .clickable(onClick = onClick),
@@ -44,7 +41,7 @@ fun CircularBackground(
 
 @Preview(showBackground = true, name = "Circular Background")
 @Composable
-fun CircularBackgroundPreview() {
+private fun CircularBackgroundPreview() {
     CircularBackground(
         modifier = Modifier.size(100.dp),
         color = Green

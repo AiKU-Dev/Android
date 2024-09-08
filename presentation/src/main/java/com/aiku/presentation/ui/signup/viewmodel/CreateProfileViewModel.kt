@@ -31,9 +31,9 @@ class CreateProfileViewModel @Inject constructor(
     userDataProvider: UserDataProvider
 ): ViewModel(), UserDataProvider by userDataProvider {
 
-    private val profileInput = savedStateHandle.getStateFlow(
+    val profileInput = savedStateHandle.getStateFlow(
         PROFILE_INPUT,
-        UserState(user.value.image, user.value.name, user.value.phoneNumber, user.value.groups)
+        UserState(user.value.image, user.value.nickname, user.value.phoneNumber, user.value.groups)
     )
 
     private val _saveProfileUiState = MutableStateFlow<SaveProfileUiState>(SaveProfileUiState.Idle)
@@ -68,11 +68,11 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     fun onPhoneNumberInputChanged(input: String) {
-        onProfileInputChanged(UserState(profileInput.value.image, profileInput.value.name, input, profileInput.value.groups))
+        onProfileInputChanged(UserState(profileInput.value.image, profileInput.value.nickname, input, profileInput.value.groups))
     }
 
     fun onImageInputChanged(input: String) {
-        onProfileInputChanged(UserState(input, profileInput.value.name, profileInput.value.phoneNumber, profileInput.value.groups))
+        onProfileInputChanged(UserState(input, profileInput.value.nickname, profileInput.value.phoneNumber, profileInput.value.groups))
     }
 
     private fun onProfileInputChanged(user: UserState) {
@@ -81,7 +81,7 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     companion object {
-        private const val MAX_NICKNAME_LENGTH = SaveUserUseCase.MAX_NICKNAME_LENGTH
+        const val MAX_NICKNAME_LENGTH = SaveUserUseCase.MAX_NICKNAME_LENGTH
         private const val PROFILE_INPUT = "profile_input"
     }
 }

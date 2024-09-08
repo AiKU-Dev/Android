@@ -55,7 +55,7 @@ object NetworkModule {
     @Singleton
     fun provideHttpExceptionInterceptor(
         moshi: Moshi
-    ) : (chain: Interceptor. Chain) -> Response {
+    ) : (chain: Interceptor.Chain) -> Response {
         return { chain ->
             val response = chain.proceed(chain.request())
             if (response.isSuccessful.not()) {
