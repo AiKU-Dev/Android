@@ -66,7 +66,6 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val tokenFlow = loginUseCase.autoLogin()
 
-            // tokenFlow가 null인 경우
             if (tokenFlow == null) {
                 _autoLoginUiState.emit(AutoLoginUiState.TokenAbsent)
                 return@launch

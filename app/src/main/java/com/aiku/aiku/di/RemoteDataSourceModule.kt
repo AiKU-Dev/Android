@@ -20,10 +20,4 @@ object RemoteDataSourceModule {
     fun provideUserRemoteDataSource(): UserRemoteDataSource {
         return UserRemoteDataSource()
     }
-
-    @Provides
-    @Singleton
-    fun provideLoginRemoteDataSource(@ApplicationContext context: Context): LoginRemoteDataSource {
-        return LoginRemoteDataSource(context)
-    }
 }

@@ -7,6 +7,7 @@ import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
+import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 
 class LoginRemoteDataSource @Inject constructor(
-    @ApplicationContext private val context: Context
+    @ActivityContext private val context: Context
 ) {
 
     suspend fun loginWithKakaoTalk(): LoginResponse {
@@ -70,9 +71,9 @@ class LoginRemoteDataSource @Inject constructor(
                 } else if (token != null) {
                     continuation.resume(LoginResponse(token, null)) //임시
 
-                    // TODO: idToken 서버로 전송 (token.idToken)
-                    //  성공 : continuation.resume(LoginResponse(token, null))
-                    //  실패 : 회원정보 없음, idToken 양식이상
+//                      idToken 서버로 전송 (token.idToken)
+//                      성공 : continuation.resume(LoginResponse(token, null))
+//                      실패 : 회원정보 없음, idToken 양식이상
 //                    val error = when (serverResponse.errorCode) {
 //                        USER_NOT_FOUND -> ErrorResponse(USER_NOT_FOUND, "User not found")
 //                        INVALID_ID_TOKEN -> ErrorResponse(INVALID_ID_TOKEN, "ID token is invalid")

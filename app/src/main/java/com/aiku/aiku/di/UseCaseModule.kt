@@ -1,5 +1,6 @@
 package com.aiku.aiku.di
 
+import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.repository.UserRepository
 import com.aiku.domain.usecase.LoginUseCase
@@ -22,9 +23,4 @@ object UseCaseModule {
         return SaveUserUseCase(userRepository)
     }
 
-    @Provides
-    @Singleton
-    fun provideLoginUseCase(loginRepository: LoginRepository): LoginUseCase {
-        return LoginUseCase(loginRepository)
-    }
 }

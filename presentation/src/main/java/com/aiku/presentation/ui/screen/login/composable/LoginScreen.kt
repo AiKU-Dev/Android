@@ -71,13 +71,13 @@ fun LoginScreen(
 
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
 
-    when (loginUiState) {
-        LoginUiState.Idle -> TODO()
-        LoginUiState.Loading -> TODO()
-        LoginUiState.Success -> TODO()
-        LoginUiState.InvalidIdToken -> TODO()
-        LoginUiState.UserNotFound -> TODO()
-    }
+//    when (loginUiState) {
+//        LoginUiState.Idle -> TODO()
+//        LoginUiState.Loading -> TODO()
+//        LoginUiState.Success -> TODO()
+//        LoginUiState.InvalidIdToken -> TODO()
+//        LoginUiState.UserNotFound -> TODO()
+//    }
 
 
 }
