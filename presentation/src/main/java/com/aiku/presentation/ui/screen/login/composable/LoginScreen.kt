@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.login.composable
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -76,21 +77,24 @@ fun LoginScreen(
 
     val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
 
-    when (loginUiState) {
-        LoginUiState.Idle -> {
-            //TODO()
-        }
-        LoginUiState.Loading -> {
-            //TODO()
-        }
-        LoginUiState.Success ->  {
-            navController.navigate(SignUpRoute.PROFILE_EDIT.name)
-        }
-        LoginUiState.InvalidIdToken -> {
-
-        }
-        LoginUiState.UserNotFound -> {
-
+    LaunchedEffect(loginUiState) {
+        when (loginUiState) {
+            LoginUiState.Idle -> {
+                // TODO: Implement idle state handling
+            }
+            LoginUiState.Loading -> {
+                // TODO: Implement loading state handling
+            }
+            LoginUiState.Success -> {
+                Log.d("LoginScreen", "Login Success")
+                navController.navigate(SignUpRoute.PROFILE_EDIT.name)
+            }
+            LoginUiState.InvalidIdToken -> {
+                // TODO: Implement invalid ID token handling
+            }
+            LoginUiState.UserNotFound -> {
+                // TODO: Implement user not found handling
+            }
         }
     }
 

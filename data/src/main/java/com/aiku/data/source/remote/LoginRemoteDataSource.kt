@@ -70,6 +70,7 @@ class LoginRemoteDataSource @Inject constructor(
                         )
                     )
                 } else if (token != null) {
+                    Log.d("카카오 로그인", "성공")
                     continuation.resume(LoginResponse(token, null)) //임시
 
 //                      idToken 서버로 전송 (token.idToken)

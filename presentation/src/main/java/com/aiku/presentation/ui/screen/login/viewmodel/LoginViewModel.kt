@@ -57,7 +57,6 @@ class LoginViewModel @Inject constructor(
                     _loginUiState.emit(uiState)
                 }
                 .launchIn(viewModelScope)
-
     }
 
     fun autoLogin(loginUseCase: LoginUseCase) {
