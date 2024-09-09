@@ -16,21 +16,14 @@ import com.aiku.presentation.ui.component.navigation.BottomNavigation
 
 @Composable
 fun MyScheduleScreen(navController: NavHostController) {
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        containerColor = Color.White,
-        bottomBar = { BottomNavigation(navController = navController) }
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(it),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "내 약속 화면"
-            )
-        }
+        Text(
+            text = "내 약속 화면"
+        )
     }
 }
 
