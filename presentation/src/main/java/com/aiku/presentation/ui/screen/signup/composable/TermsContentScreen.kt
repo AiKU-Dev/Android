@@ -20,16 +20,15 @@ import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.theme.ScreenBottomPadding
 import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.ui.screen.signup.viewmodel.TermsViewModel
+import com.aiku.presentation.ui.screen.signup.viewmodel.LoadTermsUiState
 
 @Composable
 fun TermsContentScreen(
     identifier: Int?,
     termsViewModel: TermsViewModel = hiltViewModel()
 ) {
+    val termsUiState by termsViewModel.termsUiState.collectAsState()
 
-    val termsContent by termsViewModel.termsContent.collectAsState()
-
-    // Resource ID 및 제목 설정
     val (termsResource, termsTitle) = when (identifier) {
         0 -> R.raw.terms_of_service1 to R.string.terms_agree_item1
         1 -> R.raw.terms_of_service1 to R.string.terms_agree_item2
@@ -38,7 +37,6 @@ fun TermsContentScreen(
         else -> null to 0
     }
 
-    // `termsResource`가 유효할 때만 `LaunchedEffect` 실행
     LaunchedEffect(termsResource) {
         termsResource?.let { termsViewModel.loadTerms(it) }
     }
@@ -58,15 +56,19 @@ fun TermsContentScreen(
             )
         }
 
-        termsContent?.let {
-            Text(
-                text = it,
-                style = Caption1,
-                color = Color.Black
-            )
+        when (termsUiState) {
+            is LoadTermsUiState.Loading -> {}
+            is LoadTermsUiState.Success -> {
+                Text(
+                    text = (termsUiState as LoadTermsUiState.Success).content,
+                    style = Caption1,
+                    color = Color.Black
+                )
+            }
+            is LoadTermsUiState.Failure -> { Text(text = (termsUiState as LoadTermsUiState.Failure).message) }
+            else -> {}
         }
     }
 }
 
 private val ScreenTopPadding = 40.dp
-
