@@ -5,6 +5,7 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
+    <string name="profile_image">프로필 이미지</string>
 
     <!-- 기본 캐릭터 -->
     <string name="character_man">기본 캐릭터1</string>
@@ -24,4 +25,9 @@
     <string name="select_character">캐릭터를 선택해주세요!</string>
     <string name="default_character_content_description">기본 캐릭터</string>
 
+    <!-- 그룹 -->
+    <string name="group_more_icon_content_description">그룹 설정</string>
+    <string name="invite_member">초대하기</string>
+    <string name="member">멤버</string>
+    <string name="schedule">약속</string>
 </resources>

@@ -9,6 +9,7 @@ import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.group.toGroupState
 import com.aiku.presentation.util.onError
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,7 +26,7 @@ class GroupViewModel @AssistedInject constructor(
 
     val group: StateFlow<GroupUiState> = groupRepository.fetchGroup(groupId)
         .map<Group, GroupUiState> { GroupUiState.Success(it.toGroupState()) }
-        .onError { emit(GroupUiState.Error(it.message ?: "")) }
+        .onError { emit(GroupUiState.Error(it.message)) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -36,22 +37,9 @@ class GroupViewModel @AssistedInject constructor(
         groupRepository.exitGroup(groupId).launchIn(viewModelScope)
     }
 
-
+    @AssistedFactory
     interface Factory {
-        fun create(groupId: Long): GroupViewModel
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: Factory,
-            groupId: Long
-        ): ViewModelProvider.Factory {
-            return object : ViewModelProvider.Factory {
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return assistedFactory.create(groupId) as T
-                }
-            }
-        }
+        fun create(@Assisted("groupId") groupId: Long): GroupViewModel
     }
 }
 
