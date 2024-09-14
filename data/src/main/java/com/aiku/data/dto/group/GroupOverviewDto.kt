@@ -3,6 +3,7 @@ package com.aiku.data.dto.group
 import com.aiku.domain.model.group.GroupOverviewPagination
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
+import java.time.LocalDateTime
 
 @JsonClass(generateAdapter = true)
 data class GroupOverviewPaginationDto(
@@ -15,14 +16,14 @@ data class GroupOverviewPaginationDto(
         @Json(name = "groupId") val id: Long?,
         @Json(name = "groupName") val name: String?,
         @Json(name = "memberSize") val memberSize: Int?,
-        @Json(name = "lastScheduleTime") val lastScheduleTime: String?,  // 2024-01-01T00:00:00
+        @Json(name = "lastScheduleTime") val lastScheduleTime: LocalDateTime?,  // 2024-01-01T00:00:00
     ) {
 
         fun toGroupOverview(): GroupOverviewPagination.GroupOverview = GroupOverviewPagination.GroupOverview(
             id = id ?: 0,
             name = name ?: "",
             memberSize = memberSize ?: 0,
-            lastScheduleTime = lastScheduleTime ?: ""
+            lastScheduleTime = lastScheduleTime ?: LocalDateTime.MIN
         )
     }
 
