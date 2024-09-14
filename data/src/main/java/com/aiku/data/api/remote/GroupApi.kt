@@ -16,10 +16,10 @@ interface GroupApi {
     suspend fun deleteGroup(@Path("groupId") groupId: Long)
 
     @GET("groups")
-    suspend fun getGroups(): GroupOverviewPaginationDto
+    suspend fun fetchGroups(): GroupOverviewPaginationDto
 
     @GET("groups/{groupId}")
-    suspend fun getGroup(@Path("groupId") groupId: Long): GroupDto
+    suspend fun fetchGroup(@Path("groupId") groupId: Long): GroupDto
 
     @POST("groups/{groupId}/enter")
     suspend fun enterGroup(@Path("groupId") groupId: Long)
