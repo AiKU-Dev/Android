@@ -10,21 +10,11 @@ import kotlinx.parcelize.Parcelize
 data class GroupState(
     val id: Long,
     val name: String,
-    val description: String,
-    val memberIDs: List<Long>,
-) : Parcelable {
+    val members: List<MemberState>,
+) : Parcelable
 
-    fun toGroup() = Group(
-        id = id,
-        name = name,
-        description = description,
-        memberIDs = memberIDs
-    )
-}
-
-fun Group.toGroupState() = GroupState(
+fun Group.toGroupState(): GroupState = GroupState(
     id = id,
     name = name,
-    description = description,
-    memberIDs = memberIDs
+    members = members.map { it.toMemberState() }
 )

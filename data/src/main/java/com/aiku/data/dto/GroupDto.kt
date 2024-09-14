@@ -6,23 +6,14 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GroupDto(
-    @Json(name = "id") val id: Long,
-    @Json(name = "name") val name: String,
-    @Json(name = "description") val description: String,
-    @Json(name = "users") val memberIDs: List<Long>,
+    @Json(name = "groupId") val id: Long?,
+    @Json(name = "groupName") val name: String?,
+    @Json(name = "members") val members: List<MemberDto>?,
 ) {
 
-    fun toGroup() = Group(
-        id = id,
-        name = name,
-        description = description,
-        memberIDs = memberIDs
+    fun toGroup(): Group = Group(
+        id = id ?: 0,
+        name = name ?: "",
+        members = members?.map { it.toMember() } ?: emptyList()
     )
 }
-
-fun Group.toGroupDto() = GroupDto(
-    id = id,
-    name = name,
-    description = description,
-    memberIDs = memberIDs
-)

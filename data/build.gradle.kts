@@ -43,14 +43,12 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
-    implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-    implementation(libs.hilt.compose)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
