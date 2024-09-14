@@ -1,6 +1,7 @@
 package com.aiku.aiku.di
 
 import com.aiku.aiku.BuildConfig
+import com.aiku.core.adapter.LocalDateTimeAdapter
 import com.aiku.core.qualifer.AuthHeaderInterceptor
 import com.aiku.core.qualifer.ResponseExceptionInterceptor
 import com.aiku.core.qualifer.ResponseParsingInterceptor
@@ -160,6 +161,7 @@ object NetworkModule {
     fun provideMoshi() : Moshi {
         return Moshi.Builder()
             .add(KotlinJsonAdapterFactory())
+            .add(LocalDateTimeAdapter())
             .build()
     }
 }
