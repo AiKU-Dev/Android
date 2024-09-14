@@ -1,6 +1,7 @@
 package com.aiku.presentation.state.group
 
 import com.aiku.domain.model.group.GroupOverviewPagination
+import java.time.LocalDateTime
 
 data class GroupOverviewPaginationState(
     val page: Int,
@@ -11,7 +12,7 @@ data class GroupOverviewPaginationState(
         val id: Long,
         val name: String,
         val memberSize: Int,
-        val lastScheduleTime: String,  // 2024-01-01T00:00:00
+        val lastScheduleTime: LocalDateTime,  // 2024-01-01T00:00:00
     )
 }
 

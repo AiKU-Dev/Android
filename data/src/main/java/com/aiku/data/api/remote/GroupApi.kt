@@ -1,5 +1,6 @@
 package com.aiku.data.api.remote
 
+import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.group.GroupDto
 import com.aiku.data.dto.group.GroupOverviewPaginationDto
 import retrofit2.http.DELETE
@@ -10,7 +11,7 @@ import retrofit2.http.Path
 interface GroupApi {
 
     @POST("groups")
-    suspend fun createGroup(): GroupDto
+    suspend fun createGroup(): IdDto
 
     @DELETE("groups/{groupId}")
     suspend fun deleteGroup(@Path("groupId") groupId: Long)
