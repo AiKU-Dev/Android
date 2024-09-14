@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -210,7 +212,7 @@ fun ProfileEditScreen(
         )
 
         Spacer(modifier = Modifier.weight(1f))
-        FullWidthButton(background = Green5, content = {
+        FullWidthButton(background = ButtonDefaults.buttonColors(containerColor = Green5), content = {
             Text(text = stringResource(id = R.string.next))
         })
     }
