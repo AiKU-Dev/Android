@@ -15,6 +15,7 @@ val PrimaryColor = Color(android.graphics.Color.parseColor("#76E2B5"))
 //일회성
 val KakaoYellow = Color(android.graphics.Color.parseColor("#FEE500"))
 val KakaoBlack = Color(android.graphics.Color.parseColor("#181600"))
+
 val Green = Color(0xFF76E2B5)
 val GreenLight = Color(0xFF8DE7C2)
 val GreenPale = Color(0xFFB0EED4)
@@ -47,3 +48,6 @@ val Gray06 = Color(0xFF171719)
 val ColorError = Color(0xFFE90E0E)
 
 val CobaltBlue = Color(0xFF201CAF)
+
+val Typo = Color(0xFF1E1927)
+

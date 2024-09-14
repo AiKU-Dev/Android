@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.aiku.domain.usecase.LoginUseCase
+import com.aiku.presentation.navigation.route.BtmNavRoute
 import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.theme.FullWidthButtonTextSize
@@ -30,8 +31,7 @@ import com.aiku.presentation.theme.KakaoBlack
 import com.aiku.presentation.theme.KakaoYellow
 import com.aiku.presentation.theme.PrimaryColor
 import com.aiku.presentation.theme.ScreenHorizontalPadding
-import com.aiku.presentation.ui.component.FullWidthButton
-import com.aiku.presentation.ui.screen.login.viewmodel.AutoLoginUiState
+import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.screen.login.viewmodel.LoginUiState
 import com.aiku.presentation.ui.screen.login.viewmodel.LoginViewModel
 import kotlinx.coroutines.launch
@@ -82,16 +82,22 @@ fun LoginScreen(
             LoginUiState.Idle -> {
                 // TODO: Implement idle state handling
             }
+
             LoginUiState.Loading -> {
+                Log.d("LoginScreen", "Login Loading")
                 // TODO: Implement loading state handling
             }
+
             LoginUiState.Success -> {
                 Log.d("LoginScreen", "Login Success")
                 navController.navigate(SignUpRoute.PROFILE_EDIT.name)
             }
+
             LoginUiState.InvalidIdToken -> {
+                Log.d("LoginScreen", "Login InvalidToken")
                 // TODO: Implement invalid ID token handling
             }
+
             LoginUiState.UserNotFound -> {
                 // TODO: Implement user not found handling
             }
