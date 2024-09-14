@@ -84,7 +84,7 @@ object NetworkModule {
     fun provideResponseParsingInterceptor() : Interceptor {
         return Interceptor { chain ->
             val response = chain.proceed(chain.request())
-            val body = response.body?.string() ?: throw ErrorResponse(UNKNOWN)
+            val body = response.body?.string() ?: throw ErrorResponse(UNKNOWN, "Unknown Error", "")
 
             val jsonObject = JSONObject(body)
             val resultObject = jsonObject.getJSONObject("result")
@@ -107,11 +107,11 @@ object NetworkModule {
             if (response.isSuccessful.not()) {
                 val errorBody = response.body?.string().also {
                     if (it == null) {
-                        throw ErrorResponse(UNKNOWN)
+                        throw ErrorResponse(UNKNOWN, "Unknown Error", "")
                     }
                 }
                 val exception = moshi.adapter(ErrorResponse::class.java).fromJson(errorBody!!)
-                throw exception ?: ErrorResponse(UNKNOWN)
+                throw exception ?: ErrorResponse(UNKNOWN, "Unknown Error", "")
             }
             response
         }
