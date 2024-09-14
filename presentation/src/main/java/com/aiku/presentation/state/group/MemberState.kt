@@ -1,11 +1,11 @@
-package com.aiku.presentation.state
+package com.aiku.presentation.state.group
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import com.aiku.domain.model.Member
-import com.aiku.domain.model.ProfileBackground
-import com.aiku.domain.model.ProfileCharacter
-import com.aiku.domain.model.ProfileType
+import com.aiku.domain.model.group.Member
+import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.domain.model.group.type.ProfileCharacter
+import com.aiku.domain.model.group.type.ProfileType
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

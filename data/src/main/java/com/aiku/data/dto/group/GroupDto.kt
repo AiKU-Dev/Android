@@ -1,6 +1,6 @@
-package com.aiku.data.dto
+package com.aiku.data.dto.group
 
-import com.aiku.domain.model.Group
+import com.aiku.domain.model.group.Group
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

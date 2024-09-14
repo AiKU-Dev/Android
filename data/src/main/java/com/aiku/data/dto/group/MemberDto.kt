@@ -1,9 +1,9 @@
-package com.aiku.data.dto
+package com.aiku.data.dto.group
 
-import com.aiku.domain.model.Member
-import com.aiku.domain.model.ProfileBackground
-import com.aiku.domain.model.ProfileCharacter
-import com.aiku.domain.model.ProfileType
+import com.aiku.domain.model.group.Member
+import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.domain.model.group.type.ProfileCharacter
+import com.aiku.domain.model.group.type.ProfileType
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 import java.util.Locale
@@ -26,9 +26,10 @@ data class MemberDto(
         fun toProfile(): Member.Profile = Member.Profile(
             type = type?.let { ProfileType.valueOf(it.uppercase(Locale.ROOT)) } ?: ProfileType.IMG,
             image = image ?: "",
-            character = character?.let { ProfileCharacter.valueOf(it.uppercase(Locale.ROOT)) } ?: ProfileCharacter.NONE
-            ,
-            background = background?.let { ProfileBackground.valueOf(it.uppercase(Locale.ROOT)) } ?: ProfileBackground.NONE
+            character = character?.let { ProfileCharacter.valueOf(it.uppercase(Locale.ROOT)) }
+                ?: ProfileCharacter.NONE,
+            background = background?.let { ProfileBackground.valueOf(it.uppercase(Locale.ROOT)) }
+                ?: ProfileBackground.NONE
         )
     }
 

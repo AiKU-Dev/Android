@@ -1,8 +1,8 @@
-package com.aiku.presentation.state
+package com.aiku.presentation.state.group
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
-import com.aiku.domain.model.Group
+import com.aiku.domain.model.group.Group
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

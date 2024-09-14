@@ -1,4 +1,8 @@
-package com.aiku.domain.model
+package com.aiku.domain.model.group
+
+import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.domain.model.group.type.ProfileCharacter
+import com.aiku.domain.model.group.type.ProfileType
 
 data class Member(
     val id: Long,
@@ -12,16 +16,4 @@ data class Member(
         val character: ProfileCharacter,
         val background: ProfileBackground
     )
-}
-
-enum class ProfileType {
-    IMG, CHAR
-}
-
-enum class ProfileCharacter {
-    C01, C02, C03, C04, NONE
-}
-
-enum class ProfileBackground {
-    RED, GREEN, BLUE, NONE
 }
