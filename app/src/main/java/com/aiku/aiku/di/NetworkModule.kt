@@ -12,7 +12,9 @@ import dagger.hilt.components.SingletonComponent
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
@@ -48,6 +50,18 @@ object NetworkModule {
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(httpExceptionInterceptor)
+            .addInterceptor { chain ->
+                val response = chain.proceed(chain.request())
+                val body = response.body?.string() ?: throw ErrorResponse(UNKNOWN)
+
+                val jsonObject = JSONObject(body)
+                val resultObject = jsonObject.getJSONObject("result")
+                val newResponseBody = resultObject.toString().toResponseBody(response.body?.contentType())
+
+                response.newBuilder()
+                    .body(newResponseBody)
+                    .build()
+            }
             .build()
     }
 
