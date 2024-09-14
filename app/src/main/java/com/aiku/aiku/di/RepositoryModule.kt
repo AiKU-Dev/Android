@@ -1,6 +1,6 @@
 package com.aiku.aiku.di
 
-import com.aiku.aiku.qualifer.IoDispatcher
+import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.data.repository.UserRepositoryImpl
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource

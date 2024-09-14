@@ -1,15 +1,15 @@
-package com.aiku.aiku.qualifer
+package com.aiku.core.qualifer
 
 import javax.inject.Qualifier
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class DefaultDispatcher
+annotation class ResponseExceptionInterceptor
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class IoDispatcher
+annotation class ResponseParsingInterceptor
 
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class MainDispatcher
+annotation class AuthHeaderInterceptor
