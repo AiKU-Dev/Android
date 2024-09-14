@@ -5,7 +5,7 @@ import com.aiku.domain.model.group.GroupOverviewPagination
 import kotlinx.coroutines.flow.Flow
 
 interface GroupRepository {
-    fun createGroup(): Flow<Group>
+    fun createGroup(name: String): Flow<Group>
     fun deleteGroup(groupId: Long): Flow<Unit>
     fun fetchGroups(): Flow<GroupOverviewPagination>
     fun fetchGroup(groupId: Long): Flow<Group>

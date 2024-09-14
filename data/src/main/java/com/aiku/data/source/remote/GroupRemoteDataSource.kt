@@ -1,16 +1,18 @@
 package com.aiku.data.source.remote
 
 import com.aiku.data.api.remote.GroupApi
+import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.group.GroupDto
 import com.aiku.data.dto.group.GroupOverviewPaginationDto
+import com.aiku.data.dto.group.request.CreateGroupRequest
 import javax.inject.Inject
 
 class GroupRemoteDataSource @Inject constructor(
     private val groupApi: GroupApi
 ) {
 
-    suspend fun createGroup(): GroupDto {
-        return groupApi.createGroup()
+    suspend fun createGroup(request: CreateGroupRequest): IdDto {
+        return groupApi.createGroup(request)
     }
 
     suspend fun deleteGroup(groupId: Long) {

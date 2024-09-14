@@ -1,5 +1,6 @@
 package com.aiku.data.repository
 
+import com.aiku.data.dto.group.request.CreateGroupRequest
 import com.aiku.data.source.remote.GroupRemoteDataSource
 import com.aiku.domain.model.group.Group
 import com.aiku.domain.model.group.GroupOverviewPagination
@@ -27,9 +28,16 @@ class GroupRepositoryImpl @Inject constructor(
             initialValue = GroupOverviewPagination(1, emptyList())
         )
 
-    override fun createGroup(): Flow<Group> {
+    override fun createGroup(name: String): Flow<Group> {
         return flow {
-            emit(groupRemoteDataSource.createGroup().toGroup())
+            emit(
+                Group(
+                    id = groupRemoteDataSource
+                        .createGroup(CreateGroupRequest(groupName = name)).id ?: 0L,
+                    name = name,
+                    members = emptyList()
+                )
+            )
         }.flowOn(coroutineDispatcher)
     }
 
