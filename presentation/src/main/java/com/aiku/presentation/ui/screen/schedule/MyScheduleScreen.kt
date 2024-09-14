@@ -12,19 +12,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.aiku.presentation.ui.component.navigation.BottomNavigation
 
 @Composable
 fun MyScheduleScreen(navController: NavHostController) {
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "내 약속 화면"
-        )
-    }
+        Box(
+            modifier = Modifier
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = "내 약속 화면")
+        }
+
 }
 
 @Preview(showBackground = true)
