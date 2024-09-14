@@ -24,6 +24,8 @@ dataStore = "1.1.1"
 protobuf = "0.9.4"
 protobufJavalite = "4.26.1"
 glide = "1.0.0-beta01"
+securityCryptoKtx = "1.1.0-alpha06"
+securityState = "1.0.0-alpha04"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -62,6 +64,8 @@ compose-viewmodel-lifecycle = { group = "androidx.lifecycle", name = "lifecycle-
 
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "dataStore" }
 protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "protobufJavalite" }
+androidx-security-state = { module = "androidx.security:security-state", version.ref = "securityState" }
+androidx-security-crypto-ktx = { module = "androidx.security:security-crypto-ktx", version.ref = "securityCryptoKtx" }
 
 compose-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 
