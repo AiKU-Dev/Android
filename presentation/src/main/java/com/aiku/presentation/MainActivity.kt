@@ -29,8 +29,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
-                    TermsAgreementScreen(navController)
+                    MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
+                    //TermsAgreementScreen(navController)
                 }
 
             }

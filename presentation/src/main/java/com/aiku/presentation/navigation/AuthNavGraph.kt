@@ -28,8 +28,9 @@ fun AuthNavGraph(
         composable(SignUpRoute.TERM_AGREEMENT.name) {
             TermsAgreementScreen(authNavController)
         }
-        composable(SignUpRoute.TERM_CONTENT.name) {
-            TermsContentScreen(authNavController)
+        composable("${SignUpRoute.TERM_CONTENT.name}/{identifier}") { backStackEntry ->
+            val identifier = backStackEntry.arguments?.getString("identifier")?.toIntOrNull()
+            TermsContentScreen(identifier = identifier)
         }
         composable(SignUpRoute.PROFILE_EDIT.name) {
             ProfileEditScreen(
@@ -39,4 +40,5 @@ fun AuthNavGraph(
         }
     }
 }
+
 

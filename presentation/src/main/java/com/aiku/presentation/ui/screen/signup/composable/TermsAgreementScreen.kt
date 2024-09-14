@@ -11,8 +11,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
@@ -31,6 +34,7 @@ import com.aiku.core.R
 import com.aiku.core.theme.Headline_2G
 import com.aiku.core.theme.Subtitle3
 import com.aiku.core.theme.Subtitle3_SemiBold
+import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green
 import com.aiku.presentation.theme.Green5
@@ -44,30 +48,28 @@ import com.aiku.presentation.ui.component.checkbox.CheckMarkWithText
 @Composable
 fun TermsAgreementScreen(authNavController: NavHostController) {
 
-    // CheckBox states
     var checkedStates by rememberSaveable { mutableStateOf(listOf(false, false, false, false)) }
-    var checkedAll by rememberSaveable { mutableStateOf(checkedStates.all { it }) }
+    val checkedAll by remember { derivedStateOf { checkedStates.all { it } } }
 
     val btnEnabled = checkedAll || checkedStates[0] && checkedStates[1] && checkedStates[2]
 
     val items = listOf(
-        R.string.terms_agree_item1,
-        R.string.terms_agree_item2,
-        R.string.terms_agree_item3,
-        R.string.terms_agree_item4
+        stringResource(id = R.string.terms_agree_item1) + "(필수)",
+        stringResource(id = R.string.terms_agree_item2) + "(필수)",
+        stringResource(id = R.string.terms_agree_item3) + "(필수)",
+        stringResource(id = R.string.terms_agree_item4) + "(선택)"
     )
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 0.dp, bottom = ScreenBottomPadding)
+            .padding(top = ScreenTopPadding, bottom = ScreenBottomPadding)
             .padding(horizontal = ScreenHorizontalPadding)
     ) {
 
         Column {
             Row(
-                modifier = Modifier.padding(top = ScreenTopPadding),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
@@ -94,36 +96,35 @@ fun TermsAgreementScreen(authNavController: NavHostController) {
         CheckBoxWithText(
             modifier = Modifier.padding(bottom = TermsItemSpacing),
             checkedState = checkedAll,
-            onCheckedChange = {
-                isChecked ->
-                checkedStates = checkedStates.map { isChecked }.toMutableStateList()
-                checkedAll = isChecked
+            onCheckedChange = { isChecked ->
+                checkedStates = List(4) { isChecked }
             },
             content = stringResource(id = R.string.terms_agree_all)
         )
 
-        items.forEachIndexed { index, itemResId ->
+        items.forEachIndexed { index, item ->
             CheckMarkWithText(
                 modifier = Modifier.padding(top = TermsItemSpacing),
                 checkedState = checkedStates[index],
-                onCheckedChange = {
+                onCheckedChange = { isChecked ->
                     checkedStates = checkedStates.toMutableList().apply {
-                        set(index, it)
+                        set(index, isChecked)
                     }
-                    checkedAll = checkedStates.all { it }
                 },
-                content = stringResource(id = itemResId)
+                identifier = index,
+                content = item,
+                authNavController = authNavController
             )
         }
-
 
         FullWidthButton(
             modifier = Modifier.padding(top = ButtonContentSpacing),
             enabled = btnEnabled,
             background = ButtonDefaults.buttonColors(
                 containerColor = Green5,
-                disabledContainerColor = Gray02),
-            onClick = {  },
+                disabledContainerColor = Gray02
+            ),
+            onClick = { authNavController.navigate(SignUpRoute.PROFILE_EDIT.name) },
             content = {
                 Text(
                     text = stringResource(id = R.string.terms_agree_start),

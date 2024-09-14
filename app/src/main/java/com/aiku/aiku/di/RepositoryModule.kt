@@ -3,13 +3,16 @@ package com.aiku.aiku.di
 import com.aiku.aiku.qualifer.IoDispatcher
 import com.aiku.data.repository.AuthRepositoryImpl
 import com.aiku.data.repository.LoginRepositoryImpl
+import com.aiku.data.repository.TermsRepositoryImpl
 import com.aiku.data.repository.UserRepositoryImpl
 import com.aiku.data.source.local.AuthLocalDataSource
+import com.aiku.data.source.local.TermsLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.LoginRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
 import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
+import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -33,5 +36,12 @@ object RepositoryModule {
         return UserRepositoryImpl(userLocalDataSource, userRemoteDataSource, coroutineDispatcher)
     }
 
+    @Provides
+    @Singleton
+    fun provideTermsRepository(
+        termsLocalDataSource: TermsLocalDataSource
+    ): TermsRepository {
+        return TermsRepositoryImpl(termsLocalDataSource = termsLocalDataSource)
+    }
 
 }

@@ -10,10 +10,10 @@
     <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>
     <string name="terms_agree_start">동의하고 시작하기</string>
     <string name="terms_agree_all">전체 동의</string>
-    <string name="terms_agree_item1">서비스 이용약관(필수)</string>
-    <string name="terms_agree_item2">개인정보 보호 동의(필수)</string>
-    <string name="terms_agree_item3">위치기반 서비스 이용약관(필수)</string>
-    <string name="terms_agree_item4">마케팅 수신 동의(선택)</string>
+    <string name="terms_agree_item1">서비스 이용약관</string>
+    <string name="terms_agree_item2">개인정보 보호 동의</string>
+    <string name="terms_agree_item3">위치기반 서비스 이용약관</string>
+    <string name="terms_agree_item4">마케팅 수신 동의</string>
 
     <!-- 기본 캐릭터 -->
     <string name="character_man">기본 캐릭터1</string>

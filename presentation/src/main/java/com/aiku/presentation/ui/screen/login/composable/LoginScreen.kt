@@ -91,7 +91,7 @@ fun LoginScreen(
 
             LoginUiState.Success -> {
                 Log.d("LoginScreen", "Login Success")
-                navController.navigate(SignUpRoute.PROFILE_EDIT.name)
+                navController.navigate(SignUpRoute.TERM_AGREEMENT.name)
             }
 
             LoginUiState.InvalidIdToken -> {
