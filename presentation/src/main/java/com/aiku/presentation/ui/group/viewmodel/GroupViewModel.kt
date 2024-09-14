@@ -26,7 +26,7 @@ class GroupViewModel @AssistedInject constructor(
 
     val group: StateFlow<GroupUiState> = groupRepository.fetchGroup(groupId)
         .map<Group, GroupUiState> { GroupUiState.Success(it.toGroupState()) }
-        .onError { emit(GroupUiState.Error(it.message ?: "")) }
+        .onError { emit(GroupUiState.Error(it.message)) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
@@ -41,7 +41,6 @@ class GroupViewModel @AssistedInject constructor(
     interface Factory {
         fun create(@Assisted("groupId") groupId: Long): GroupViewModel
     }
-
 }
 
 sealed interface GroupUiState {
