@@ -10,7 +10,6 @@ import javax.inject.Inject
 
 class AuthLocalDataSource @Inject constructor(private val context: Context) {
 
-
     private val Context.dataStore by preferencesDataStore("auth_prefs")
     private val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
 
