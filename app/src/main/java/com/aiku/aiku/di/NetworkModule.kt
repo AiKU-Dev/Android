@@ -3,8 +3,10 @@ package com.aiku.aiku.di
 import com.aiku.aiku.BuildConfig
 import com.aiku.core.adapter.LocalDateTimeAdapter
 import com.aiku.core.qualifer.AuthHeaderInterceptor
+import com.aiku.core.qualifer.BaseUrl
 import com.aiku.core.qualifer.ResponseExceptionInterceptor
 import com.aiku.core.qualifer.ResponseParsingInterceptor
+import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
@@ -30,6 +32,13 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+    @BaseUrl
+    @Provides
+    @Singleton
+    fun provideBaseUrl() : String {
+        return "https://api.aiku.com/"   // TODO : BaseUrl
+    }
 
     @Provides
     @Singleton
@@ -133,7 +142,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(
-        baseUrl: String,
+        @BaseUrl baseUrl: String,
         okHttpClient: OkHttpClient,
         moshi: Moshi
     ) : Retrofit {

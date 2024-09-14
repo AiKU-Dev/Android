@@ -13,3 +13,7 @@ annotation class ResponseParsingInterceptor
 @Qualifier
 @Retention(AnnotationRetention.RUNTIME)
 annotation class AuthHeaderInterceptor
+
+@Qualifier
+@Retention(AnnotationRetention.RUNTIME)
+annotation class BaseUrl
