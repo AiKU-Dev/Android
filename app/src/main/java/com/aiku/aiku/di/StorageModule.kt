@@ -7,7 +7,7 @@ import com.aiku.aiku.serializer.UserEntitySerializer
 import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.data.UserEntity
 import com.aiku.data.api.local.TokenSharedPreferencesStorage
-import com.aiku.data.api.local.UserDataStoreManager
+import com.aiku.data.api.local.UserDataStoreStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,8 +34,8 @@ object StorageModule {
     @Singleton
     fun provideUserDataStoreManager(
         dataStore: DataStore<UserEntity>
-    ): UserDataStoreManager {
-        return UserDataStoreManager(dataStore)
+    ): UserDataStoreStorage {
+        return UserDataStoreStorage(dataStore)
     }
 
     @Provides

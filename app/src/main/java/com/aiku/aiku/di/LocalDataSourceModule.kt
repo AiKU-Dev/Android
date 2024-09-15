@@ -1,7 +1,7 @@
 package com.aiku.aiku.di
 
 import com.aiku.data.api.local.TokenSharedPreferencesStorage
-import com.aiku.data.api.local.UserDataStoreManager
+import com.aiku.data.api.local.UserDataStoreStorage
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import dagger.Module
@@ -17,7 +17,7 @@ object LocalDataSourceModule {
     @Provides
     @Singleton
     fun provideUserLocalDataSource(
-        userDataStoreManager: UserDataStoreManager
+        userDataStoreManager: UserDataStoreStorage
     ): UserLocalDataSource {
         return UserLocalDataSource(userDataStoreManager)
     }

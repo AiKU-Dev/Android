@@ -8,18 +8,18 @@ message UserEntity {
   string nickname = 2;
   string kakaoId = 3;
 
-  message MemberProfile {
+  message ProfileEntity {
     string profileType = 1;
     string profileImg = 2;
     string profileCharacter = 3;
     string profileBackground = 4;
   }
-  MemberProfile memberProfile = 4;
+  ProfileEntity profile = 4;
 
-  message Badge {
+  message BadgeEntity {
     string name = 1;
     string img = 2;
   }
-  Badge badge = 5;
+  BadgeEntity badge = 5;
   int32 point = 6;
 }
