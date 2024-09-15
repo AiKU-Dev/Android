@@ -14,7 +14,14 @@ data class MemberState(
     val id: Long,
     val nickname: String,
     val profile: ProfileState
-) : Parcelable
+) : Parcelable {
+
+    fun toMember(): Member = Member(
+        id = id,
+        nickname = nickname,
+        profile = profile.toProfile()
+    )
+}
 
 fun Member.toMemberState(): MemberState = MemberState(
     id = id,

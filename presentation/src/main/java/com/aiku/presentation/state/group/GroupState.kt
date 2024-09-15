@@ -11,7 +11,14 @@ data class GroupState(
     val id: Long,
     val name: String,
     val members: List<MemberState>,
-) : Parcelable
+) : Parcelable {
+
+    fun toGroup(): Group = Group(
+        id = id,
+        name = name,
+        members = members.map { it.toMember() }
+    )
+}
 
 fun Group.toGroupState(): GroupState = GroupState(
     id = id,

@@ -30,4 +30,8 @@
     <string name="invite_member">초대하기</string>
     <string name="member">멤버</string>
     <string name="schedule">약속</string>
+    <string name="analyze_group">그룹 분석</string>
+    <string name="exit_group">그룹 나가기</string>
+    <string name="exit">나가기</string>
+    <string name="exit_group_message">%s에서 나가시겠습니까?</string>
 </resources>
