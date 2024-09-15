@@ -17,10 +17,12 @@ import com.bumptech.glide.integration.compose.GlideImage
 @Composable
 fun ProfileIcon(
     modifier: Modifier = Modifier,
+    showClickRipple: Boolean = true,
     profile: ProfileState
 ) {
     CircularBackground(
         modifier = modifier,
+        showClickRipple = showClickRipple,
     ) {
         when (profile.type) {
             ProfileType.IMG -> {

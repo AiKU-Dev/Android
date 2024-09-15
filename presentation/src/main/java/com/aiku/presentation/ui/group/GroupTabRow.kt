@@ -140,6 +140,7 @@ fun GroupMembersView(
                 ) {
                     CircularBackground(
                         modifier = Modifier.padding(horizontal = 20.dp),
+                        showClickRipple = false,
                         color = Gray02
                     ) {
                         Image(
@@ -195,6 +196,7 @@ fun MembersIconRow(
                 ProfileIcon(
                     modifier = Modifier
                         .padding(horizontal = 20.dp),
+                    showClickRipple = false,
                     profile = member.profile
                 )
                 Text(
