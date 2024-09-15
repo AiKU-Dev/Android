@@ -13,7 +13,15 @@ data class ProfileState(
     val image: String,
     val character: ProfileCharacter,
     val background: ProfileBackground
-) : Parcelable
+) : Parcelable {
+
+    fun toProfile(): Member.Profile = Member.Profile(
+        type = type,
+        image = image,
+        character = character,
+        background = background
+    )
+}
 
 fun Member.Profile.toProfileState(): ProfileState = ProfileState(
     type = type,
