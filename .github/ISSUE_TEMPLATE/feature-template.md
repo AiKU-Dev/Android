@@ -1,6 +1,6 @@
 ---
 name: Feature Template
-about: 기능 추
+about: 기능 추가 이슈 템플릿
 title: "[Feature]"
 labels: 개선, 기능개발, 도움요청
 assignees: ''
