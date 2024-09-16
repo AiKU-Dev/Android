@@ -21,12 +21,14 @@ import com.aiku.presentation.util.getDrawableResId
 fun DefaultProfileIcon(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
+    showClickRipple: Boolean = true,
     character: ProfileCharacter,
     background: ProfileBackground
 ) {
     CircularBackground(
         modifier = modifier,
         onClick = onClick,
+        showClickRipple = showClickRipple,
         color = background.getColor(),
     ) {
         Image(

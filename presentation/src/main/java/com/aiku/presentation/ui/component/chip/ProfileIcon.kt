@@ -34,6 +34,7 @@ fun ProfileIcon(
 
             ProfileType.CHAR -> {
                 DefaultProfileIcon(
+                    showClickRipple = showClickRipple,
                     character = profile.character,
                     background = profile.background
                 )
