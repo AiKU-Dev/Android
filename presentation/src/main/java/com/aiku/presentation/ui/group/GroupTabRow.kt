@@ -143,8 +143,8 @@ fun GroupMembersView(
                         color = Gray02
                     ) {
                         Image(
-                            modifier = Modifier,
-                            painter = painterResource(id = R.drawable.char_man_1x),
+                            modifier = Modifier.padding(12.dp),
+                            painter = painterResource(id = R.drawable.ic_invite),
                             contentDescription = stringResource(
                                 id = R.string.invite_member
                             )

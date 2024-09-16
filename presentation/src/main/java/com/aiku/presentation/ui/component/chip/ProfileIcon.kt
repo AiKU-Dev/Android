@@ -15,11 +15,13 @@ import com.bumptech.glide.integration.compose.GlideImage
 fun ProfileIcon(
     modifier: Modifier = Modifier,
     showClickRipple: Boolean = true,
+    onClick: () -> Unit = {},
     profile: ProfileState
 ) {
     CircularBackground(
         modifier = modifier,
         showClickRipple = showClickRipple,
+        onClick = onClick,
     ) {
         when (profile.type) {
             ProfileType.IMG -> {
@@ -32,7 +34,6 @@ fun ProfileIcon(
 
             ProfileType.CHAR -> {
                 DefaultProfileIcon(
-                    onClick = { /*TODO*/ },
                     character = profile.character,
                     background = profile.background
                 )
