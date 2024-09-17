@@ -39,8 +39,6 @@ import com.aiku.presentation.ui.group.viewmodel.GroupUiState
 import com.aiku.presentation.ui.type.GroupTabType
 import kotlinx.coroutines.launch
 
-private const val MEMBERS_PER_ROW = 3
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GroupTabRow(
@@ -114,103 +112,6 @@ fun GroupTabRow(
 
             } else if (index == tabs.indexOf(GroupTabType.SCHEDULE)) {
                 // TODO 약속뷰
-            }
-        }
-    }
-}
-
-@Composable
-fun GroupMembersView(
-    modifier: Modifier = Modifier,
-    scrollState: LazyListState,
-    members: List<MemberState>
-) {
-    LazyColumn(
-        modifier = modifier,
-        state = scrollState
-    ) {
-        item {
-            Row(
-                modifier = Modifier.padding(top = 30.dp)
-            ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CircularBackground(
-                        modifier = Modifier.padding(horizontal = 20.dp),
-                        showClickRipple = false,
-                        color = Gray02
-                    ) {
-                        Image(
-                            modifier = Modifier.padding(12.dp),
-                            painter = painterResource(id = R.drawable.ic_invite),
-                            contentDescription = stringResource(
-                                id = R.string.invite_member
-                            )
-                        )
-                    }
-                    Text(
-                        modifier = Modifier.padding(top = 5.dp),
-                        text = stringResource(id = R.string.invite_member),
-                        style = Body2.copy(
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
-                }
-                MembersIconRow(
-                    modifier = Modifier.weight(2f),
-                    members = members.take(MEMBERS_PER_ROW - 1)
-                )
-            }
-        }
-
-        items(count = members.size / MEMBERS_PER_ROW) {
-            MembersIconRow(
-                modifier = Modifier.padding(top = 30.dp),
-                members = members.subList(
-                    (it + 1) * MEMBERS_PER_ROW - 1,
-                    ((it + 2) * MEMBERS_PER_ROW - 1).coerceAtMost(members.size)
-                ),
-                adjustWeight = true
-            )
-        }
-    }
-}
-
-@Composable
-fun MembersIconRow(
-    modifier: Modifier = Modifier,
-    members: List<MemberState>,
-    adjustWeight: Boolean = false
-) {
-    Row(
-        modifier = modifier
-    ) {
-        members.forEach { member ->
-            Column(
-                modifier = Modifier.weight(1f),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                ProfileIcon(
-                    modifier = Modifier
-                        .padding(horizontal = 20.dp),
-                    showClickRipple = false,
-                    profile = member.profile
-                )
-                Text(
-                    modifier = Modifier.padding(top = 5.dp),
-                    text = member.nickname,
-                    style = Body2.copy(
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-            }
-        }
-
-        if (adjustWeight) {
-            repeat(MEMBERS_PER_ROW - members.size) {
-                Spacer(modifier = Modifier.weight(1f))
             }
         }
     }
