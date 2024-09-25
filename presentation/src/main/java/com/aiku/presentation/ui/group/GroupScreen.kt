@@ -54,6 +54,7 @@ fun GroupScreen(
     var showDialogNav by remember { mutableStateOf(false) }
 
     val groupUiState by viewModel.groupUiState.collectAsStateWithLifecycle()
+    val scheduleOverviewUiState by viewModel.scheduleOverviewUiState.collectAsStateWithLifecycle()
 
     if (showDialogNav) {
         NavHost(navController = navController, startDestination = GroupSettingDialogRoute.Menu.name) {
@@ -125,7 +126,8 @@ fun GroupScreen(
             GroupTabRow(
                 modifier = Modifier.fillMaxSize(),
                 pagerState = pagerState,
-                groupUiState = groupUiState
+                groupUiState = groupUiState,
+                scheduleOverviewUiState = scheduleOverviewUiState
             )
         }
     }

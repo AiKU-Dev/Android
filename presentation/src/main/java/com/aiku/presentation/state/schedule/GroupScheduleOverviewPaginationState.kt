@@ -1,8 +1,11 @@
 package com.aiku.presentation.state.schedule
 
+import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Immutable
 data class GroupScheduleOverviewPaginationState(
     val totalCount: Long,
@@ -10,8 +13,8 @@ data class GroupScheduleOverviewPaginationState(
     val groupId: Long,
     val runningSchedule: Int,
     val waitingSchedule: Int,
-    val groupScheduleOverview: GroupScheduleOverviewState
-)
+    val groupScheduleOverview: List<GroupScheduleOverviewState>
+) : Parcelable
 
 fun GroupScheduleOverviewPagination.toGroupScheduleOverviewPaginationState() =
     GroupScheduleOverviewPaginationState(
@@ -20,5 +23,5 @@ fun GroupScheduleOverviewPagination.toGroupScheduleOverviewPaginationState() =
         groupId,
         runningSchedule,
         waitingSchedule,
-        groupScheduleOverview.toGroupScheduleOverviewState()
+        groupScheduleOverview.map { it.toGroupScheduleOverviewState() }
     )

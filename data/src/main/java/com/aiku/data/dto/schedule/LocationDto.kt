@@ -17,3 +17,7 @@ data class LocationDto(
         name = name ?: ""
     )
 }
+
+fun Location.toLocationDto() = LocationDto(
+    latitude, longitude, name
+)

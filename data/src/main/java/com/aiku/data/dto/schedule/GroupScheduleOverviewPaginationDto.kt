@@ -11,7 +11,7 @@ data class GroupScheduleOverviewPaginationDto(
     @Json(name = "groupId") val groupId: Long?,
     @Json(name = "runSchedule") val runningSchedule: Int?,
     @Json(name = "waitSchedule") val waitingSchedule: Int?,
-    @Json(name = "data") val groupScheduleOverview: GroupScheduleOverviewDto?
+    @Json(name = "data") val groupScheduleOverview: List<GroupScheduleOverviewDto>?
 ) {
 
     fun toGroupScheduleOverviewPagination() = GroupScheduleOverviewPagination(
@@ -20,14 +20,6 @@ data class GroupScheduleOverviewPaginationDto(
         groupId = groupId ?: 0,
         runningSchedule = runningSchedule ?: 0,
         waitingSchedule = waitingSchedule ?: 0,
-        groupScheduleOverview = (groupScheduleOverview ?: GroupScheduleOverviewDto(
-            null,
-            null,
-            null,
-            null,
-            null,
-            null,
-            null
-        )).toGroupScheduleOverview()
+        groupScheduleOverview = (groupScheduleOverview?.map { it.toGroupScheduleOverview() } ?: emptyList())
     )
 }

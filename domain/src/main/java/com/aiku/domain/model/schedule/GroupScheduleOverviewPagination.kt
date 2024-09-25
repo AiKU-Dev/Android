@@ -6,5 +6,5 @@ data class GroupScheduleOverviewPagination(
     val groupId: Long,
     val runningSchedule: Int,
     val waitingSchedule: Int,
-    val groupScheduleOverview: GroupScheduleOverview
+    val groupScheduleOverview: List<GroupScheduleOverview>
 )
