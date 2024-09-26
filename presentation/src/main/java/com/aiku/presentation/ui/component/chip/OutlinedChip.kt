@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.presentation.theme.CobaltBlue
@@ -23,6 +24,7 @@ fun OutlinedChip(
     modifier: Modifier = Modifier,
     @DrawableRes navigationIcon: Int = -1,
     contentColor: Color = CobaltBlue,
+    borderColor: Color = CobaltBlue,
     text: String,
     onClick: () -> Unit = {}
 ) {
@@ -30,7 +32,7 @@ fun OutlinedChip(
         modifier = modifier
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
             .clip(RoundedCornerShape(16.dp))
-            .border(width = 2.dp, color = contentColor, shape = RoundedCornerShape(16.dp))
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(16.dp))
     ) {
         if (navigationIcon != -1)
             Icon(
@@ -40,4 +42,10 @@ fun OutlinedChip(
             )
         Text(text = text, modifier = Modifier.padding(horizontal = 8.dp, vertical = 10.dp), color = contentColor)
     }
+}
+
+@Preview
+@Composable
+private fun OutlinedChipPreview() {
+    OutlinedChip(text = "OutlinedChip")
 }

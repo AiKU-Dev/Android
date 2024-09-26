@@ -38,4 +38,10 @@
     <string name="exit_group_message">%s에서 나가시겠습니까?</string>
     <string name="group_no_member_content_description">그룹에 멤버 없음</string>
     <string name="suggest_invite_member">멤버를 초대해 보세요!</string>
+
+    <!-- 약속 -->
+    <string name="schedule_running">진행 중</string>
+    <string name="schedule_waiting">대기 중</string>
+    <string name="schedule_term">참가 전</string>
+    <string name="location_content_description">위치</string>
 </resources>

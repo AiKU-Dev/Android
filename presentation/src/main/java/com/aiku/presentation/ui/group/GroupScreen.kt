@@ -117,6 +117,9 @@ fun GroupScreen(
                         )
                     }
             })
+        },
+        floatingActionButton = {
+            // TODO 약속 추가 버튼
         }
     ) {
         Column(
