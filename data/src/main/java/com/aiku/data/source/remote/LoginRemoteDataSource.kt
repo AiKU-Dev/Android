@@ -2,6 +2,7 @@ package com.aiku.data.source.remote
 
 import android.content.Context
 import android.util.Log
+import com.aiku.data.api.remote.AuthApi
 import com.aiku.data.model.remote.BaseResponse
 import com.aiku.data.model.remote.LoginResponse
 import com.aiku.domain.exception.ErrorResponse
@@ -20,7 +21,8 @@ import javax.inject.Singleton
 import kotlin.coroutines.resume
 
 class LoginRemoteDataSource @Inject constructor(
-    @ActivityContext private val context: Context
+    @ActivityContext private val context: Context,
+    private val authApi: AuthApi
 ) {
 
     suspend fun loginWithKakaoTalk(): LoginResponse {
@@ -64,14 +66,12 @@ class LoginRemoteDataSource @Inject constructor(
             loginAction { token, error ->
                 if (error != null) {
                     continuation.resume(
-                        LoginResponse(
-                            null,
-                            ErrorResponse(UNKNOWN, "An unknown error occurred")
-                        )
+                        LoginResponse(null, ErrorResponse(UNKNOWN, "An unknown error occurred"))
                     )
                 } else if (token != null) {
                     Log.d("LoginRemoteDataSource", "Login Success")
                     continuation.resume(LoginResponse(token, null)) //임시
+                    //token.idToken?.let { authApi.issueToken(idToken = it) }
 
 //                      idToken 서버로 전송 (token.idToken)
 //                      성공 : continuation.resume(LoginResponse(token, null))
