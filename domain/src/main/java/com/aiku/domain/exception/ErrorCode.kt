@@ -2,7 +2,6 @@ package com.aiku.domain.exception
 
 /** Server-side Error code */
 const val UNKNOWN = 0
-const val ALREADY_EXIST_PHONE_NUMBER = 10001
 const val ALREADY_EXIST_NICKNAME = 10002
 
 const val INVALID_ID_TOKEN = 11001
@@ -14,9 +13,7 @@ const val EXPIRED_TOKEN = 11005
 
 /** Client-side Error code */
 const val REQUIRE_NICKNAME_INPUT = 20000
-const val REQUIRE_PHONE_NUMBER_INPUT = 20001
 const val INVALID_NICKNAME_FORMAT = 20002
-const val INVALID_PHONE_NUMBER_FORMAT = 20003
 const val NICKNAME_LENGTH_EXCEED = 20004
 
 

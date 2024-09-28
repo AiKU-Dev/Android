@@ -59,4 +59,7 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
+
+    implementation(libs.retrofit.converter.moshi)
+    implementation(libs.moshi.kotlin)
 }

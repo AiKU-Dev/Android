@@ -51,7 +51,6 @@ dependencies {
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
-    implementation(libs.hilt.compose)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.converter.moshi)
@@ -60,6 +59,8 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.protobuf.javalite)
+    implementation(libs.androidx.security.state)
+    implementation(libs.androidx.security.crypto.ktx)
 
     implementation(libs.v2.all)
 }
