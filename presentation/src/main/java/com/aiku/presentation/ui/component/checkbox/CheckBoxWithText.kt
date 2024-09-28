@@ -6,18 +6,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
-import com.aiku.core.theme.Subtitle3_Medium
+import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Typo
@@ -33,7 +33,7 @@ fun CheckBoxWithText(
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.clickable(onClick = { onCheckedChange(!checkedState) })
+        modifier = modifier.clickable { onCheckedChange(!checkedState) }
     ) {
         Box(
             modifier = Modifier
@@ -46,15 +46,14 @@ fun CheckBoxWithText(
             Image(
                 modifier = Modifier.size(CheckMarkSize),
                 painter = painterResource(id = R.drawable.ic_check),
-                contentDescription = "check mark"
+                contentDescription = stringResource(id = R.string.check_mark)
             )
         }
 
-        Spacer(modifier = Modifier.width(CheckBoxContentSpacing))
-
         Text(
+            modifier = Modifier.padding(start = CheckBoxContentPadding),
             text = content,
-            style = Subtitle3_Medium,
+            style = Subtitle3_SemiBold,
             color = Typo
         )
     }
@@ -64,4 +63,4 @@ private val CheckBoxCornerRadius = 5.dp
 private val CheckBoxSize = 22.dp
 private val CheckMarkSize = 22.dp
 
-private val CheckBoxContentSpacing = 10.dp
+private val CheckBoxContentPadding = 10.dp

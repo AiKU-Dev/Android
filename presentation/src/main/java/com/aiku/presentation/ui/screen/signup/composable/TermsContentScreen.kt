@@ -56,16 +56,20 @@ fun TermsContentScreen(
             )
         }
 
-        when (termsUiState) {
+        when (val state = termsUiState) {
             is LoadTermsUiState.Loading -> {}
             is LoadTermsUiState.Success -> {
                 Text(
-                    text = (termsUiState as LoadTermsUiState.Success).content,
+                    text = state.content,
                     style = Caption1,
                     color = Color.Black
                 )
             }
-            is LoadTermsUiState.Failure -> { Text(text = (termsUiState as LoadTermsUiState.Failure).message) }
+
+            is LoadTermsUiState.Failure -> {
+                Text(text = state.message)
+            }
+
             else -> {}
         }
     }

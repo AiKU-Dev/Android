@@ -11,47 +11,40 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Headline_2G
-import com.aiku.core.theme.Subtitle3
 import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.Gray02
-import com.aiku.presentation.theme.Green
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.ScreenBottomPadding
 import com.aiku.presentation.theme.ScreenHorizontalPadding
-import com.aiku.presentation.ui.component.background.CircularBackground
 import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.checkbox.CheckBoxWithText
 import com.aiku.presentation.ui.component.checkbox.CheckMarkWithText
+import com.aiku.presentation.ui.screen.signup.viewmodel.TermsViewModel
 
 @Composable
-fun TermsAgreementScreen(authNavController: NavHostController) {
+fun TermsAgreementScreen(
+    authNavController: NavHostController,
+    termsViewModel: TermsViewModel = hiltViewModel()
+) {
 
-    var checkedStates by rememberSaveable { mutableStateOf(listOf(false, false, false, false)) }
-    val checkedAll by remember { derivedStateOf { checkedStates.all { it } } }
-
-    val btnEnabled = checkedAll || checkedStates[0] && checkedStates[1] && checkedStates[2]
+    val checkedStates by termsViewModel.checkedStates.collectAsState()
+    val checkedAll by termsViewModel.checkedAll.collectAsState()
+    val btnEnabled by termsViewModel.btnEnabled.collectAsState()
 
     val items = listOf(
         stringResource(id = R.string.terms_agree_item1) + "(필수)",
@@ -75,12 +68,12 @@ fun TermsAgreementScreen(authNavController: NavHostController) {
                 Image(
                     modifier = Modifier.size(TermsCharSize),
                     painter = painterResource(id = R.drawable.char_head_boy),
-                    contentDescription = "char boy"
+                    contentDescription = stringResource(id = R.string.character_man)
                 )
                 Image(
                     modifier = Modifier.size(18.dp, 14.dp),
                     painter = painterResource(id = R.drawable.ic_hi),
-                    contentDescription = "text_hi"
+                    contentDescription = stringResource(id = R.string.text_hi)
                 )
             }
 
@@ -93,23 +86,23 @@ fun TermsAgreementScreen(authNavController: NavHostController) {
 
         Spacer(modifier = Modifier.weight(1f))
 
+        // "전체 동의" 체크박스
         CheckBoxWithText(
             modifier = Modifier.padding(bottom = TermsItemSpacing),
             checkedState = checkedAll,
             onCheckedChange = { isChecked ->
-                checkedStates = List(4) { isChecked }
+                termsViewModel.onCheckedChanged(-1, isChecked)
             },
             content = stringResource(id = R.string.terms_agree_all)
         )
 
+        // 각각의 항목 체크박스
         items.forEachIndexed { index, item ->
             CheckMarkWithText(
                 modifier = Modifier.padding(top = TermsItemSpacing),
                 checkedState = checkedStates[index],
                 onCheckedChange = { isChecked ->
-                    checkedStates = checkedStates.toMutableList().apply {
-                        set(index, isChecked)
-                    }
+                    termsViewModel.onCheckedChanged(index, isChecked)
                 },
                 identifier = index,
                 content = item,
@@ -118,7 +111,7 @@ fun TermsAgreementScreen(authNavController: NavHostController) {
         }
 
         FullWidthButton(
-            modifier = Modifier.padding(top = ButtonContentSpacing),
+            modifier = Modifier.padding(top = ButtonContentPadding),
             enabled = btnEnabled,
             background = ButtonDefaults.buttonColors(
                 containerColor = Green5,
@@ -140,7 +133,7 @@ fun TermsAgreementScreen(authNavController: NavHostController) {
 private val ScreenTopPadding = 60.dp
 private val TermsCharSize = 65.dp
 private val TermsItemSpacing = 20.dp
-private val ButtonContentSpacing = 45.dp
+private val ButtonContentPadding = 45.dp
 
 
 @Preview
