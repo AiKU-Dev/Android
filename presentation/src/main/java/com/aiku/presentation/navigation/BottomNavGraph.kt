@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.aiku.presentation.navigation.route.BtmNavRoute
-import com.aiku.presentation.ui.screen.home.HomeScreen
+import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
 

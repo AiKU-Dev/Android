@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.component.navigation
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth

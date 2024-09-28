@@ -11,15 +11,13 @@ import com.squareup.moshi.JsonClass
 data class UserDto(
     @Json(name = "image") val image: String?,
     @Json(name = "name") val name: String?,
-    @Json(name = "phoneNumber") val phoneNumber: String?,
-    @Json(name = "groups") val groups: List<GroupDto>?,
+    @Json(name = "phoneNumber") val phoneNumber: String?
 ) {
 
     fun toUser() = User(
         image = image ?: "",
         nickname = name ?: "",
-        phoneNumber = phoneNumber ?: "",
-        groups = groups?.map { it.toGroup() } ?: emptyList()
+        phoneNumber = phoneNumber ?: ""
     )
 }
 
@@ -27,5 +25,4 @@ fun User.toUserDto() = UserDto(
     image = image,
     name = nickname,
     phoneNumber = phoneNumber,
-    groups = groups.map { it.toGroupDto() }
 )

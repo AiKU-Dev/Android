@@ -27,8 +27,7 @@ class UserDataProviderImpl @Inject constructor(
         initialValue = UserState(
             image = "",
             nickname = "",
-            phoneNumber = "",
-            groups = emptyList()
+            phoneNumber = ""
         )
     )
 }

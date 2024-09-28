@@ -25,6 +25,7 @@ protobuf = "0.9.4"
 protobufJavalite = "4.26.1"
 glide = "1.0.0-beta01"
 v2All = "2.20.1"
+media3ExoplayerDash = "1.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -66,6 +67,7 @@ protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite",
 v2-all = { group = "com.kakao.sdk", name = "v2-all", version.ref = "v2All" }
 
 compose-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
+androidx-media3-exoplayer-dash = { group = "androidx.media3", name = "media3-exoplayer-dash", version.ref = "media3ExoplayerDash" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

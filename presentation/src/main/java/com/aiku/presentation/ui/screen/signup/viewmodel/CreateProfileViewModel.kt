@@ -33,7 +33,7 @@ class CreateProfileViewModel @Inject constructor(
 
     val profileInput = savedStateHandle.getStateFlow(
         PROFILE_INPUT,
-        UserState(user.value.image, user.value.nickname, user.value.phoneNumber, user.value.groups)
+        UserState(user.value.image, user.value.nickname, user.value.phoneNumber)
     )
 
     private val _saveProfileUiState = MutableStateFlow<SaveProfileUiState>(SaveProfileUiState.Idle)
@@ -64,15 +64,15 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     fun onNicknameInputChanged(input: String) {
-        onProfileInputChanged(UserState(profileInput.value.image, input, profileInput.value.phoneNumber, profileInput.value.groups))
+        onProfileInputChanged(UserState(profileInput.value.image, input, profileInput.value.phoneNumber))
     }
 
     fun onPhoneNumberInputChanged(input: String) {
-        onProfileInputChanged(UserState(profileInput.value.image, profileInput.value.nickname, input, profileInput.value.groups))
+        onProfileInputChanged(UserState(profileInput.value.image, profileInput.value.nickname, input))
     }
 
     fun onImageInputChanged(input: String) {
-        onProfileInputChanged(UserState(input, profileInput.value.nickname, profileInput.value.phoneNumber, profileInput.value.groups))
+        onProfileInputChanged(UserState(input, profileInput.value.nickname, profileInput.value.phoneNumber))
     }
 
     private fun onProfileInputChanged(user: UserState) {

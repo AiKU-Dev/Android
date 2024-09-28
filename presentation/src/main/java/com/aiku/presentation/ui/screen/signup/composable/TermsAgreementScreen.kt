@@ -73,7 +73,7 @@ fun TermsAgreementScreen(
                 Image(
                     modifier = Modifier.size(18.dp, 14.dp),
                     painter = painterResource(id = R.drawable.ic_hi),
-                    contentDescription = stringResource(id = R.string.text_hi)
+                    contentDescription = stringResource(id = R.string.terms_text_hi)
                 )
             }
 

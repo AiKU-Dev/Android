@@ -1,12 +1,12 @@
 package com.aiku.domain.model
 
+import com.aiku.domain.model.group.Group
 import com.aiku.domain.util.RegexUtil
 
 data class User(
     val image: String,
     val nickname: String,
-    val phoneNumber: String,
-    val groups: List<Group>,
+    val phoneNumber: String
 ) {
     fun isNicknameEmpty() = nickname.isEmpty()
     fun isPhoneNumberEmpty() = phoneNumber.isEmpty()

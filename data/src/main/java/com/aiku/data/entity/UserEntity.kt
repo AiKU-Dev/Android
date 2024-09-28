@@ -11,7 +11,6 @@ fun User.toUserEntity(): UserEntity {
         .setImage(image)
         .setName(nickname)
         .setPhoneNumber(phoneNumber)
-        .addAllGroups(groups.map { it.toGroupEntity() })
         .build()
 }
 
@@ -19,7 +18,6 @@ fun UserEntity.toUser(): User {
     return User(
         image = image,
         nickname = name,
-        phoneNumber = phoneNumber,
-        groups = groupsList.map { it.toGroup() }
+        phoneNumber = phoneNumber
     )
 }

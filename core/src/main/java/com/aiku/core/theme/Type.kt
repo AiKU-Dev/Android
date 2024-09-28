@@ -56,6 +56,14 @@ val Headline_1G = TextStyle(
 val Headline_2G = TextStyle(
     fontFamily = gmarketFontFamily,
     fontWeight = FontWeight.Bold,
+    fontSize = 34.sp,
+    lineHeight = 36.sp,
+    letterSpacing = 0.sp
+)
+
+val Headline_3G = TextStyle(
+    fontFamily = gmarketFontFamily,
+    fontWeight = FontWeight.Bold,
     fontSize = 24.sp,
     lineHeight = 36.sp,
     letterSpacing = 0.sp
@@ -149,6 +157,14 @@ val Subtitle3_SemiBold = TextStyle(
     letterSpacing = 0.sp
 )
 
+val Subtitle3_Bold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 18.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.sp
+)
+
 val Body1 = TextStyle(
     fontFamily = pretendardFontFamily,
     fontWeight = FontWeight.Light,
@@ -168,6 +184,14 @@ val Body2 = TextStyle(
 val Caption1 = TextStyle(
     fontFamily = pretendardFontFamily,
     fontWeight = FontWeight.Normal,
+    fontSize = 12.sp,
+    lineHeight = 16.sp,
+    letterSpacing = 0.sp
+)
+
+val Caption1_Medium = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Medium,
     fontSize = 12.sp,
     lineHeight = 16.sp,
     letterSpacing = 0.sp

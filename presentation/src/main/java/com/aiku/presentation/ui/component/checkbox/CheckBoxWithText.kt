@@ -46,7 +46,7 @@ fun CheckBoxWithText(
             Image(
                 modifier = Modifier.size(CheckMarkSize),
                 painter = painterResource(id = R.drawable.ic_check),
-                contentDescription = stringResource(id = R.string.check_mark)
+                contentDescription = "check mark"
             )
         }
 

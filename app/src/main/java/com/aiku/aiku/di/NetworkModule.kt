@@ -1,5 +1,6 @@
 package com.aiku.aiku.di
 
+import androidx.media3.exoplayer.dash.manifest.BaseUrl
 import com.aiku.aiku.BuildConfig
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
@@ -16,7 +17,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)

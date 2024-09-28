@@ -14,6 +14,9 @@ const val USER_NOT_FOUND = 11002
 const val INVALID_TOKEN = 11004
 const val EXPIRED_TOKEN = 11005
 
+/** 입력 */
+const val INVALID_INPUT = 11006
+
 /** Client-side Error code */
 const val REQUIRE_NICKNAME_INPUT = 20000
 const val REQUIRE_PHONE_NUMBER_INPUT = 20001
