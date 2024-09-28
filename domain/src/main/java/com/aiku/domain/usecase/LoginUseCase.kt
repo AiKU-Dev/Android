@@ -1,5 +1,6 @@
 package com.aiku.domain.usecase
 
+import com.aiku.domain.model.Token
 import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
@@ -8,20 +9,21 @@ import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val authRepository: AuthRepository ){
+    private val authRepository: AuthRepository
+){
 
     // 카카오톡으로 로그인
-    private fun loginWithKakaoTalk(): Flow<String?> {
+    private fun loginWithKakaoTalk(): Flow<Token> {
         return loginRepository.loginWithKakaoTalk()
     }
 
     // 카카오 계정으로 로그인
-    private fun loginWithKakaoAccount(): Flow<String?> {
+    private fun loginWithKakaoAccount(): Flow<Token> {
         return loginRepository.loginWithKakaoAccount()
     }
 
     // 로그인 방법 선택
-    fun execute(useKakaoTalk: Boolean): Flow<String?> {
+    fun execute(useKakaoTalk: Boolean): Flow<Token> {
         return if (useKakaoTalk) {
             loginWithKakaoTalk()
         } else {
@@ -30,18 +32,25 @@ class LoginUseCase @Inject constructor(
     }
 
     // 자동 로그인
-    suspend fun autoLogin(): Flow<String?>? {
-        val savedToken = authRepository.getAuthToken().first()
-        return if (savedToken != null) {
-            loginRepository.loginWithToken(savedToken)
-        } else {
-            null
-        }
+    fun autoLogin(refreshToken: String): Flow<Token> {
+        return loginRepository.loginWithToken(refreshToken)
     }
 
-    fun getToken() = authRepository.getAuthToken()
+    // Token
+    suspend fun saveAccessToken(token: Token) {
+        authRepository.saveAccessToken(token)
+    }
+
+    suspend fun saveRefreshToken(token: Token) {
+        authRepository.saveRefreshToken(token)
+    }
+
+    suspend fun getRefreshToken() : String? {
+        return authRepository.getRefreshToken()
+    }
 
     suspend fun logout() {
-        authRepository.clearAuthToken()
+        authRepository.removeAccessToken()
+        authRepository.removeRefreshToken()
     }
 }

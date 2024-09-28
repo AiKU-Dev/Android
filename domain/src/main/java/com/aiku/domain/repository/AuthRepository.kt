@@ -1,10 +1,12 @@
 package com.aiku.domain.repository
 
-import kotlinx.coroutines.flow.Flow
+import com.aiku.domain.model.Token
 
 interface AuthRepository {
-    //TODO : 서버와 통신해서 Token 가져오기 -> 이후 아래 함수로 로컬에 저장/불러오기/삭제
-    suspend fun saveAuthToken(token: String)
-    fun getAuthToken(): Flow<String?>
-    suspend fun clearAuthToken()
+    suspend fun saveAccessToken(token: Token)
+    suspend fun saveRefreshToken(token: Token)
+    suspend fun getAccessToken(): String?
+    suspend fun getRefreshToken(): String?
+    suspend fun removeAccessToken()
+    suspend fun removeRefreshToken()
 }

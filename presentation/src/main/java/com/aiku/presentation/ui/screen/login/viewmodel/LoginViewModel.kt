@@ -44,7 +44,9 @@ class LoginViewModel @Inject constructor(
             .onStart {
                 _loginUiState.emit(LoginUiState.Loading)
             }
-            .onEach {
+            .onEach { token ->
+                loginUseCase.saveAccessToken(token = token)
+                loginUseCase.saveRefreshToken(token = token)
                 _loginUiState.emit(LoginUiState.Success)
             }
             .onError { error ->
@@ -60,7 +62,7 @@ class LoginViewModel @Inject constructor(
 
     fun autoLogin(loginUseCase: LoginUseCase) {
         viewModelScope.launch {
-            val tokenFlow = loginUseCase.autoLogin()
+            val tokenFlow = loginUseCase.getRefreshToken()?.let { loginUseCase.autoLogin(it) }
 
             if (tokenFlow == null) {
                 _autoLoginUiState.emit(AutoLoginUiState.TokenAbsent)
@@ -72,11 +74,9 @@ class LoginViewModel @Inject constructor(
                     _autoLoginUiState.emit(AutoLoginUiState.Loading)
                 }
                 .onEach { token ->
-                    if (token != null) {
-                        _autoLoginUiState.emit(AutoLoginUiState.Success)
-                    } else {
-                        _autoLoginUiState.emit(AutoLoginUiState.Idle)
-                    }
+                    loginUseCase.saveAccessToken(token = token)
+                    loginUseCase.saveRefreshToken(token = token)
+                    _autoLoginUiState.emit(AutoLoginUiState.Success)
                 }
                 .onError { error ->
                     val uiState = when (error.code) {

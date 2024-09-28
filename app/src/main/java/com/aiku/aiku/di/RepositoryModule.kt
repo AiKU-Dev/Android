@@ -1,20 +1,16 @@
 package com.aiku.aiku.di
 
 import com.aiku.core.qualifer.IoDispatcher
-import com.aiku.data.repository.GroupRepositoryImpl
 import com.aiku.data.repository.AuthRepositoryImpl
-import com.aiku.data.repository.LoginRepositoryImpl
+import com.aiku.data.repository.GroupRepositoryImpl
 import com.aiku.data.repository.UserRepositoryImpl
-import com.aiku.data.source.local.AuthLocalDataSource
+import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.GroupRemoteDataSource
-import com.aiku.data.source.remote.LoginRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
-import com.aiku.domain.repository.GroupRepository
 import com.aiku.domain.repository.AuthRepository
-import com.aiku.domain.repository.LoginRepository
+import com.aiku.domain.repository.GroupRepository
 import com.aiku.domain.repository.UserRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,6 +21,14 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RepositoryModule {
+
+    @Provides
+    @Singleton
+    fun provideAuthRepository(
+        tokenLocalDataSource: TokenLocalDataSource
+    ): AuthRepository {
+        return AuthRepositoryImpl(tokenLocalDataSource)
+    }
 
     @Provides
     @Singleton

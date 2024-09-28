@@ -1,5 +1,6 @@
 package com.aiku.aiku.di
 
+import com.aiku.data.api.remote.AuthApi
 import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.api.remote.UserApi
 import dagger.Module
@@ -12,6 +13,11 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
+    @Provides
+    @Singleton
+    fun provideAuthApi(retrofit: Retrofit): AuthApi {
+        return retrofit.create(AuthApi::class.java)
+    }
 
     @Provides
     @Singleton

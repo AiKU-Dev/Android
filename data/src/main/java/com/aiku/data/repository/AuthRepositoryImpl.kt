@@ -1,20 +1,35 @@
 package com.aiku.data.repository
 
-import com.aiku.data.source.local.AuthLocalDataSource
+import com.aiku.data.source.local.TokenLocalDataSource
+import com.aiku.domain.model.Token
 import com.aiku.domain.repository.AuthRepository
-import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class AuthRepositoryImpl(private val authLocalDataSource: AuthLocalDataSource) : AuthRepository{
-
-    override suspend fun saveAuthToken(token: String) {
-        authLocalDataSource.saveAuthToken(token)
+class AuthRepositoryImpl @Inject constructor(
+    private val tokenLocalDataSource: TokenLocalDataSource
+) : AuthRepository {
+    override suspend fun saveAccessToken(token: Token) {
+        token.accessToken?.let { tokenLocalDataSource.saveAccessToken(it) }
     }
 
-    override fun getAuthToken(): Flow<String?> {
-        return authLocalDataSource.getAuthToken()
+    override suspend fun saveRefreshToken(token: Token) {
+        token.refreshToken?.let { tokenLocalDataSource.saveRefreshToken(it) }
     }
 
-    override suspend fun clearAuthToken() {
-        authLocalDataSource.clearAuthToken()
+    override suspend fun getAccessToken(): String? {
+        return tokenLocalDataSource.getAccessToken()
     }
+
+    override suspend fun getRefreshToken(): String? {
+        return tokenLocalDataSource.getRefreshToken()
+    }
+
+    override suspend fun removeAccessToken() {
+       tokenLocalDataSource.removeAccessToken()
+    }
+
+    override suspend fun removeRefreshToken() {
+        tokenLocalDataSource.removeRefreshToken()
+    }
+
 }
