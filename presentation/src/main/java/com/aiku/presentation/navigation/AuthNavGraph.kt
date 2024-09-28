@@ -11,6 +11,8 @@ import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.signup.composable.ProfileEditScreen
+import com.aiku.presentation.ui.screen.signup.composable.TermsAgreementScreen
+import com.aiku.presentation.ui.screen.signup.composable.TermsContentScreen
 
 @Composable
 fun AuthNavGraph(
@@ -23,8 +25,12 @@ fun AuthNavGraph(
         composable(SignUpRoute.LOGIN.name) {
             LoginScreen(authNavController, loginUseCase)
         }
-        composable(SignUpRoute.TERM.name) {
-            // TODO : 약관 페이지
+        composable(SignUpRoute.TERM_AGREEMENT.name) {
+            TermsAgreementScreen(authNavController)
+        }
+        composable("${SignUpRoute.TERM_CONTENT.name}/{identifier}") { backStackEntry ->
+            val identifier = backStackEntry.arguments?.getString("identifier")?.toIntOrNull()
+            TermsContentScreen(identifier = identifier)
         }
         composable(SignUpRoute.PROFILE_EDIT.name) {
             ProfileEditScreen(
@@ -34,4 +40,5 @@ fun AuthNavGraph(
         }
     }
 }
+
 

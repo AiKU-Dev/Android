@@ -10,10 +10,9 @@ import javax.inject.Inject
 
 class AuthLocalDataSource @Inject constructor(private val context: Context) {
 
-    companion object {
-        private val Context.dataStore by preferencesDataStore("auth_prefs")
-        private val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
-    }
+    private val Context.dataStore by preferencesDataStore("auth_prefs")
+    private val AUTH_TOKEN_KEY = stringPreferencesKey("auth_token")
+
 
     // 로컬에 RT 저장
     suspend fun saveAuthToken(token: String) {

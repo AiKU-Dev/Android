@@ -1,16 +1,18 @@
 package com.aiku.domain.exception
 
+import java.io.FileNotFoundException
+
 /** Server-side Error code */
 const val UNKNOWN = 0
 const val ALREADY_EXIST_PHONE_NUMBER = 10001
 const val ALREADY_EXIST_NICKNAME = 10002
 
+/** 로그인 */
 const val INVALID_ID_TOKEN = 11001
 const val USER_NOT_FOUND = 11002
 
 const val INVALID_TOKEN = 11004
 const val EXPIRED_TOKEN = 11005
-
 
 /** Client-side Error code */
 const val REQUIRE_NICKNAME_INPUT = 20000
