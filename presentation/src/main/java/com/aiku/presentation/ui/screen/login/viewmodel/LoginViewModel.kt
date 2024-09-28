@@ -2,9 +2,8 @@ package com.aiku.presentation.ui.screen.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aiku.domain.exception.EXPIRED_TOKEN
 import com.aiku.domain.exception.INVALID_ID_TOKEN
-import com.aiku.domain.exception.INVALID_TOKEN
+import com.aiku.domain.exception.TOKEN_NOT_FOUND
 import com.aiku.domain.exception.USER_NOT_FOUND
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.util.onError
@@ -62,13 +61,7 @@ class LoginViewModel @Inject constructor(
 
     fun autoLogin(loginUseCase: LoginUseCase) {
         viewModelScope.launch {
-            val tokenFlow = loginUseCase.getRefreshToken()?.let { loginUseCase.autoLogin(it) }
-
-            if (tokenFlow == null) {
-                _autoLoginUiState.emit(AutoLoginUiState.TokenAbsent)
-                return@launch
-            }
-
+            val tokenFlow = loginUseCase.autoLogin()
             tokenFlow
                 .onStart {
                     _autoLoginUiState.emit(AutoLoginUiState.Loading)
@@ -80,8 +73,7 @@ class LoginViewModel @Inject constructor(
                 }
                 .onError { error ->
                     val uiState = when (error.code) {
-                        INVALID_TOKEN -> AutoLoginUiState.InvalidToken
-                        EXPIRED_TOKEN -> AutoLoginUiState.ExpiredToken
+                        TOKEN_NOT_FOUND -> AutoLoginUiState.TokenNotFound
                         else -> AutoLoginUiState.Idle
                     }
                     _autoLoginUiState.emit(uiState)
@@ -104,7 +96,5 @@ sealed interface AutoLoginUiState {
     data object Idle : AutoLoginUiState
     data object Loading : AutoLoginUiState
     data object Success : AutoLoginUiState
-    data object TokenAbsent : AutoLoginUiState
-    data object InvalidToken : AutoLoginUiState
-    data object ExpiredToken : AutoLoginUiState
+    data object TokenNotFound : AutoLoginUiState
 }

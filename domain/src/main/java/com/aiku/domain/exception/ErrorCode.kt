@@ -6,10 +6,7 @@ const val ALREADY_EXIST_NICKNAME = 10002
 
 const val INVALID_ID_TOKEN = 11001
 const val USER_NOT_FOUND = 11002
-
-const val INVALID_TOKEN = 11004
-const val EXPIRED_TOKEN = 11005
-
+const val TOKEN_NOT_FOUND = 11003
 
 /** Client-side Error code */
 const val REQUIRE_NICKNAME_INPUT = 20000

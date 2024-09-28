@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.Flow
 interface LoginRepository {
     fun loginWithKakaoTalk(): Flow<Token>
     fun loginWithKakaoAccount(): Flow<Token>
-    fun loginWithToken(refreshToken: String): Flow<Token>
+    fun loginWithToken(refreshToken : String): Flow<Token>
 }

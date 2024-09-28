@@ -1,5 +1,7 @@
 package com.aiku.domain.usecase
 
+import com.aiku.domain.exception.ErrorResponse
+import com.aiku.domain.exception.TOKEN_NOT_FOUND
 import com.aiku.domain.model.Token
 import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
@@ -32,8 +34,13 @@ class LoginUseCase @Inject constructor(
     }
 
     // 자동 로그인
-    fun autoLogin(refreshToken: String): Flow<Token> {
-        return loginRepository.loginWithToken(refreshToken)
+    suspend fun autoLogin(): Flow<Token> {
+        val refreshToken = authRepository.getRefreshToken()
+        if (refreshToken != null){
+            return loginRepository.loginWithToken(refreshToken)
+        }else {
+            throw ErrorResponse(TOKEN_NOT_FOUND, "저장된 토큰이 없습니다.")
+        }
     }
 
     // Token
@@ -43,10 +50,6 @@ class LoginUseCase @Inject constructor(
 
     suspend fun saveRefreshToken(token: Token) {
         authRepository.saveRefreshToken(token)
-    }
-
-    suspend fun getRefreshToken() : String? {
-        return authRepository.getRefreshToken()
     }
 
     suspend fun logout() {
