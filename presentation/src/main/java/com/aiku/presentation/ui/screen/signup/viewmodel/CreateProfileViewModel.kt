@@ -4,15 +4,17 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aiku.domain.exception.ALREADY_EXIST_NICKNAME
-import com.aiku.domain.exception.ALREADY_EXIST_PHONE_NUMBER
 import com.aiku.domain.exception.INVALID_NICKNAME_FORMAT
-import com.aiku.domain.exception.INVALID_PHONE_NUMBER_FORMAT
 import com.aiku.domain.exception.NICKNAME_LENGTH_EXCEED
 import com.aiku.domain.exception.REQUIRE_NICKNAME_INPUT
-import com.aiku.domain.exception.REQUIRE_PHONE_NUMBER_INPUT
+import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.domain.model.group.type.ProfileCharacter
+import com.aiku.domain.model.group.type.ProfileType
 import com.aiku.domain.usecase.SaveUserUseCase
 import com.aiku.presentation.base.UserDataProvider
-import com.aiku.presentation.state.UserState
+import com.aiku.presentation.state.user.BadgeState
+import com.aiku.presentation.state.user.ProfileState
+import com.aiku.presentation.state.user.UserState
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,7 +35,22 @@ class CreateProfileViewModel @Inject constructor(
 
     val profileInput = savedStateHandle.getStateFlow(
         PROFILE_INPUT,
-        UserState(user.value.image, user.value.nickname, user.value.phoneNumber, user.value.groups)
+        UserState(
+            id = 0,
+            nickname = "",
+            kakaoId = "",
+            profile = ProfileState(
+                type = ProfileType.CHAR,
+                image = "",
+                character = ProfileCharacter.C01,
+                background = ProfileBackground.GREEN
+            ),
+            badge = BadgeState(
+                name = "",
+                image = ""
+            ),
+            point = 0
+        )
     )
 
     private val _saveProfileUiState = MutableStateFlow<SaveProfileUiState>(SaveProfileUiState.Idle)
@@ -52,11 +69,8 @@ class CreateProfileViewModel @Inject constructor(
         }.onError {
             when (it.code) {
                 REQUIRE_NICKNAME_INPUT -> _saveProfileUiState.emit(SaveProfileUiState.RequireNicknameInput)
-                REQUIRE_PHONE_NUMBER_INPUT -> _saveProfileUiState.emit(SaveProfileUiState.RequirePhoneNumberInput)
-                ALREADY_EXIST_PHONE_NUMBER -> _saveProfileUiState.emit(SaveProfileUiState.AlreadyExistPhoneNumber)
                 ALREADY_EXIST_NICKNAME -> _saveProfileUiState.emit(SaveProfileUiState.AlreadyExistNickname)
                 INVALID_NICKNAME_FORMAT -> _saveProfileUiState.emit(SaveProfileUiState.InvalidNicknameFormat)
-                INVALID_PHONE_NUMBER_FORMAT -> _saveProfileUiState.emit(SaveProfileUiState.InvalidPhoneNumberFormat)
                 NICKNAME_LENGTH_EXCEED -> _saveProfileUiState.emit(SaveProfileUiState.NicknameLengthExceed)
                 else -> _saveProfileUiState.emit(SaveProfileUiState.Idle)
             }
@@ -64,15 +78,11 @@ class CreateProfileViewModel @Inject constructor(
     }
 
     fun onNicknameInputChanged(input: String) {
-        onProfileInputChanged(UserState(profileInput.value.image, input, profileInput.value.phoneNumber, profileInput.value.groups))
-    }
-
-    fun onPhoneNumberInputChanged(input: String) {
-        onProfileInputChanged(UserState(profileInput.value.image, profileInput.value.nickname, input, profileInput.value.groups))
+        onProfileInputChanged(profileInput.value.copy(nickname = input))
     }
 
     fun onImageInputChanged(input: String) {
-        onProfileInputChanged(UserState(input, profileInput.value.nickname, profileInput.value.phoneNumber, profileInput.value.groups))
+        //onProfileInputChanged(profileInput.value.copy(image = input))
     }
 
     private fun onProfileInputChanged(user: UserState) {
@@ -91,10 +101,7 @@ sealed interface SaveProfileUiState {
     data object Loading : SaveProfileUiState
     data object Success : SaveProfileUiState
     data object RequireNicknameInput : SaveProfileUiState
-    data object RequirePhoneNumberInput : SaveProfileUiState
-    data object AlreadyExistPhoneNumber : SaveProfileUiState
     data object AlreadyExistNickname : SaveProfileUiState
     data object InvalidNicknameFormat : SaveProfileUiState
-    data object InvalidPhoneNumberFormat : SaveProfileUiState
     data object NicknameLengthExceed : SaveProfileUiState
 }

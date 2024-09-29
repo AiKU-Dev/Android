@@ -4,16 +4,22 @@ option java_package = "com.aiku.data"; // 클래스가 생성될 package
 option java_multiple_files = true;
 
 message UserEntity {
-  string image = 1;
-  string name = 2;
-  string phoneNumber = 3;
+  int64 memberId = 1;
+  string nickname = 2;
+  string kakaoId = 3;
 
-  message GroupEntity {
-    int64 id = 1;
-    string name = 2;
-    string description = 3;
-    repeated int64 members = 4;
+  message ProfileEntity {
+    string profileType = 1;
+    string profileImg = 2;
+    string profileCharacter = 3;
+    string profileBackground = 4;
   }
+  ProfileEntity profile = 4;
 
-  repeated GroupEntity groups = 4;
+  message BadgeEntity {
+    string name = 1;
+    string img = 2;
+  }
+  BadgeEntity badge = 5;
+  int32 point = 6;
 }

@@ -200,17 +200,6 @@ fun ProfileEditScreen(
             label = stringResource(id = R.string.profile_nickname_setup_label),
         )
 
-        BottomLinedTextField(
-            value = profileInput.phoneNumber,
-            onValueChange = viewModel::onPhoneNumberInputChanged,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 28.dp),
-            lineLimits = TextFieldLineLimits.SingleLine,
-            placeholder = stringResource(id = R.string.profile_phone_number_setup_placeholder),
-            //label = stringResource(id = R.string.profile_phone_number_setup_label),
-        )
-
         Spacer(modifier = Modifier.weight(1f))
         FullWidthButton(background = ButtonDefaults.buttonColors(containerColor = Green5), content = {
             Text(text = stringResource(id = R.string.next))
@@ -227,12 +216,6 @@ fun ProfileEditScreen(
             // 다음 페이지로 이동
         }
 
-        is SaveProfileUiState.AlreadyExistPhoneNumber -> {
-            // 대충 이미 존재하는 전화번호일 때 UI
-            // 텍스트 필드 강조 처리라던가
-            // 스낵바 띄우기라던가 ...
-        }
-
         is SaveProfileUiState.AlreadyExistNickname -> {
             nicknameTextFieldLabel = stringResource(id = R.string.already_exist_nickname)
         }
@@ -241,16 +224,11 @@ fun ProfileEditScreen(
             // 대충 잘못된 닉네임 형식일 때 UI
         }
 
-        is SaveProfileUiState.InvalidPhoneNumberFormat -> {
-            // 대충 잘못된 전화번호 형식일 때 UI
-        }
-
         is SaveProfileUiState.NicknameLengthExceed -> {
             // 대충 닉네임 길이 초과일 때 UI
         }
 
         SaveProfileUiState.RequireNicknameInput -> TODO()
-        SaveProfileUiState.RequirePhoneNumberInput -> TODO()
         is SaveProfileUiState.Idle -> {
             nicknameTextFieldLabel = stringResource(id = R.string.profile_nickname_setup_label)
         }

@@ -1,6 +1,5 @@
 package com.aiku.aiku.di
 
-import com.aiku.domain.repository.AuthRepository
 import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository

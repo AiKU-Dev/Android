@@ -1,9 +1,10 @@
 package com.aiku.domain.repository
 
+import com.aiku.domain.model.Token
 import kotlinx.coroutines.flow.Flow
 
 interface LoginRepository {
-    fun loginWithKakaoTalk(): Flow<String?>
-    fun loginWithKakaoAccount(): Flow<String?>
-    fun loginWithToken(refreshToken: String): Flow<String?>
+    fun loginWithKakaoTalk(): Flow<Token>
+    fun loginWithKakaoAccount(): Flow<Token>
+    fun loginWithToken(refreshToken : String): Flow<Token>
 }
