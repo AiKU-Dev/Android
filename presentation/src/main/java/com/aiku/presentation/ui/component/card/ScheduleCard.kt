@@ -15,29 +15,31 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.aiku.core.theme.Subtitle3
 import com.aiku.core.R
 import com.aiku.core.theme.Caption1
+import com.aiku.core.theme.Subtitle3
 import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
 import com.aiku.presentation.theme.Gray02
+import com.aiku.presentation.theme.Gray03
+import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
 import com.aiku.presentation.ui.component.chip.ScheduleStatusChip
 import com.aiku.presentation.util.to12TimeFormat
@@ -49,25 +51,32 @@ fun ScheduleCard(
     modifier: Modifier = Modifier,
     schedule: GroupScheduleOverviewState
 ) {
-    val cardColor by remember {
+    var cardColor by remember {
         mutableStateOf(Purple5)
     }
     Card(
-        modifier = modifier,
+        modifier = modifier.fillMaxWidth().padding(horizontal = 2.dp).shadow(
+            elevation = 2.dp,
+            shape = RoundedCornerShape(0.dp,16.dp,16.dp,0.dp),
+            ambientColor = Color.Black.copy(alpha = 0.1f)
+        ),
         shape = RoundedCornerShape(0.dp,16.dp,16.dp,0.dp),
         onClick = { /*TODO*/ },
         colors = CardDefaults.cardColors().copy(
             containerColor = Color.White
         ),
+        //elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
-            modifier = Modifier.drawBehind {
-                drawRect(
-                    color = cardColor,
-                    topLeft = Offset(0f, 0f),
-                    size = Size(24f, size.height)
-                )
-            }.padding(top = 13.dp, start = 24.dp, end = 12.dp),
+            modifier = Modifier
+                .drawBehind {
+                    drawRect(
+                        color = cardColor,
+                        topLeft = Offset(0f, 0f),
+                        size = Size(24f, size.height)
+                    )
+                }
+                .padding(top = 13.dp, start = 24.dp, end = 12.dp),
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
                 Text(text = schedule.name, style = Subtitle3)
@@ -101,11 +110,19 @@ fun ScheduleCard(
             }
         }
     }
+
+    LaunchedEffect(key1 = schedule) {
+        cardColor = when(schedule.status) {
+            ScheduleStatus.RUN -> Green5
+            ScheduleStatus.WAIT -> Purple5
+            ScheduleStatus.TERM -> Gray03
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun ScheduleCardPreview() {
+private fun ScheduleRunningCardPreview() {
     ScheduleCard(
         schedule = GroupScheduleOverviewState(
             id = 1,
@@ -113,6 +130,22 @@ private fun ScheduleCardPreview() {
             location = LocationState(.0, .0,"홍대 입구역 1번 출구"),
             time = LocalDateTime.now(),
             status = ScheduleStatus.RUN,
+            memberSize = 5,
+            accept = true
+        )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ScheduleWaitingCardPreview() {
+    ScheduleCard(
+        schedule = GroupScheduleOverviewState(
+            id = 1,
+            name = "안즐거운 공부팟",
+            location = LocationState(.0, .0,"건대 7번 출구"),
+            time = LocalDateTime.now(),
+            status = ScheduleStatus.WAIT,
             memberSize = 5,
             accept = true
         )

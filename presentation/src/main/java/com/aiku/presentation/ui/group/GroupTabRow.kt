@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.aiku.core.theme.Subtitle_4G
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green4
+import com.aiku.presentation.ui.group.schedule.GroupSchedulesView
 import com.aiku.presentation.ui.group.viewmodel.GroupUiState
 import com.aiku.presentation.ui.group.viewmodel.ScheduleOverviewUiState
 import com.aiku.presentation.ui.type.GroupTabType
@@ -100,6 +101,17 @@ fun GroupTabRow(
 
             } else if (index == tabs.indexOf(GroupTabType.SCHEDULE)) {
                 // TODO 약속뷰
+                when(scheduleOverviewUiState) {
+                    is ScheduleOverviewUiState.Loading -> {
+                        // TODO 로딩뷰
+                    }
+                    is ScheduleOverviewUiState.Success -> {
+                        GroupSchedulesView(
+                            modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                            scheduleOverviewPagination = scheduleOverviewUiState.scheduleOverviewPagination
+                        )
+                    }
+                }
             }
         }
     }

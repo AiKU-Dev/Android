@@ -9,6 +9,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,8 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Subtitle3
+import com.aiku.presentation.theme.CobaltBlue
+import com.aiku.presentation.ui.component.button.IconFloatingActionButton
 import com.aiku.presentation.ui.component.dialog.SimpleMenu
 import com.aiku.presentation.ui.component.dialog.SimpleMenuDialog
 import com.aiku.presentation.ui.group.viewmodel.GroupUiState
@@ -119,7 +122,13 @@ fun GroupScreen(
             })
         },
         floatingActionButton = {
-            // TODO 약속 추가 버튼
+            if (pagerState.currentPage == GroupTabType.SCHEDULE.ordinal) {
+                IconFloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    icon = R.drawable.ic_add,
+                    contentDescription = R.string.create_schedule_content_description,
+                )
+            }
         }
     ) {
         Column(

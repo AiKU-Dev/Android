@@ -98,7 +98,7 @@ sealed interface GroupUiState {
 
 sealed interface ScheduleOverviewUiState {
     data object Loading: ScheduleOverviewUiState
-    data class Success(val scheduleOverview: GroupScheduleOverviewPaginationState): ScheduleOverviewUiState
+    data class Success(val scheduleOverviewPagination: GroupScheduleOverviewPaginationState): ScheduleOverviewUiState
 }
 
 sealed interface ExitGroupUiState {

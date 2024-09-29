@@ -44,4 +44,5 @@
     <string name="schedule_waiting">대기 중</string>
     <string name="schedule_term">참가 전</string>
     <string name="location_content_description">위치</string>
+    <string name="create_schedule_content_description">약속 생성</string>
 </resources>
