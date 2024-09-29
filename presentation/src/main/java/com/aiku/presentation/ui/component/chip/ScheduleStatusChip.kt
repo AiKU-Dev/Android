@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.AssistChip
-import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,9 +16,9 @@ import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Caption1
 import com.aiku.domain.model.schedule.type.ScheduleStatus
+import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
-import com.aiku.presentation.theme.Yellow5
 
 @Composable
 fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
@@ -28,13 +26,13 @@ fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
         id = when (status) {
             ScheduleStatus.RUN -> R.string.schedule_running
             ScheduleStatus.WAIT -> R.string.schedule_waiting
-            ScheduleStatus.TERM -> R.string.schedule_term
+            ScheduleStatus.TERM -> R.string.schedule_terminated
         }
     )
     val color = when (status) {
         ScheduleStatus.RUN -> Green5
         ScheduleStatus.WAIT -> Purple5
-        ScheduleStatus.TERM -> Yellow5
+        ScheduleStatus.TERM -> Gray03
     }
     Box(
         modifier = modifier.background(

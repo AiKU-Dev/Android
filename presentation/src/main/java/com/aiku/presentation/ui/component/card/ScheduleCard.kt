@@ -65,7 +65,6 @@ fun ScheduleCard(
         colors = CardDefaults.cardColors().copy(
             containerColor = Color.White
         ),
-        //elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
     ) {
         Column(
             modifier = Modifier
@@ -103,10 +102,14 @@ fun ScheduleCard(
                 .padding(top = 10.dp, bottom = 10.dp)
             ) {
                 Text(
-                    text = schedule.time.toDefaultDateFormat(true),    // TODO : Date
+                    text = schedule.time.toDefaultDateFormat(true),
+                    style = Caption1
                 )
                 VerticalDivider(thickness = 1.dp, color = Color.Black, modifier = Modifier.padding(horizontal = 8.dp))
-                Text(text = schedule.time.to12TimeFormat())
+                Text(
+                    text = schedule.time.to12TimeFormat(),
+                    style = Caption1
+                )
             }
         }
     }
