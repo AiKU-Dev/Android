@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,7 +60,7 @@ fun LoginScreen(
             contentAlignment = Alignment.CenterStart
         ) {
             FullWidthButton(
-                background = KakaoYellow,
+                background = ButtonDefaults.buttonColors(KakaoYellow),
                 content = {
                     Text(
                         text = "카카오 로그인",
@@ -90,7 +91,7 @@ fun LoginScreen(
 
             LoginUiState.Success -> {
                 Log.d("LoginScreen", "Login Success")
-                navController.navigate(SignUpRoute.PROFILE_EDIT.name)
+                navController.navigate(SignUpRoute.TERM_AGREEMENT.name)
             }
 
             LoginUiState.InvalidIdToken -> {

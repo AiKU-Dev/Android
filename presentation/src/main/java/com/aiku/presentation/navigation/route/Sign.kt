@@ -2,6 +2,7 @@ package com.aiku.presentation.navigation.route
 
 enum class SignUpRoute {
     LOGIN,
-    TERM,
+    TERM_AGREEMENT,
+    TERM_CONTENT,
     PROFILE_EDIT
 }
