@@ -33,8 +33,8 @@ class LoginRepositoryImpl @Inject constructor(
         throw ErrorResponse(UNKNOWN, e.message ?: "Unknown error occurred during KakaoAccount login")
     }.flowOn(coroutineDispatcher)
 
-    override fun loginWithToken(refreshToken : String): Flow<Token> = flow {
-        val tokenDto = loginRemoteDataSource.loginWithToken(refreshToken)
+    override fun loginWithToken(refreshToken : String, accessToken : String): Flow<Token> = flow {
+        val tokenDto = loginRemoteDataSource.loginWithToken(refreshToken, accessToken)
         emit(tokenDto.toToken())
     }.catch { e ->
         throw ErrorResponse(UNKNOWN, e.message ?: "Unknown error occurred during token refresh")

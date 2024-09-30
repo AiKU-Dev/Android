@@ -36,8 +36,9 @@ class LoginUseCase @Inject constructor(
     // 자동 로그인
     suspend fun autoLogin(): Flow<Token> {
         val refreshToken = authRepository.getRefreshToken()
-        if (refreshToken != null){
-            return loginRepository.loginWithToken(refreshToken)
+        val accessToken = authRepository.getAccessToken()
+        if (refreshToken != null && accessToken != null){
+            return loginRepository.loginWithToken(refreshToken, accessToken)
         }else {
             throw ErrorResponse(TOKEN_NOT_FOUND, "저장된 토큰이 없습니다.")
         }

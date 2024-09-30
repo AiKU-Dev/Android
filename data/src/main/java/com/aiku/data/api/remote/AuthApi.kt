@@ -1,14 +1,15 @@
 package com.aiku.data.api.remote
 
 import com.aiku.data.dto.TokenDto
-import retrofit2.Response
+import com.aiku.data.dto.group.request.IssueATRTRequest
+import com.aiku.data.dto.group.request.IssueATRequest
 import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface AuthApi {
     @POST("login/sign-in")
-    suspend fun issueToken(@Body idToken: String): TokenDto
+    suspend fun issueATRT(@Body request: IssueATRTRequest): TokenDto
 
     @POST("login/refresh")
-    suspend fun issueAccessToken(@Body idToken: String): TokenDto //TODO : Body 수정
+    suspend fun issueAT(@Body request: IssueATRequest): TokenDto //TODO : Body 수정
 }

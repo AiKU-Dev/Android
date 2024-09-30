@@ -3,14 +3,18 @@ package com.aiku.data.source.remote
 import android.content.Context
 import com.aiku.data.api.remote.AuthApi
 import com.aiku.data.dto.TokenDto
+import com.aiku.data.dto.user.UserDto
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
 class LoginRemoteDataSource @Inject constructor(
@@ -69,7 +73,7 @@ class LoginRemoteDataSource @Inject constructor(
                 memberId = 99999
             )
             fakeTokenDto
-            // TODO : authApi.issueToken(idToken)로 추후에 수정
+            // TODO : authApi.issueATRT(request = IssueATRTRequest(idToken))
 
         } catch (e: Exception) {
             throw ErrorResponse(UNKNOWN, "An error occurred: ${e.message}")
@@ -77,7 +81,7 @@ class LoginRemoteDataSource @Inject constructor(
     }
 
     //RT -> AT 재발급
-    suspend fun loginWithToken(refreshToken: String): TokenDto {
+    suspend fun loginWithToken(refreshToken: String, accessToken : String): TokenDto {
         return withContext(Dispatchers.IO) {
             try {
                 // 임시로 쓰레기값을 반환
@@ -88,7 +92,7 @@ class LoginRemoteDataSource @Inject constructor(
                     memberId = 99999
                 )
                 fakeTokenDto
-                // TODO : authApi.issueAccessToken(refreshToken)
+                // TODO : authApi.issueAT(IssueATRequest(refreshToken, accessToken))
             } catch (e: Exception) {
                 throw ErrorResponse(UNKNOWN, "Failed to refresh token: ${e.message}")
             }
