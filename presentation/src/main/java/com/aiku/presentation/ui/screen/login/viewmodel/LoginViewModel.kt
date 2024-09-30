@@ -9,9 +9,12 @@ import com.aiku.domain.exception.TOKEN_NOT_FOUND
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -23,13 +26,8 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
 ) : ViewModel() {
 
-    private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
-    val loginUiState: StateFlow<LoginUiState> =
-        _loginUiState.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = LoginUiState.Idle
-        )
+    private val _loginUiState = MutableSharedFlow<LoginUiState>()
+    val loginUiState = _loginUiState.asSharedFlow()
 
     private val _autoLoginUiState = MutableStateFlow<AutoLoginUiState>(AutoLoginUiState.Idle)
     val autoLoginUiState: StateFlow<AutoLoginUiState> =

@@ -76,17 +76,17 @@ fun LoginScreen(
         }
     }
 
-    val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        loginViewModel.loginUiState.collect { uiState ->
+            when (uiState) {
+                LoginUiState.Idle -> {}
 
-    LaunchedEffect(loginUiState) {
-        when (loginUiState) {
-            LoginUiState.Idle -> {}
+                LoginUiState.Loading -> {}
 
-            LoginUiState.Loading -> {}
+                LoginUiState.Success -> { navController.navigate(SignUpRoute.TERM_AGREEMENT.name) }
 
-            LoginUiState.Success -> { navController.navigate(SignUpRoute.TERM_AGREEMENT.name) }
-
-            LoginUiState.OCIDFetchFailed, LoginUiState.ServerError -> {}
+                LoginUiState.OCIDFetchFailed, LoginUiState.ServerError -> {}
+            }
         }
     }
 
