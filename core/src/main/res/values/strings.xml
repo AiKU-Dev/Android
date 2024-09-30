@@ -36,6 +36,10 @@
     <string name="select_character">캐릭터를 선택해주세요!</string>
     <string name="default_character_content_description">기본 캐릭터</string>
 
+    <!-- navigation -->
+    <string name="nav_home">홈</string>
+    <string name="nav_mySchedule">내 약속</string>
+    <string name="nav_mypage">마이</string>
 
 
 </resources>

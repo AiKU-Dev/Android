@@ -30,14 +30,7 @@ fun BaseScaffold(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomAppBar(
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-                BottomNavigation(btmNavController, onTabSelected)
-            }
-        },
+        bottomBar = { BottomNavigation(btmNavController, onTabSelected) },
 
     ) { innerPadding ->
         Box(modifier = Modifier

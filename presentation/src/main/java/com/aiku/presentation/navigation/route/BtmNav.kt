@@ -7,8 +7,8 @@ enum class BtmNavRoute {
     MYPAGE
 }
 
-sealed class BtmNav(val route: String, val label: String, val icon: Int) {
-    data object Home : BtmNav(BtmNavRoute.HOME.name, "홈", R.drawable.btm_nav_home)
-    data object MySchedule : BtmNav(BtmNavRoute.MYSCHEDULE.name, "내 약속", R.drawable.btm_nav_schedule)
-    data object My : BtmNav(BtmNavRoute.MYPAGE.name, "마이", R.drawable.btm_nav_my)
+sealed class BtmNav(val route: String, val labelId: Int, val icon: Int) {
+    data object Home : BtmNav(BtmNavRoute.HOME.name, R.string.nav_home, R.drawable.btm_nav_home)
+    data object MySchedule : BtmNav(BtmNavRoute.MYSCHEDULE.name, R.string.nav_mySchedule, R.drawable.btm_nav_schedule)
+    data object My : BtmNav(BtmNavRoute.MYPAGE.name, R.string.nav_mypage, R.drawable.btm_nav_my)
 }
