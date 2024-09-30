@@ -14,6 +14,8 @@
     <string name="terms_agree_item2">개인정보 보호 동의</string>
     <string name="terms_agree_item3">위치기반 서비스 이용약관</string>
     <string name="terms_agree_item4">마케팅 수신 동의</string>
+    <string name="terms_agree_required">(필수)</string>
+    <string name="terms_agree_optional">(선택)</string>
     <!-- 체크 박스 -->
     <string name="check_mark">체크마크</string>
     <string name="text_hi">Hi!</string>

@@ -34,8 +34,8 @@ fun SplashScreen(
             when (autoLoginUiState) {
                 AutoLoginUiState.Idle -> Unit
                 AutoLoginUiState.Loading -> Unit
-                AutoLoginUiState.Success -> { Log.d("Auto Login", "Auto Login Success")} // 홈 화면으로 이동
-                AutoLoginUiState.ServerError, AutoLoginUiState.TokenNotFound -> { Log.d("Auto Login", "Auto Login Failure") } // 로그인 화면으로 이동
+                AutoLoginUiState.Success -> { } // 홈 화면으로 이동
+                AutoLoginUiState.ServerError, AutoLoginUiState.TokenNotFound -> {  } // 로그인 화면으로 이동
             }
         }
     }
