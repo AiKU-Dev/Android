@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -52,7 +53,9 @@ fun DefaultCharacterDialog(
         ) {
             Text(text = stringResource(id = R.string.select_character), style = Body1)
             CircularBackground(
-                modifier = Modifier.size(100.dp).padding(top = 14.dp),
+                modifier = Modifier
+                    .size(100.dp)
+                    .padding(top = 14.dp),
                 color = selectedBackgroundColor
             ) {
                 Image(
@@ -101,7 +104,7 @@ fun DefaultCharacterDialog(
 
             FullWidthButton(
                 modifier = Modifier.padding(top = 22.dp),
-                background = Green5,
+                background = ButtonDefaults.buttonColors(Green5),
                 onClick = {
                     onComplete(selectedCharacterRes, selectedBackgroundColor)
                 },

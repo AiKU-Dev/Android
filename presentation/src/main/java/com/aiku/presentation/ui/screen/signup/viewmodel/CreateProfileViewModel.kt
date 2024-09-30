@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.signup.viewmodel
+package com.aiku.presentation.ui.screen.signup.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

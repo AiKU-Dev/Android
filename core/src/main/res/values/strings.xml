@@ -6,6 +6,20 @@
     <string name="cancel">취소</string>
     <string name="next">다음</string>
 
+    <!-- 이용 약관 동의 -->
+    <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>
+    <string name="terms_agree_start">동의하고 시작하기</string>
+    <string name="terms_agree_all">전체 동의</string>
+    <string name="terms_agree_item1">서비스 이용약관</string>
+    <string name="terms_agree_item2">개인정보 보호 동의</string>
+    <string name="terms_agree_item3">위치기반 서비스 이용약관</string>
+    <string name="terms_agree_item4">마케팅 수신 동의</string>
+    <string name="terms_agree_required">(필수)</string>
+    <string name="terms_agree_optional">(선택)</string>
+    <!-- 체크 박스 -->
+    <string name="check_mark">체크마크</string>
+    <string name="text_hi">Hi!</string>
+
     <!-- 기본 캐릭터 -->
     <string name="character_man">기본 캐릭터1</string>
     <string name="character_baby">기본 캐릭터2</string>
@@ -23,5 +37,11 @@
     <string name="select_using_album">앨범에서 선택</string>
     <string name="select_character">캐릭터를 선택해주세요!</string>
     <string name="default_character_content_description">기본 캐릭터</string>
+
+    <!-- navigation -->
+    <string name="nav_home">홈</string>
+    <string name="nav_mySchedule">내 약속</string>
+    <string name="nav_mypage">마이</string>
+
 
 </resources>

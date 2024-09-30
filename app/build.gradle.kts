@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
@@ -5,6 +8,10 @@ plugins {
     kotlin("kapt")
     alias(libs.plugins.hilt)
 }
+
+
+var properties = Properties()
+properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.aiku.aiku"
@@ -21,6 +28,12 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        // Define buildConfigField with proper formatting
+        buildConfigField("String", "NATIVE_APP_KEY", "\"${properties.getProperty("native_app_key")}\"")
+
+        // Define manifestPlaceholders
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = "kakao"+properties.getProperty("native_app_key")
     }
 
     buildTypes {
@@ -87,4 +100,6 @@ dependencies {
 
     implementation(libs.datastore)
     implementation(libs.protobuf.javalite)
+
+    implementation(libs.v2.all) //kakao sdk
 }
