@@ -24,7 +24,7 @@ class LoginUseCase @Inject constructor(
     }
 
     // 로그인 방법 선택
-    fun execute(useKakaoTalk: Boolean): Flow<Token> {
+    operator fun invoke(useKakaoTalk: Boolean): Flow<Token> {
         return if (useKakaoTalk) {
             loginWithKakaoTalk()
         } else {

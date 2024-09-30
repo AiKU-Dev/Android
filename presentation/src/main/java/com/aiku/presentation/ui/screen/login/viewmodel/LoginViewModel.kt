@@ -40,7 +40,7 @@ class LoginViewModel @Inject constructor(
         )
 
     fun login(useKakaoTalk: Boolean, loginUseCase: LoginUseCase) {
-        loginUseCase.execute(useKakaoTalk)
+        loginUseCase(useKakaoTalk)
             .onStart {
                 _loginUiState.emit(LoginUiState.Loading)
             }

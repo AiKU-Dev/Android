@@ -80,19 +80,11 @@ fun LoginScreen(
 
     LaunchedEffect(loginUiState) {
         when (loginUiState) {
-            LoginUiState.Idle -> {
-                // TODO: Implement idle state handling
-            }
+            LoginUiState.Idle -> {}
 
-            LoginUiState.Loading -> {
-                Log.d("LoginScreen", "Login Loading")
-                // TODO: Implement loading state handling
-            }
+            LoginUiState.Loading -> {}
 
-            LoginUiState.Success -> {
-                Log.d("LoginScreen", "Login Success")
-                navController.navigate(SignUpRoute.TERM_AGREEMENT.name)
-            }
+            LoginUiState.Success -> { navController.navigate(SignUpRoute.TERM_AGREEMENT.name) }
 
             LoginUiState.OCIDFetchFailed, LoginUiState.ServerError -> {}
         }
