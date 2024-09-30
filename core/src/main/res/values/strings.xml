@@ -45,4 +45,7 @@
     <string name="schedule_terminated">종료</string>
     <string name="location_content_description">위치</string>
     <string name="create_schedule_content_description">약속 생성</string>
+    <string name="group_no_schedule_content_description">그룹에 약속 없음</string>
+    <string name="suggest_create_schedule">약속을 만들어 주세요!</string>
+    <string name="create_schedule">약속 만들기</string>
 </resources>

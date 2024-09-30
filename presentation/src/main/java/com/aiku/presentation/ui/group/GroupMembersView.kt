@@ -63,7 +63,7 @@ fun GroupMembersView(
                         ) {
                             Image(
                                 modifier = Modifier.padding(12.dp),
-                                painter = painterResource(id = R.drawable.ic_invite),
+                                painter = painterResource(id = R.drawable.char_head_unknown),
                                 contentDescription = stringResource(
                                     id = R.string.invite
                                 )
@@ -149,21 +149,17 @@ fun EmptyMembersView(
         Text(text = stringResource(id = R.string.suggest_invite_member), style = Subtitle_2G)
         Image(
             modifier = Modifier
-                .size(380.dp)
-                .padding(top = 28.dp),
+                .size(300.dp)
+                .padding(top = 24.dp),
             painter = painterResource(id = R.drawable.char_running_boy),
             contentDescription = stringResource(
                 id = R.string.group_no_member_content_description
             )
         )
-        AssistChip(
-            onClick = onInviteClicked, label = {
-                Text(text = stringResource(id = R.string.invite_member))
-            }
-        )
         OutlinedChip(
             modifier = Modifier.padding(top = 24.dp),
-            text = stringResource(id = R.string.invite_member)
+            text = stringResource(id = R.string.invite_member),
+            onClick = onInviteClicked
         )
     }
 }

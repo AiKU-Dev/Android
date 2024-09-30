@@ -86,7 +86,8 @@ fun GroupTabRow(
                         GroupMembersView(
                             modifier = Modifier.fillMaxSize(),
                             scrollState = scrollState,
-                            members = groupState.members
+                            members = groupState.members,
+                            onInviteClicked = {}    // TODO 초대 클릭
                         )
                     }
 
@@ -108,7 +109,8 @@ fun GroupTabRow(
                     is ScheduleOverviewUiState.Success -> {
                         GroupSchedulesView(
                             modifier = Modifier.fillMaxSize().padding(top = 16.dp),
-                            scheduleOverviewPagination = scheduleOverviewUiState.scheduleOverviewPagination
+                            scheduleOverviewPagination = scheduleOverviewUiState.scheduleOverviewPagination,
+                            onScheduleCreateClicked = {}    // TODO 약속 생성 클릭
                         )
                     }
                 }

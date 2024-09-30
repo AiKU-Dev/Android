@@ -3,6 +3,7 @@ package com.aiku.presentation.ui.component.chip
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -30,9 +31,11 @@ fun OutlinedChip(
 ) {
     Row(
         modifier = modifier
-            .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+            .background(color = Color.White, shape = RoundedCornerShape(999.dp))
             .clip(RoundedCornerShape(16.dp))
-            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(16.dp))
+            .border(width = 2.dp, color = borderColor, shape = RoundedCornerShape(999.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 8.dp)
     ) {
         if (navigationIcon != -1)
             Icon(

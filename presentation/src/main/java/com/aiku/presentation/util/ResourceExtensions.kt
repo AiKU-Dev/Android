@@ -10,11 +10,11 @@ import com.aiku.presentation.theme.Yellow5
 
 fun ProfileCharacter.getDrawableResId(): Int {
     return when (this) {
-        ProfileCharacter.C01 -> R.drawable.char_man_1x
-        ProfileCharacter.C02 -> R.drawable.char_baby_1x
-        ProfileCharacter.C03 -> R.drawable.char_scratch_1x
-        ProfileCharacter.C04 -> R.drawable.char_girl_1x
-        ProfileCharacter.NONE -> R.drawable.char_man_1x
+        ProfileCharacter.C01 -> R.drawable.char_head_boy
+        ProfileCharacter.C02 -> R.drawable.char_head_baby
+        ProfileCharacter.C03 -> R.drawable.char_head_scratch
+        ProfileCharacter.C04 -> R.drawable.char_head_girl
+        ProfileCharacter.NONE -> R.drawable.char_head_boy
     }
 }
 
