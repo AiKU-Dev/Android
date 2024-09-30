@@ -1,11 +1,10 @@
 package com.aiku.data.repository
 
-import android.util.Log
-import com.aiku.data.dto.TokenDto
 import com.aiku.data.source.remote.LoginRemoteDataSource
+import com.aiku.domain.exception.ERROR_AUTO_LOGIN
+import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
 import com.aiku.domain.exception.ErrorResponse
-import com.aiku.domain.exception.UNKNOWN
-import com.aiku.domain.model.Token
+import com.aiku.domain.model.token.Token
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -23,20 +22,27 @@ class LoginRepositoryImpl @Inject constructor(
         val tokenDto = loginRemoteDataSource.loginWithKakaoTalk()
         emit(tokenDto.toToken())
     }.catch { e ->
-        throw ErrorResponse(UNKNOWN, e.message ?: "Unknown error occurred")
+        throw e
     }.flowOn(coroutineDispatcher)
 
     override fun loginWithKakaoAccount(): Flow<Token> = flow {
         val tokenDto = loginRemoteDataSource.loginWithKakaoAccount()
         emit(tokenDto.toToken())
     }.catch { e ->
-        throw ErrorResponse(UNKNOWN, e.message ?: "Unknown error occurred during KakaoAccount login")
+        throw e
     }.flowOn(coroutineDispatcher)
 
-    override fun loginWithToken(refreshToken : String, accessToken : String): Flow<Token> = flow {
+    override fun loginWithToken(refreshToken: String, accessToken: String): Flow<Token> = flow {
         val tokenDto = loginRemoteDataSource.loginWithToken(refreshToken, accessToken)
         emit(tokenDto.toToken())
     }.catch { e ->
-        throw ErrorResponse(UNKNOWN, e.message ?: "Unknown error occurred during token refresh")
+        throw e
+    }.flowOn(coroutineDispatcher)
+
+    override fun getUserEmail(): Flow<String> = flow {
+        val email = loginRemoteDataSource.getUserEmail()
+        emit(email)
+    }.catch { e ->
+        throw e
     }.flowOn(coroutineDispatcher)
 }

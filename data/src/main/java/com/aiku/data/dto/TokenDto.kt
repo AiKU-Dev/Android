@@ -1,6 +1,6 @@
 package com.aiku.data.dto
 
-import com.aiku.domain.model.Token
+import com.aiku.domain.model.token.Token
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 

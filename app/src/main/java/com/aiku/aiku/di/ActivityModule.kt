@@ -2,10 +2,10 @@ package com.aiku.aiku.di
 
 import android.content.Context
 import com.aiku.core.qualifer.IoDispatcher
-import com.aiku.data.api.remote.AuthApi
+import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.repository.LoginRepositoryImpl
 import com.aiku.data.source.remote.LoginRemoteDataSource
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.usecase.LoginUseCase
 import dagger.Module
@@ -22,8 +22,8 @@ object ActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideLoginUseCase(loginRepository: LoginRepository, authRepository: AuthRepository): LoginUseCase {
-        return LoginUseCase(loginRepository = loginRepository, authRepository = authRepository)
+    fun provideLoginUseCase(loginRepository: LoginRepository, tokenRepository: TokenRepository): LoginUseCase {
+        return LoginUseCase(loginRepository = loginRepository, tokenRepository = tokenRepository)
     }
 
     @Provides
@@ -39,7 +39,8 @@ object ActivityModule {
     @ActivityScoped
     fun provideLoginRemoteDataSource(
         @ActivityContext context: Context,
-        authApi: AuthApi): LoginRemoteDataSource {
-        return LoginRemoteDataSource(context, authApi)
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
+        tokenApi: TokenApi): LoginRemoteDataSource {
+        return LoginRemoteDataSource(context, coroutineDispatcher, tokenApi)
     }
 }

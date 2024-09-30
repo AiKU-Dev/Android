@@ -94,14 +94,7 @@ fun LoginScreen(
                 navController.navigate(SignUpRoute.TERM_AGREEMENT.name)
             }
 
-            LoginUiState.InvalidIdToken -> {
-                Log.d("LoginScreen", "Login InvalidToken")
-                // TODO: Implement invalid ID token handling
-            }
-
-            LoginUiState.UserNotFound -> {
-                // TODO: Implement user not found handling
-            }
+            LoginUiState.OCIDFetchFailed, LoginUiState.ServerError -> {}
         }
     }
 

@@ -1,4 +1,4 @@
-package com.aiku.domain.model
+package com.aiku.domain.model.token
 
 
 data class Token(

@@ -31,8 +31,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
-                    SplashScreen(loginUseCase = loginUseCase)
+                    MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
+                    //SplashScreen(loginUseCase = loginUseCase)
                     //TermsAgreementScreen(navController)
                 }
 

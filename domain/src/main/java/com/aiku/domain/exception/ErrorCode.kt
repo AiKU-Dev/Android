@@ -4,11 +4,16 @@ package com.aiku.domain.exception
 const val UNKNOWN = 0
 const val ALREADY_EXIST_NICKNAME = 10002
 
-const val INVALID_ID_TOKEN = 11001
-const val USER_NOT_FOUND = 11002
-const val TOKEN_NOT_FOUND = 11003
+/** Login */
+const val ERROR_KAKAO_LOGIN = 3000
+const val ERROR_OCID_FETCH = 3001
+const val ERROR_KAKAO_USER_INFO_FETCH = 3001
+const val ERROR_AUTO_LOGIN = 3002 //TODO : 서버 에러 세분화
+
+
 
 /** Client-side Error code */
+const val TOKEN_NOT_FOUND = 11003
 const val REQUIRE_NICKNAME_INPUT = 20000
 const val INVALID_NICKNAME_FORMAT = 20002
 const val NICKNAME_LENGTH_EXCEED = 20004

@@ -1,8 +1,8 @@
 package com.aiku.domain.repository
 
-import com.aiku.domain.model.Token
+import com.aiku.domain.model.token.Token
 
-interface AuthRepository {
+interface TokenRepository {
     suspend fun saveAccessToken(token: Token)
     suspend fun saveRefreshToken(token: Token)
     suspend fun getAccessToken(): String?

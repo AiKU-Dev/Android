@@ -12,7 +12,7 @@ fun MainNavGraph(
     mainNavController: NavHostController,
     loginUseCase: LoginUseCase
 ) {
-    NavHost(navController = mainNavController, startDestination = "btmNav") {
+    NavHost(navController = mainNavController, startDestination = "auth") {
         composable("auth") {
             AuthNavGraph(mainNavController, loginUseCase)
         }

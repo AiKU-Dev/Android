@@ -1,7 +1,7 @@
 package com.aiku.aiku.di
 
 import com.aiku.core.qualifer.IoDispatcher
-import com.aiku.data.repository.AuthRepositoryImpl
+import com.aiku.data.repository.TokenRepositoryImpl
 import com.aiku.data.repository.GroupRepositoryImpl
 import com.aiku.data.repository.TermsRepositoryImpl
 import com.aiku.data.repository.UserRepositoryImpl
@@ -10,7 +10,7 @@ import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.GroupRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.GroupRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
@@ -29,8 +29,8 @@ object RepositoryModule {
     @Singleton
     fun provideAuthRepository(
         tokenLocalDataSource: TokenLocalDataSource
-    ): AuthRepository {
-        return AuthRepositoryImpl(tokenLocalDataSource)
+    ): TokenRepository {
+        return TokenRepositoryImpl(tokenLocalDataSource)
     }
 
     @Provides

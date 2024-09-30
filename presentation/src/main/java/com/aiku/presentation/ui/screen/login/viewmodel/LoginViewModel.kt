@@ -2,9 +2,10 @@ package com.aiku.presentation.ui.screen.login.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.aiku.domain.exception.INVALID_ID_TOKEN
+import com.aiku.domain.exception.ERROR_AUTO_LOGIN
+import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
+import com.aiku.domain.exception.ERROR_OCID_FETCH
 import com.aiku.domain.exception.TOKEN_NOT_FOUND
-import com.aiku.domain.exception.USER_NOT_FOUND
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -50,8 +51,8 @@ class LoginViewModel @Inject constructor(
             }
             .onError { error ->
                 val uiState = when (error.code) {
-                    USER_NOT_FOUND -> LoginUiState.UserNotFound
-                    INVALID_ID_TOKEN -> LoginUiState.InvalidIdToken
+                    ERROR_OCID_FETCH -> LoginUiState.OCIDFetchFailed
+                    ERROR_KAKAO_LOGIN -> LoginUiState.ServerError
                     else -> LoginUiState.Idle
                 }
                 _loginUiState.emit(uiState)
@@ -74,6 +75,7 @@ class LoginViewModel @Inject constructor(
                 .onError { error ->
                     val uiState = when (error.code) {
                         TOKEN_NOT_FOUND -> AutoLoginUiState.TokenNotFound
+                        ERROR_AUTO_LOGIN -> AutoLoginUiState.ServerError
                         else -> AutoLoginUiState.Idle
                     }
                     _autoLoginUiState.emit(uiState)
@@ -88,8 +90,8 @@ sealed interface LoginUiState {
     data object Idle : LoginUiState
     data object Loading : LoginUiState
     data object Success : LoginUiState
-    data object InvalidIdToken : LoginUiState
-    data object UserNotFound : LoginUiState
+    data object OCIDFetchFailed : LoginUiState
+    data object ServerError : LoginUiState
 }
 
 sealed interface AutoLoginUiState {
@@ -97,4 +99,5 @@ sealed interface AutoLoginUiState {
     data object Loading : AutoLoginUiState
     data object Success : AutoLoginUiState
     data object TokenNotFound : AutoLoginUiState
+    data object ServerError : AutoLoginUiState
 }

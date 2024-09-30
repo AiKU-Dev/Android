@@ -1,13 +1,13 @@
 package com.aiku.data.repository
 
 import com.aiku.data.source.local.TokenLocalDataSource
-import com.aiku.domain.model.Token
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.model.token.Token
+import com.aiku.domain.repository.TokenRepository
 import javax.inject.Inject
 
-class AuthRepositoryImpl @Inject constructor(
+class TokenRepositoryImpl @Inject constructor(
     private val tokenLocalDataSource: TokenLocalDataSource
-) : AuthRepository {
+) : TokenRepository {
     override suspend fun saveAccessToken(token: Token) {
         token.accessToken?.let { tokenLocalDataSource.saveAccessToken(it) }
     }

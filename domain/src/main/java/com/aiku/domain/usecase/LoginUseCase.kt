@@ -2,16 +2,15 @@ package com.aiku.domain.usecase
 
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.TOKEN_NOT_FOUND
-import com.aiku.domain.model.Token
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.model.token.Token
+import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val authRepository: AuthRepository
+    private val tokenRepository: TokenRepository
 ){
 
     // 카카오톡으로 로그인
@@ -35,8 +34,8 @@ class LoginUseCase @Inject constructor(
 
     // 자동 로그인
     suspend fun autoLogin(): Flow<Token> {
-        val refreshToken = authRepository.getRefreshToken()
-        val accessToken = authRepository.getAccessToken()
+        val refreshToken = tokenRepository.getRefreshToken()
+        val accessToken = tokenRepository.getAccessToken()
         if (refreshToken != null && accessToken != null){
             return loginRepository.loginWithToken(refreshToken, accessToken)
         }else {
@@ -46,15 +45,15 @@ class LoginUseCase @Inject constructor(
 
     // Token
     suspend fun saveAccessToken(token: Token) {
-        authRepository.saveAccessToken(token)
+        tokenRepository.saveAccessToken(token)
     }
 
     suspend fun saveRefreshToken(token: Token) {
-        authRepository.saveRefreshToken(token)
+        tokenRepository.saveRefreshToken(token)
     }
 
     suspend fun logout() {
-        authRepository.removeAccessToken()
-        authRepository.removeRefreshToken()
+        tokenRepository.removeAccessToken()
+        tokenRepository.removeRefreshToken()
     }
 }
