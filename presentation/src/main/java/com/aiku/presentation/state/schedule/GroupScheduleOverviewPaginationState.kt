@@ -8,7 +8,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Immutable
 data class GroupScheduleOverviewPaginationState(
-    val totalCount: Long,
     val page: Int,
     val groupId: Long,
     val runningSchedule: Int,
@@ -18,7 +17,6 @@ data class GroupScheduleOverviewPaginationState(
 
 fun GroupScheduleOverviewPagination.toGroupScheduleOverviewPaginationState() =
     GroupScheduleOverviewPaginationState(
-        totalCount,
         page,
         groupId,
         runningSchedule,

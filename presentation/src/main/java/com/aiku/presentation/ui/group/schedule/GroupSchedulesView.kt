@@ -121,7 +121,6 @@ private fun GroupScheduleViewPreview() {
     GroupSchedulesView(
         modifier = Modifier,
         scheduleOverviewPagination = GroupScheduleOverviewPaginationState(
-            totalCount = 10,
             page = 1,
             groupId = 1,
             runningSchedule = 2,

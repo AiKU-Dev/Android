@@ -6,7 +6,6 @@ import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class GroupScheduleOverviewPaginationDto(
-    @Json(name = "totalCount") val totalCount: Long?,
     @Json(name = "page") val page: Int?,
     @Json(name = "groupId") val groupId: Long?,
     @Json(name = "runSchedule") val runningSchedule: Int?,
@@ -15,7 +14,6 @@ data class GroupScheduleOverviewPaginationDto(
 ) {
 
     fun toGroupScheduleOverviewPagination() = GroupScheduleOverviewPagination(
-        totalCount = totalCount ?: 0,
         page = page ?: 1,
         groupId = groupId ?: 0,
         runningSchedule = runningSchedule ?: 0,
