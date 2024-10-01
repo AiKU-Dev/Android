@@ -2,6 +2,7 @@ package com.aiku.presentation.ui.screen.group.composable
 
 import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,11 +17,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.aiku.core.R
 import com.aiku.core.theme.Headline_3G
 import com.aiku.core.theme.Subtitle3_SemiBold
@@ -33,6 +37,7 @@ import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
 import com.aiku.presentation.ui.screen.group.viewmodel.CreateGroupUiState
 import com.aiku.presentation.ui.screen.group.viewmodel.GroupViewModel
+import coil.compose.rememberImagePainter
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -44,6 +49,8 @@ fun CreateGroupScreen(
     val groupNameInput by groupViewModel.groupNameInput.collectAsStateWithLifecycle()
     val isButtonEnabled by groupViewModel.isBtnEnabled.collectAsStateWithLifecycle()
 
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -51,6 +58,13 @@ fun CreateGroupScreen(
             .padding(horizontal = ScreenHorizontalPadding)
             .padding(bottom = ScreenBottomPadding)
     ) {
+
+        AsyncImage(
+            model = "https://i.namu.wiki/i/ZnBMAAGJaiFKqDmASXCt-977Xuq6gLA-G8AsD4K1BKCVBEzrjISoW9QyfcSKPnacwuBpCGSSyBtCJv8E-UocNQ.webp",
+            contentScale = ContentScale.Crop,
+            contentDescription = "야호"
+        )
+
         Text(
             modifier = Modifier.padding(top = 116.dp),
             text = stringResource(id = R.string.group_name),
