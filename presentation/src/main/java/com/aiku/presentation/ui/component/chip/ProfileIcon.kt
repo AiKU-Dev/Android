@@ -4,13 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import coil.compose.AsyncImage
+import com.aiku.core.R
 import com.aiku.domain.model.group.type.ProfileType
 import com.aiku.presentation.state.user.ProfileState
 import com.aiku.presentation.ui.component.background.CircularBackground
-import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
-import com.bumptech.glide.integration.compose.GlideImage
 
-@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ProfileIcon(
     modifier: Modifier = Modifier,
@@ -25,10 +24,11 @@ fun ProfileIcon(
     ) {
         when (profile.type) {
             ProfileType.IMG -> {
-                GlideImage(
+                AsyncImage(
                     model = profile.image,
-                    contentScale = ContentScale.Crop,
-                    contentDescription = stringResource(id = com.aiku.core.R.string.profile_image)
+                    contentDescription = stringResource(id = R.string.profile_image),
+                    placeholder = null,
+                    contentScale = ContentScale.Crop
                 )
             }
 
