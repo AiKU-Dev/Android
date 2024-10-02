@@ -1,11 +1,11 @@
 package com.aiku.data.repository
 
-import com.aiku.data.dto.toUserDto
+import com.aiku.data.dto.user.toUserDto
 import com.aiku.data.entity.toUser
 import com.aiku.data.entity.toUserEntity
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
-import com.aiku.domain.model.User
+import com.aiku.domain.model.user.User
 import com.aiku.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -29,11 +29,11 @@ class UserRepositoryImpl @Inject constructor(
         }.flowOn(coroutineDispatcher)
     }
 
-    override fun getUser(): Flow<User> {
+    override fun fetchUser(): Flow<User> {
         return flow {
             emit(userLocalDataSource.getUser())
         }.onStart {
-            val userDto = userRemoteDataSource.getUser()
+            val userDto = userRemoteDataSource.fetchUser()
             userLocalDataSource.saveUser(userDto.toUser().toUserEntity())
         }.flatMapLatest {
             it.map { userEntity -> userEntity.toUser() }

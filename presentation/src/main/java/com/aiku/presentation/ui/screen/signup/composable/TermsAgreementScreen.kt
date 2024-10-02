@@ -47,10 +47,10 @@ fun TermsAgreementScreen(
     val btnEnabled by termsViewModel.btnEnabled.collectAsState()
 
     val items = listOf(
-        stringResource(id = R.string.terms_agree_item1) + "(필수)",
-        stringResource(id = R.string.terms_agree_item2) + "(필수)",
-        stringResource(id = R.string.terms_agree_item3) + "(필수)",
-        stringResource(id = R.string.terms_agree_item4) + "(선택)"
+        stringResource(id = R.string.terms_agree_item1) + stringResource(id = R.string.terms_agree_required),
+        stringResource(id = R.string.terms_agree_item2) + stringResource(id = R.string.terms_agree_required),
+        stringResource(id = R.string.terms_agree_item3) + stringResource(id = R.string.terms_agree_required),
+        stringResource(id = R.string.terms_agree_item4) + stringResource(id = R.string.terms_agree_optional)
     )
 
     Column(
@@ -73,7 +73,7 @@ fun TermsAgreementScreen(
                 Image(
                     modifier = Modifier.size(18.dp, 14.dp),
                     painter = painterResource(id = R.drawable.ic_hi),
-                    contentDescription = stringResource(id = R.string.terms_text_hi)
+                    contentDescription = stringResource(id = R.string.text_hi)
                 )
             }
 

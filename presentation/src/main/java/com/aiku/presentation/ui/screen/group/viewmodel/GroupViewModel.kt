@@ -39,7 +39,7 @@ class GroupViewModel @Inject constructor(
     }
 
     fun createGroup() {
-        createGroupUseCase.execute(_groupNameInput.value)
+        createGroupUseCase(_groupNameInput.value)
             .onStart { _createGroupUiState.emit(CreateGroupUiState.Loading) }
             .onEach { _createGroupUiState.emit(CreateGroupUiState.Success)}
             .onError { error ->

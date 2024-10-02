@@ -1,6 +1,6 @@
 package com.aiku.aiku.di
 
-import com.aiku.aiku.qualifer.IoDispatcher
+import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.domain.repository.UserRepository
 import com.aiku.presentation.base.UserDataProvider
 import com.aiku.presentation.base.UserDataProviderImpl

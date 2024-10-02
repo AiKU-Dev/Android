@@ -76,31 +76,16 @@ fun LoginScreen(
         }
     }
 
-    val loginUiState by loginViewModel.loginUiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        loginViewModel.loginUiState.collect { uiState ->
+            when (uiState) {
+                LoginUiState.Idle -> {}
 
-    LaunchedEffect(loginUiState) {
-        when (loginUiState) {
-            LoginUiState.Idle -> {
-                // TODO: Implement idle state handling
-            }
+                LoginUiState.Loading -> {}
 
-            LoginUiState.Loading -> {
-                Log.d("LoginScreen", "Login Loading")
-                // TODO: Implement loading state handling
-            }
+                LoginUiState.Success -> { navController.navigate(SignUpRoute.TERM_AGREEMENT.name) }
 
-            LoginUiState.Success -> {
-                Log.d("LoginScreen", "Login Success")
-                navController.navigate(SignUpRoute.TERM_AGREEMENT.name)
-            }
-
-            LoginUiState.InvalidIdToken -> {
-                Log.d("LoginScreen", "Login InvalidToken")
-                // TODO: Implement invalid ID token handling
-            }
-
-            LoginUiState.UserNotFound -> {
-                // TODO: Implement user not found handling
+                LoginUiState.OCIDFetchFailed, LoginUiState.ServerError -> {}
             }
         }
     }

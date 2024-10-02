@@ -1,6 +1,6 @@
 package com.aiku.data.dto
 
-import com.aiku.domain.model.User
+import com.aiku.domain.model.user.User
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
@@ -13,16 +13,10 @@ data class UserDto(
     @Json(name = "name") val name: String?,
     @Json(name = "phoneNumber") val phoneNumber: String?
 ) {
-
-    fun toUser() = User(
-        image = image ?: "",
-        nickname = name ?: "",
-        phoneNumber = phoneNumber ?: ""
+    fun User.toUserDto() = UserDto(
+        image = image,
+        name = nickname,
+        phoneNumber = phoneNumber,
     )
 }
 
-fun User.toUserDto() = UserDto(
-    image = image,
-    name = nickname,
-    phoneNumber = phoneNumber,
-)

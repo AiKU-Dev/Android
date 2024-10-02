@@ -1,7 +1,9 @@
 package com.aiku.domain.model.group
 
+import com.aiku.domain.model.user.Member
+
 data class Group(
     val id: Long,
     val name: String,
-    val members: List<String>, //TODO : 수정
+    val members: List<Member>
 )

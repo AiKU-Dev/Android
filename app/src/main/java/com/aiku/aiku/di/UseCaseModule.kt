@@ -1,12 +1,10 @@
 package com.aiku.aiku.di
 
-import com.aiku.domain.repository.AuthRepository
+
 import com.aiku.domain.repository.GroupRepository
-import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
 import com.aiku.domain.usecase.CreateGroupUseCase
-import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.domain.usecase.ReadTermsUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import dagger.Module

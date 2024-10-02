@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -51,10 +52,10 @@ fun BottomNavigation(
                 icon = {
                     Icon(
                         painter = painterResource(id = it.icon),
-                        contentDescription = it.label
+                        contentDescription = stringResource(id = it.labelId)
                     )
                 },
-                label = { Text(it.label, style = Caption1) },
+                label = { Text(stringResource(id = it.labelId), style = Caption1) },
                 selected = currentRoute == it.route,
                 onClick = {
                     onTabSelected(it.route)

@@ -1,27 +1,30 @@
 package com.aiku.domain.usecase
 
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.exception.ErrorResponse
+import com.aiku.domain.exception.TOKEN_NOT_FOUND
+import com.aiku.domain.model.token.Token
+import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val loginRepository: LoginRepository,
-    private val authRepository: AuthRepository ){
+    private val tokenRepository: TokenRepository
+){
 
     // 카카오톡으로 로그인
-    private fun loginWithKakaoTalk(): Flow<String?> {
+    private fun loginWithKakaoTalk(): Flow<Token> {
         return loginRepository.loginWithKakaoTalk()
     }
 
     // 카카오 계정으로 로그인
-    private fun loginWithKakaoAccount(): Flow<String?> {
+    private fun loginWithKakaoAccount(): Flow<Token> {
         return loginRepository.loginWithKakaoAccount()
     }
 
     // 로그인 방법 선택
-    fun execute(useKakaoTalk: Boolean): Flow<String?> {
+    operator fun invoke(useKakaoTalk: Boolean): Flow<Token> {
         return if (useKakaoTalk) {
             loginWithKakaoTalk()
         } else {
@@ -30,18 +33,27 @@ class LoginUseCase @Inject constructor(
     }
 
     // 자동 로그인
-    suspend fun autoLogin(): Flow<String?>? {
-        val savedToken = authRepository.getAuthToken().first()
-        return if (savedToken != null) {
-            loginRepository.loginWithToken(savedToken)
-        } else {
-            null
+    suspend fun autoLogin(): Flow<Token> {
+        val refreshToken = tokenRepository.getRefreshToken()
+        val accessToken = tokenRepository.getAccessToken()
+        if (refreshToken != null && accessToken != null){
+            return loginRepository.loginWithToken(refreshToken, accessToken)
+        }else {
+            throw ErrorResponse(TOKEN_NOT_FOUND, "저장된 토큰이 없습니다.")
         }
     }
 
-    fun getToken() = authRepository.getAuthToken()
+    // Token
+    suspend fun saveAccessToken(token: Token) {
+        tokenRepository.saveAccessToken(token)
+    }
+
+    suspend fun saveRefreshToken(token: Token) {
+        tokenRepository.saveRefreshToken(token)
+    }
 
     suspend fun logout() {
-        authRepository.clearAuthToken()
+        tokenRepository.removeAccessToken()
+        tokenRepository.removeRefreshToken()
     }
 }

@@ -16,14 +16,13 @@ class CreateGroupUseCase @Inject constructor(
         const val MAX_GROUPNAME_LENGTH = 15
     }
 
-    fun execute(groupName: String): Flow<Result<Group>> {
-        return flow {
-            if (groupName.length > MAX_GROUPNAME_LENGTH) {
-                throw ErrorResponse(INVALID_INPUT, "그룹 이름이 너무 깁니다.")
-            }
-            groupRepository.createGroup(groupName).collect { result ->
-                emit(result)
-            }
+    operator fun invoke(groupName: String): Flow<Group> {
+        // 그룹 이름 검증
+        if (groupName.length > MAX_GROUPNAME_LENGTH) {
+            throw ErrorResponse(INVALID_INPUT, "그룹 이름이 너무 깁니다.")
+        } else {
+            // 그룹 생성 요청
+            return groupRepository.createGroup(groupName)
         }
     }
 }

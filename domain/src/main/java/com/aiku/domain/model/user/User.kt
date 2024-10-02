@@ -1,16 +1,16 @@
-package com.aiku.domain.model
+package com.aiku.domain.model.user
 
-import com.aiku.domain.model.group.Group
 import com.aiku.domain.util.RegexUtil
 
 data class User(
-    val image: String,
+    val id: Long,
     val nickname: String,
-    val phoneNumber: String
+    val kakaoId: String,
+    val profile: Profile,
+    val badge: Badge,
+    val point: Int,
 ) {
     fun isNicknameEmpty() = nickname.isEmpty()
-    fun isPhoneNumberEmpty() = phoneNumber.isEmpty()
     fun isNicknameLengthExceed(max: Int) = nickname.length > max
     fun isInvalidNicknameFormat() = RegexUtil.isValidNickname(nickname).not()
-    fun isInvalidPhoneNumberFormat() = RegexUtil.isValidPhoneNumber(phoneNumber).not()
 }

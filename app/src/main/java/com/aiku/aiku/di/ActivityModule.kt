@@ -1,11 +1,11 @@
 package com.aiku.aiku.di
 
 import android.content.Context
-import com.aiku.data.repository.AuthRepositoryImpl
+import com.aiku.core.qualifer.IoDispatcher
+import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.repository.LoginRepositoryImpl
-import com.aiku.data.source.local.AuthLocalDataSource
 import com.aiku.data.source.remote.LoginRemoteDataSource
-import com.aiku.domain.repository.AuthRepository
+import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.LoginRepository
 import com.aiku.domain.usecase.LoginUseCase
 import dagger.Module
@@ -14,7 +14,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
 import dagger.hilt.android.scopes.ActivityScoped
-import javax.inject.Singleton
+import kotlinx.coroutines.CoroutineDispatcher
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -22,35 +22,25 @@ object ActivityModule {
 
     @Provides
     @ActivityScoped
-    fun provideLoginUseCase(loginRepository: LoginRepository, authRepository: AuthRepository): LoginUseCase {
-        return LoginUseCase(loginRepository = loginRepository, authRepository = authRepository)
+    fun provideLoginUseCase(loginRepository: LoginRepository, tokenRepository: TokenRepository): LoginUseCase {
+        return LoginUseCase(loginRepository = loginRepository, tokenRepository = tokenRepository)
     }
 
     @Provides
     @ActivityScoped
     fun provideLoginRepository(
-        loginRemoteDataSource: LoginRemoteDataSource
+        loginRemoteDataSource: LoginRemoteDataSource,
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): LoginRepository {
-        return LoginRepositoryImpl(loginRemoteDataSource)
+        return LoginRepositoryImpl(loginRemoteDataSource, coroutineDispatcher)
     }
 
     @Provides
     @ActivityScoped
-    fun provideLoginRemoteDataSource(@ActivityContext context: Context): LoginRemoteDataSource {
-        return LoginRemoteDataSource(context)
-    }
-
-    @Provides
-    @ActivityScoped
-    fun provideAuthRepository(
-        authLocalDataSource: AuthLocalDataSource
-    ): AuthRepository {
-        return AuthRepositoryImpl(authLocalDataSource)
-    }
-
-    @Provides
-    @ActivityScoped
-    fun provideAuthLocalDataSource(@ActivityContext context: Context): AuthLocalDataSource {
-        return AuthLocalDataSource(context)
+    fun provideLoginRemoteDataSource(
+        @ActivityContext context: Context,
+        @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
+        tokenApi: TokenApi): LoginRemoteDataSource {
+        return LoginRemoteDataSource(context, coroutineDispatcher, tokenApi)
     }
 }
