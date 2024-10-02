@@ -1,9 +1,9 @@
 package com.aiku.data.repository
 
-import com.aiku.data.dto.schedule.request.toCreateScheduleRequestDto
+import com.aiku.data.dto.schedule.request.toCreateScheduleReqDto
 import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
-import com.aiku.domain.model.schedule.request.CreateScheduleRequest
+import com.aiku.domain.model.schedule.request.CreateScheduleReq
 import com.aiku.domain.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,13 +15,13 @@ class ScheduleRepositoryImpl @Inject constructor(
 ) : ScheduleRepository {
     override fun createSchedule(
         groupId: Long,
-        createScheduleRequest: CreateScheduleRequest
+        createScheduleReq: CreateScheduleReq
     ): Flow<Long> {
         return flow {
             emit(
                 scheduleRemoteDateSource.createSchedule(
                     groupId,
-                    createScheduleRequest.toCreateScheduleRequestDto()
+                    createScheduleReq.toCreateScheduleReqDto()
                 ).id ?: 0
             )
         }

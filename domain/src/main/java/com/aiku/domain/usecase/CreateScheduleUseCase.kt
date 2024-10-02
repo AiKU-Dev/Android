@@ -1,7 +1,7 @@
 package com.aiku.domain.usecase
 
 import com.aiku.domain.model.schedule.Location
-import com.aiku.domain.model.schedule.request.CreateScheduleRequest
+import com.aiku.domain.model.schedule.request.CreateScheduleReq
 import com.aiku.domain.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
@@ -20,7 +20,7 @@ class CreateScheduleUseCase @Inject constructor(
     ): Flow<Long> {
         return scheduleRepository.createSchedule(
             groupId,
-            CreateScheduleRequest(scheduleName, location, scheduleTime, pointAmount)
+            CreateScheduleReq(scheduleName, location, scheduleTime, pointAmount)
         )
     }
 }

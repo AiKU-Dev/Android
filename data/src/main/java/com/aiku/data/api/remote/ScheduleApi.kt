@@ -2,7 +2,7 @@ package com.aiku.data.api.remote
 
 import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.schedule.GroupScheduleOverviewPaginationDto
-import com.aiku.data.dto.schedule.request.CreateScheduleRequestDto
+import com.aiku.data.dto.schedule.request.CreateScheduleReqDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -15,7 +15,7 @@ interface ScheduleApi {
     @POST("groups/{groupId}/schedules")
     suspend fun createSchedule(
         @Path("groupId") groupId: Long,
-        @Body createScheduleRequest: CreateScheduleRequestDto
+        @Body createScheduleRequest: CreateScheduleReqDto
     ): IdDto
 
     @GET("groups/{groupId}/schedules")
