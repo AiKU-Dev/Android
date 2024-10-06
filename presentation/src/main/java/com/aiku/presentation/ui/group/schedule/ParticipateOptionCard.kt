@@ -2,6 +2,7 @@ package com.aiku.presentation.ui.group.schedule
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,18 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
@@ -30,6 +27,7 @@ import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.ui.component.chip.DefaultProfileIcon
+import com.aiku.presentation.util.noRippleClickable
 
 @Composable
 fun ParticipateOptionCard(
@@ -41,54 +39,60 @@ fun ParticipateOptionCard(
     isSelected: Boolean = false
 ) {
 
-    Card(
-        modifier = modifier,
-        onClick = onClick,
-        shape = shape,
-        border = if (isSelected) BorderStroke(3.dp, CobaltBlue) else BorderStroke(1.dp, Gray02),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
-    ) {
-        Column(
-            modifier = Modifier.fillMaxSize().padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = optionTitle, style = Body2, fontWeight = FontWeight.Bold)
-            DefaultProfileIcon(
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .size(64.dp),
-                character = ProfileCharacter.C03,
-                background = if (participateOption == ParticipateOption.NORMAL) ProfileBackground.GREEN else ProfileBackground.RED
+    Column(
+        modifier = modifier
+            .border(
+                shape = shape,
+                border = if (isSelected) BorderStroke(3.dp, CobaltBlue) else BorderStroke(
+                    1.dp,
+                    Gray02
+                )
             )
-            Spacer(modifier = Modifier.weight(1f))
-            when (participateOption) {
-                ParticipateOption.NORMAL -> {
-                    Text(text = stringResource(id = R.string.participation_fee), modifier = Modifier.padding(top = 12.dp))
-                    Row(
-                        modifier = Modifier.padding(top = 8.dp)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_aku),
-                            contentDescription = stringResource(id = R.string.participation_fee),
-                        )
-                        Text(text = "100", style = Body2, modifier = Modifier.padding(start = 4.dp))
-                    }
+            .fillMaxSize()
+            .noRippleClickable {
+                onClick()
+            }
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = optionTitle, style = Body2, fontWeight = FontWeight.Bold)
+        DefaultProfileIcon(
+            modifier = Modifier
+                .padding(top = 12.dp)
+                .size(64.dp),
+            character = ProfileCharacter.C03,
+            background = if (participateOption == ParticipateOption.NORMAL) ProfileBackground.GREEN else ProfileBackground.RED
+        )
+        Spacer(modifier = Modifier.weight(1f))
+        when (participateOption) {
+            ParticipateOption.NORMAL -> {
+                Text(
+                    text = stringResource(id = R.string.participation_fee),
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+                Row(
+                    modifier = Modifier.padding(top = 8.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ic_aku),
+                        contentDescription = stringResource(id = R.string.participation_fee),
+                    )
+                    Text(text = "100", style = Body2, modifier = Modifier.padding(start = 4.dp))
                 }
-                ParticipateOption.HANDICAP -> {
-                    Column {
-                        Text(
-                            text = stringResource(id = R.string.require_advertise_for_handicap),
-                            modifier = Modifier.padding(top = 12.dp),
-                            style = Caption1
-                        )
-                        Text(
-                            text = stringResource(id = R.string.alert_1vs1_racing_unavailable),
-                            modifier = Modifier.padding(top = 4.dp),
-                            style = Caption1
-                        )
-                    }
+            }
+
+            ParticipateOption.HANDICAP -> {
+                Column {
+                    Text(
+                        text = stringResource(id = R.string.require_advertise_for_handicap),
+                        modifier = Modifier.padding(top = 12.dp),
+                        style = Caption1
+                    )
+                    Text(
+                        text = stringResource(id = R.string.alert_1vs1_racing_unavailable),
+                        modifier = Modifier.padding(top = 4.dp),
+                        style = Caption1
+                    )
                 }
             }
         }
