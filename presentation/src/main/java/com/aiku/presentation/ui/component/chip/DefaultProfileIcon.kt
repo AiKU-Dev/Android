@@ -22,21 +22,22 @@ import com.aiku.presentation.util.getDrawableResId
 @Composable
 fun DefaultProfileIcon(
     modifier: Modifier = Modifier,
-    size: Size = Size(64.dp.value, 64.dp.value),
     onClick: () -> Unit = {},
+    enabled: Boolean = true,
     showClickRipple: Boolean = true,
     character: ProfileCharacter,
     background: ProfileBackground
 ) {
     CircularBackground(
-        modifier = Modifier.size(size.width.dp, size.height.dp).then(modifier),
+        modifier = modifier,
         onClick = onClick,
         showClickRipple = showClickRipple,
+        enabled = enabled,
         color = background.getColor(),
     ) {
         Image(
             modifier = Modifier
-                .fillMaxSize().padding(6.dp),
+                .fillMaxSize().padding(8.dp),
             contentScale = ContentScale.Crop,
             painter = painterResource(id = character.getDrawableResId()),
             contentDescription = stringResource(id = R.string.profile_image_setup_content_description)

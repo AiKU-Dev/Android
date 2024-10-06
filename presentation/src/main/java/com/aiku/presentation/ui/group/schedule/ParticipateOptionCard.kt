@@ -61,6 +61,7 @@ fun ParticipateOptionCard(
                 .padding(top = 12.dp)
                 .size(64.dp),
             character = ProfileCharacter.C03,
+            enabled = false,
             background = if (participateOption == ParticipateOption.NORMAL) ProfileBackground.GREEN else ProfileBackground.RED
         )
         Spacer(modifier = Modifier.weight(1f))
