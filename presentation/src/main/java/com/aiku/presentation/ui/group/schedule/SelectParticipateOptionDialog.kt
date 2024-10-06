@@ -32,6 +32,7 @@ enum class ParticipateOption {
 @Composable
 fun SelectParticipateOptionDialog(
     onEnterClicked: (ParticipateOption) -> Unit,
+    onDismissRequest: () -> Unit = {}
 ) {
     var selectedOption by remember {
         mutableStateOf(ParticipateOption.NORMAL)
@@ -39,7 +40,7 @@ fun SelectParticipateOptionDialog(
 
     SingleButtonDialog(
         onButtonClicked = { onEnterClicked(selectedOption) },
-        onDismissRequest = { /*TODO*/ },
+        onDismissRequest = onDismissRequest,
         buttonText = stringResource(id = R.string.enter_schedule)
     ) {
         Column(
