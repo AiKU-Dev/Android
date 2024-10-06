@@ -21,13 +21,12 @@ fun SingleButtonDialog(
     buttonText: String,
     content: @Composable () -> Unit
 ) {
-    MinimalDialog(onDismissRequest = { /*TODO*/ }) {
+    MinimalDialog(onDismissRequest = onDismissRequest) {
         Column {
             content()
             FullWidthButton(
                 onClick = {
                     onButtonClicked()
-                    onDismissRequest()
                 },
                 modifier = Modifier.padding(16.dp),
                 background = ButtonDefaults.buttonColors().copy(
