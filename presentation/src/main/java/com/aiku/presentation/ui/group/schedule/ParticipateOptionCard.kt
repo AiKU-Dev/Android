@@ -87,12 +87,14 @@ fun ParticipateOptionCard(
                     Text(
                         text = stringResource(id = R.string.require_advertise_for_handicap),
                         modifier = Modifier.padding(top = 12.dp),
-                        style = Caption1
+                        style = Caption1,
+                        maxLines = 1
                     )
                     Text(
                         text = stringResource(id = R.string.alert_1vs1_racing_unavailable),
                         modifier = Modifier.padding(top = 4.dp),
-                        style = Caption1
+                        style = Caption1,
+                        maxLines = 1
                     )
                 }
             }
