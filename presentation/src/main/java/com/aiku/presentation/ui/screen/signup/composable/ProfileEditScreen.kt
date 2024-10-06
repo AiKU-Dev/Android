@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.signup.composable
+package com.aiku.presentation.ui.screen.signup.composable
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text2.input.TextFieldLineLimits
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
@@ -47,8 +50,8 @@ import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.dialog.DefaultCharacterDialog
 import com.aiku.presentation.ui.component.dialog.MinimalDialog
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
-import com.aiku.presentation.ui.signup.viewmodel.CreateProfileViewModel
-import com.aiku.presentation.ui.signup.viewmodel.SaveProfileUiState
+import com.aiku.presentation.ui.screen.signup.viewmodel.CreateProfileViewModel
+import com.aiku.presentation.ui.screen.signup.viewmodel.SaveProfileUiState
 import com.aiku.presentation.util.asImageBitmap
 import com.aiku.presentation.util.parseImageBitmap
 import com.aiku.presentation.util.takePhotoFromAlbum
@@ -58,6 +61,7 @@ import com.aiku.presentation.util.takePhotoFromAlbumIntent
 @Composable
 fun ProfileEditScreen(
     modifier: Modifier = Modifier,
+    navController: NavController,
     viewModel: CreateProfileViewModel = hiltViewModel(),
 ) {
 
@@ -197,7 +201,7 @@ fun ProfileEditScreen(
         )
 
         Spacer(modifier = Modifier.weight(1f))
-        FullWidthButton(background = Green5, content = {
+        FullWidthButton(background = ButtonDefaults.buttonColors(containerColor = Green5), content = {
             Text(text = stringResource(id = R.string.next))
         })
     }

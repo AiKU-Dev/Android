@@ -127,7 +127,23 @@ val Subtitle2 = TextStyle(
 
 val Subtitle3 = TextStyle(
     fontFamily = pretendardFontFamily,
-    fontWeight = FontWeight.Bold,
+    fontWeight = FontWeight.Normal,
+    fontSize = 18.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.sp
+)
+
+val Subtitle3_Medium = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 18.sp,
+    lineHeight = 24.sp,
+    letterSpacing = 0.sp
+)
+
+val Subtitle3_SemiBold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.SemiBold,
     fontSize = 18.sp,
     lineHeight = 24.sp,
     letterSpacing = 0.sp

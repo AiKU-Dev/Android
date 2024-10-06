@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,19 +18,17 @@ import androidx.compose.ui.unit.dp
 fun FullWidthButton(
     modifier: Modifier = Modifier,
     enabled : Boolean = true,
-    background: Color,
+    background: ButtonColors,
     content: @Composable RowScope.() -> Unit,
     onClick: () -> Unit = {}
 ) {
     Button(
         enabled = enabled,
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = background,
-            disabledContainerColor = background),
+        colors = background,
         shape = RoundedCornerShape(FullWidthButtonCornerRadius),
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues( // 미설정 시, material3 Button 기본 패딩 O
+        contentPadding = PaddingValues( // 미설정 시, material3 Button 기본 패딩 있음
             start = 0.dp,
             end = 0.dp,
             top = FullWidthButtonVerticalPadding,
