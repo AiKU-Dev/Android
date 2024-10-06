@@ -41,6 +41,7 @@ import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
+import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.chip.ScheduleStatusChip
 import com.aiku.presentation.util.to12TimeFormat
 import com.aiku.presentation.util.toDefaultDateFormat
@@ -119,6 +120,7 @@ fun ScheduleCard(
             ScheduleStatus.RUN -> Green5
             ScheduleStatus.WAIT -> Purple5
             ScheduleStatus.TERM -> Gray03
+            ScheduleStatus.BEFORE_PARTICIPATION -> Yellow5
         }
     }
 }
@@ -146,9 +148,25 @@ private fun ScheduleWaitingCardPreview() {
         schedule = GroupScheduleOverviewState(
             id = 1,
             name = "안즐거운 공부팟",
-            location = LocationState(.0, .0,"건대 7번 출구"),
+            location = LocationState(.0, .0,"건대 4번 출구"),
             time = LocalDateTime.now(),
             status = ScheduleStatus.WAIT,
+            memberSize = 5,
+            accept = true
+        )
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ScheduleTerminatedCardPreview() {
+    ScheduleCard(
+        schedule = GroupScheduleOverviewState(
+            id = 1,
+            name = "안즐거운 공부팟",
+            location = LocationState(.0, .0,"건대 4번 출구"),
+            time = LocalDateTime.now(),
+            status = ScheduleStatus.TERM,
             memberSize = 5,
             accept = true
         )

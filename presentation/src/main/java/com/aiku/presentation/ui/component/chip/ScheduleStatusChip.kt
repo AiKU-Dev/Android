@@ -19,6 +19,7 @@ import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
+import com.aiku.presentation.theme.Yellow5
 
 @Composable
 fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
@@ -27,12 +28,14 @@ fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
             ScheduleStatus.RUN -> R.string.schedule_running
             ScheduleStatus.WAIT -> R.string.schedule_waiting
             ScheduleStatus.TERM -> R.string.schedule_terminated
+            ScheduleStatus.BEFORE_PARTICIPATION -> R.string.schedule_before_participation
         }
     )
     val color = when (status) {
         ScheduleStatus.RUN -> Green5
         ScheduleStatus.WAIT -> Purple5
         ScheduleStatus.TERM -> Gray03
+        ScheduleStatus.BEFORE_PARTICIPATION -> Yellow5
     }
     Box(
         modifier = modifier.background(
@@ -66,4 +69,10 @@ private fun ScheduleWaitStatusChipPreview(modifier: Modifier = Modifier) {
 @Composable
 private fun ScheduleTermStatusChipPreview(modifier: Modifier = Modifier) {
     ScheduleStatusChip(modifier = modifier, status = ScheduleStatus.TERM)
+}
+
+@Preview(showBackground = true, name = "BEFORE_PARTICIPATION")
+@Composable
+private fun ScheduleBeforeParticipationStatusChipPreview(modifier: Modifier = Modifier) {
+    ScheduleStatusChip(modifier = modifier, status = ScheduleStatus.BEFORE_PARTICIPATION)
 }

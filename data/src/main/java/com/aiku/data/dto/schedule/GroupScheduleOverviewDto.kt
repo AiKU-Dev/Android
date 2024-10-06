@@ -23,7 +23,7 @@ data class GroupScheduleOverviewDto(
         name = name ?: "",
         location = (location ?: LocationDto(null, null, null)).toLocation(),
         time = time ?: LocalDateTime.MIN,
-        status = ScheduleStatus.valueOf(status?.uppercase(Locale.ROOT) ?: "WAIT"),
+        status = if (accept != true) ScheduleStatus.BEFORE_PARTICIPATION else ScheduleStatus.valueOf(status?.uppercase(Locale.ROOT) ?: "WAIT"),
         memberSize = memberSize ?: 0,
         accept = accept ?: false
     )
