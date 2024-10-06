@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.aiku.presentation.theme.Green
+import com.aiku.presentation.util.noRippleClickable
 
 /**
  * 클릭 범위를 원으로만 한정하려면 onClick을 사용해야 함
@@ -25,6 +26,7 @@ fun CircularBackground(
     modifier: Modifier = Modifier,
     color: Color = Green,
     onClick: () -> Unit = {},
+    showClickRipple: Boolean = true,
     content: @Composable () -> Unit = {}
 ) {
     Box(
@@ -32,7 +34,10 @@ fun CircularBackground(
             .background(color = color, shape = CircleShape)
             .aspectRatio(1f)
             .clip(CircleShape)
-            .clickable(onClick = onClick),
+            .then(
+                if (showClickRipple) Modifier.clickable(onClick = onClick)
+                else Modifier.noRippleClickable(onClick = onClick)
+            ),
         contentAlignment = Alignment.Center
     ) {
         content()

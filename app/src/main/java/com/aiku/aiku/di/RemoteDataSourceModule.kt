@@ -1,10 +1,10 @@
 package com.aiku.aiku.di
 
 import com.aiku.data.api.remote.GroupApi
+import com.aiku.data.api.remote.ScheduleApi
 import com.aiku.data.api.remote.UserApi
 import com.aiku.data.source.remote.GroupRemoteDataSource
-import android.content.Context
-import com.aiku.data.source.remote.LoginRemoteDataSource
+import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
 import dagger.Module
 import dagger.Provides
@@ -32,5 +32,13 @@ object RemoteDataSourceModule {
         groupApi: GroupApi
     ): GroupRemoteDataSource {
         return GroupRemoteDataSource(groupApi)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScheduleRemoteDataSource(
+        scheduleApi: ScheduleApi
+    ): ScheduleRemoteDataSource {
+        return ScheduleRemoteDataSource(scheduleApi)
     }
 }

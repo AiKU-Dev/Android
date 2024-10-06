@@ -1,6 +1,6 @@
 package com.aiku.data.repository
 
-import com.aiku.data.dto.group.request.CreateGroupRequest
+import com.aiku.data.dto.group.request.CreateGroupRequestDto
 import com.aiku.data.source.remote.GroupRemoteDataSource
 import com.aiku.domain.model.group.Group
 import com.aiku.domain.model.group.GroupOverviewPagination
@@ -33,7 +33,7 @@ class GroupRepositoryImpl @Inject constructor(
             emit(
                 Group(
                     id = groupRemoteDataSource
-                        .createGroup(CreateGroupRequest(groupName = name)).id ?: 0L,
+                        .createGroup(CreateGroupRequestDto(groupName = name)).id ?: 0L,
                     name = name,
                     members = emptyList()
                 )
