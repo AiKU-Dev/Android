@@ -50,7 +50,8 @@ import java.time.LocalDateTime
 @Composable
 fun ScheduleCard(
     modifier: Modifier = Modifier,
-    schedule: GroupScheduleOverviewState
+    schedule: GroupScheduleOverviewState,
+    onClick: (ScheduleStatus) -> Unit = {}
 ) {
     var cardColor by remember {
         mutableStateOf(Purple5)
@@ -62,7 +63,7 @@ fun ScheduleCard(
             ambientColor = Color.Black.copy(alpha = 0.1f)
         ),
         shape = RoundedCornerShape(0.dp,16.dp,16.dp,0.dp),
-        onClick = { /*TODO*/ },
+        onClick = { onClick(schedule.status) },
         colors = CardDefaults.cardColors().copy(
             containerColor = Color.White
         ),
