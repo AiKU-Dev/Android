@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,6 +37,7 @@ fun GroupSchedulesView(
     onScheduleCreateClicked: () -> Unit = {}
 ) {
 
+    var showParticipateDialog by remember { mutableStateOf(false) }
     if (scheduleOverviewPagination.groupScheduleOverview.isNotEmpty()) {
         LazyColumn(
             modifier = modifier
@@ -76,7 +81,18 @@ fun GroupSchedulesView(
             items(scheduleOverviewPagination.groupScheduleOverview.size) {
                 ScheduleCard(
                     modifier = Modifier.padding(bottom = 12.dp),
-                    schedule = scheduleOverviewPagination.groupScheduleOverview[it]
+                    schedule = scheduleOverviewPagination.groupScheduleOverview[it],
+                    onClick = { status ->
+                        when(status) {
+                            ScheduleStatus.BEFORE_PARTICIPATION -> {
+                                showParticipateDialog = true
+                            }
+                            ScheduleStatus.RUN -> Unit
+                            ScheduleStatus.WAIT -> Unit
+                            ScheduleStatus.TERM -> Unit
+                            else -> Unit
+                        }
+                    }
                 )
             }
         }
@@ -85,6 +101,13 @@ fun GroupSchedulesView(
             modifier = modifier,
             title = stringResource(id = R.string.create_schedule),
             onBottomChipClicked = onScheduleCreateClicked
+        )
+    }
+
+    if (showParticipateDialog) {
+        SelectParticipateOptionDialog(
+            onEnterClicked = { showParticipateDialog = false },
+            onDismissRequest = { showParticipateDialog = false }
         )
     }
 }
