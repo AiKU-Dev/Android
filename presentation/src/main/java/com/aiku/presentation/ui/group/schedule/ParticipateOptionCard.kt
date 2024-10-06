@@ -4,6 +4,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,7 +51,7 @@ fun ParticipateOptionCard(
         )
     ) {
         Column(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.fillMaxSize().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(text = optionTitle, style = Body2, fontWeight = FontWeight.Bold)
@@ -60,6 +62,7 @@ fun ParticipateOptionCard(
                 character = ProfileCharacter.C03,
                 background = if (participateOption == ParticipateOption.NORMAL) ProfileBackground.GREEN else ProfileBackground.RED
             )
+            Spacer(modifier = Modifier.weight(1f))
             when (participateOption) {
                 ParticipateOption.NORMAL -> {
                     Text(text = stringResource(id = R.string.participation_fee), modifier = Modifier.padding(top = 12.dp))
@@ -90,24 +93,4 @@ fun ParticipateOptionCard(
             }
         }
     }
-}
-
-@Preview
-@Composable
-private fun ParticipateNormalOptionCardPreview() {
-    ParticipateOptionCard(
-        optionTitle = stringResource(id = R.string.participate_option_normal),
-        participateOption = ParticipateOption.NORMAL,
-        onClick = {},
-        isSelected = true
-    )
-}
-@Preview
-@Composable
-private fun ParticipateHandicapOptionCardPreview() {
-    ParticipateOptionCard(
-        optionTitle = stringResource(id = R.string.participate_option_handicap),
-        participateOption = ParticipateOption.HANDICAP,
-        onClick = {},
-    )
 }
