@@ -172,3 +172,19 @@ private fun ScheduleTerminatedCardPreview() {
         )
     )
 }
+
+@Preview(showBackground = true)
+@Composable
+private fun ScheduleBeforeParticipateCardPreview() {
+    ScheduleCard(
+        schedule = GroupScheduleOverviewState(
+            id = 1,
+            name = "안즐거운 공부팟",
+            location = LocationState(.0, .0,"건대 4번 출구"),
+            time = LocalDateTime.now(),
+            status = ScheduleStatus.BEFORE_PARTICIPATION,
+            memberSize = 5,
+            accept = false
+        )
+    )
+}
