@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import kotlin.math.cos
 import kotlin.math.sin
@@ -18,7 +19,8 @@ import kotlin.math.sin
 @Composable
 fun CircularTimeGraph(
     modifier: Modifier = Modifier,
-    color: Color = Green5,
+    contentColor: Color = Green5,
+    extraColor: Color = Gray03,
     width: Float = 17f,
     totalTime: Long,
     elapsedTime: Long
@@ -34,14 +36,22 @@ fun CircularTimeGraph(
 
         drawArc(
             size = size,
-            color = color,
+            color = extraColor,
+            startAngle = sweepAngle.toFloat() + 270f,
+            useCenter = false,
+            sweepAngle = (360 - sweepAngle).toFloat(),
+            style = Stroke(width, cap = StrokeCap.Round)
+        )
+        drawArc(
+            size = size,
+            color = contentColor,
             startAngle = 270f,
             useCenter = false,
             sweepAngle = sweepAngle.toFloat(),
             style = Stroke(width, cap = StrokeCap.Round)
         )
         drawCircle(
-            color = color,
+            color = contentColor,
             center = capOffset,
             radius = 27f
         )
