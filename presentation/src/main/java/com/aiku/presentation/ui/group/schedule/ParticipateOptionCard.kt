@@ -20,11 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.aiku.core.R
 import com.aiku.core.theme.Body2
+import com.aiku.core.theme.Caption1
 import com.aiku.domain.model.group.type.ProfileBackground
 import com.aiku.domain.model.group.type.ProfileCharacter
-import com.aiku.core.R
-import com.aiku.core.theme.Caption1
 import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.ui.component.chip.DefaultProfileIcon
@@ -36,14 +36,14 @@ fun ParticipateOptionCard(
     participateOption: ParticipateOption,
     onClick: () -> Unit,
     shape: Shape = RoundedCornerShape(12.dp),
-    border: BorderStroke = BorderStroke(1.dp, Gray02),
+    isSelected: Boolean = false
 ) {
 
     Card(
         modifier = modifier,
         onClick = onClick,
         shape = shape,
-        border = border,
+        border = if (isSelected) BorderStroke(3.dp, CobaltBlue) else BorderStroke(1.dp, Gray02),
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         )
@@ -99,7 +99,7 @@ private fun ParticipateNormalOptionCardPreview() {
         optionTitle = stringResource(id = R.string.participate_option_normal),
         participateOption = ParticipateOption.NORMAL,
         onClick = {},
-        border = BorderStroke(3.dp, CobaltBlue)
+        isSelected = true
     )
 }
 @Preview
