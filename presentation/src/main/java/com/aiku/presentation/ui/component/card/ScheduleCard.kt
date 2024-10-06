@@ -43,6 +43,7 @@ import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
 import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.chip.ScheduleStatusChip
+import com.aiku.presentation.ui.component.row.TimeIndicationRow
 import com.aiku.presentation.util.to12TimeFormat
 import com.aiku.presentation.util.toDefaultDateFormat
 import java.time.LocalDateTime
@@ -57,11 +58,14 @@ fun ScheduleCard(
         mutableStateOf(Purple5)
     }
     Card(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 2.dp).shadow(
-            elevation = 2.dp,
-            shape = RoundedCornerShape(0.dp,16.dp,16.dp,0.dp),
-            ambientColor = Color.Black.copy(alpha = 0.1f)
-        ),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 2.dp)
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(0.dp, 16.dp, 16.dp, 0.dp),
+                ambientColor = Color.Black.copy(alpha = 0.1f)
+            ),
         shape = RoundedCornerShape(0.dp,16.dp,16.dp,0.dp),
         onClick = { onClick(schedule.status) },
         colors = CardDefaults.cardColors().copy(
@@ -98,21 +102,12 @@ fun ScheduleCard(
 
             HorizontalDivider(thickness = 1.dp, color = Gray02, modifier = Modifier.padding(top = 20.dp))
 
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .padding(top = 10.dp, bottom = 10.dp)
-            ) {
-                Text(
-                    text = schedule.time.toDefaultDateFormat(true),
-                    style = Caption1
-                )
-                VerticalDivider(thickness = 1.dp, color = Color.Black, modifier = Modifier.padding(horizontal = 8.dp))
-                Text(
-                    text = schedule.time.to12TimeFormat(),
-                    style = Caption1
-                )
-            }
+            TimeIndicationRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, bottom = 10.dp),
+                time = schedule.time
+            )
         }
     }
 
