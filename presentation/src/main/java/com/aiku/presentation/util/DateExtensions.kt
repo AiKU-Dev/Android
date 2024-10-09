@@ -1,6 +1,8 @@
 package com.aiku.presentation.util
 
+import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneOffset.UTC
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
@@ -30,4 +32,21 @@ fun LocalDateTime.getDayOfWeekKoreanShort(): String {
 fun LocalDateTime.to12TimeFormat(): String {
     val formatter = DateTimeFormatter.ofPattern("a hh:mm", Locale.KOREA)
     return this.format(formatter)
+}
+
+/**
+ * 현재 시간과의 차이를 초 단위로 반환
+ */
+fun LocalDateTime.getSecondsDifferenceFromNow(): Long {
+    return Duration.between(this, LocalDateTime.now(UTC)).seconds
+}
+
+/**
+ * 초를 HH : MM : SS 형태로 변환
+ */
+fun Long.formatSecondsToHHMMSS(): String {
+    val hours = this / 3600
+    val minutes = (this % 3600) / 60
+    val remainingSeconds = this % 60
+    return String.format(Locale.KOREA, "%02d : %02d : %02d", hours, minutes, remainingSeconds)
 }
