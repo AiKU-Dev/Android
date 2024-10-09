@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Caption1
@@ -36,6 +37,7 @@ import java.time.LocalDateTime
 @Composable
 fun WaitingScheduleScreen(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     group: GroupState,
     schedule: GroupScheduleOverviewState,
     viewModel: WaitingScheduleViewModel = hiltViewModel(

@@ -19,20 +19,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.domain.model.schedule.type.ScheduleStatus
+import com.aiku.presentation.navigation.GROUP
+import com.aiku.presentation.navigation.GROUP_SCHEDULE_OVERVIEW
+import com.aiku.presentation.navigation.route.Routes
+import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewPaginationState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
 import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.ui.component.card.ScheduleCard
 import com.aiku.presentation.ui.component.layout.EmptyContentView
+import com.aiku.presentation.util.navigate
 import java.time.LocalDateTime
 
 @Composable
 fun GroupSchedulesView(
     modifier: Modifier,
+    navController: NavHostController,
+    group: GroupState,
     scheduleOverviewPagination: GroupScheduleOverviewPaginationState,
     onScheduleCreateClicked: () -> Unit = {}
 ) {
@@ -88,7 +98,15 @@ fun GroupSchedulesView(
                                 showParticipateDialog = true
                             }
                             ScheduleStatus.RUN -> Unit
-                            ScheduleStatus.WAIT -> Unit
+                            ScheduleStatus.WAIT -> {
+                                navController.navigate(
+                                    Routes.Group.SCHEDULE_WAITING,
+                                    bundleOf(
+                                        GROUP_SCHEDULE_OVERVIEW to scheduleOverviewPagination.groupScheduleOverview[it],
+                                        GROUP to group
+                                    )
+                                )
+                            }
                             ScheduleStatus.TERM -> Unit
                             else -> Unit
                         }
@@ -117,6 +135,12 @@ fun GroupSchedulesView(
 private fun GroupScheduleViewPreview() {
     GroupSchedulesView(
         modifier = Modifier,
+        navController = rememberNavController(),
+        group = GroupState(
+            id = 1,
+            name = "놀자팟",
+            members = listOf()
+        ),
         scheduleOverviewPagination = GroupScheduleOverviewPaginationState(
             page = 1,
             groupId = 1,
@@ -158,6 +182,12 @@ private fun GroupScheduleViewPreview() {
 private fun EmptyGroupScheduleViewPreview() {
     GroupSchedulesView(
         modifier = Modifier,
+        navController = rememberNavController(),
+        group = GroupState(
+            id = 1,
+            name = "놀자팟",
+            members = listOf()
+        ),
         scheduleOverviewPagination = GroupScheduleOverviewPaginationState(
             page = 1,
             groupId = 1,

@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.aiku.core.theme.Subtitle_4G
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green4
@@ -31,6 +32,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun GroupTabRow(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     pagerState: PagerState,
     groupUiState: GroupUiState,
     scheduleOverviewUiState: ScheduleOverviewUiState
@@ -109,6 +111,8 @@ fun GroupTabRow(
                     is ScheduleOverviewUiState.Success -> {
                         GroupSchedulesView(
                             modifier = Modifier.fillMaxSize().padding(top = 16.dp),
+                            navController = navController,
+                            group = (groupUiState as GroupUiState.Success).group,
                             scheduleOverviewPagination = scheduleOverviewUiState.scheduleOverviewPagination,
                             onScheduleCreateClicked = {}    // TODO 약속 생성 클릭
                         )

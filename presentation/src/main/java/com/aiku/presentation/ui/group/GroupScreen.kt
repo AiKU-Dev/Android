@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
@@ -42,6 +43,7 @@ enum class GroupSettingDialogRoute {
 @Composable
 fun GroupScreen(
     modifier: Modifier = Modifier,
+    navController: NavHostController,
     groupId: Long,
     groupName: String,
     viewModel: GroupViewModel = hiltViewModel(
@@ -51,14 +53,14 @@ fun GroupScreen(
     )
 ) {
     val pagerState = rememberPagerState { GroupTabType.entries.size }
-    val navController = rememberNavController()
+    val dialogNavController = rememberNavController()
     var showDialogNav by remember { mutableStateOf(false) }
 
     val groupUiState by viewModel.groupUiState.collectAsStateWithLifecycle()
     val scheduleOverviewUiState by viewModel.scheduleOverviewUiState.collectAsStateWithLifecycle()
 
     if (showDialogNav) {
-        NavHost(navController = navController, startDestination = GroupSettingDialogRoute.Menu.name) {
+        NavHost(navController = dialogNavController, startDestination = GroupSettingDialogRoute.Menu.name) {
             dialog(GroupSettingDialogRoute.Menu.name) {
                 SimpleMenuDialog(onDismissRequest = {
                     showDialogNav = false
@@ -72,7 +74,7 @@ fun GroupScreen(
                     SimpleMenu(
                         title = stringResource(id = R.string.exit_group),
                         onClick = {
-                            navController.navigate(GroupSettingDialogRoute.ExitAlert.name)
+                            dialogNavController.navigate(GroupSettingDialogRoute.ExitAlert.name)
                         }
                     )
                 ))
@@ -87,14 +89,14 @@ fun GroupScreen(
                     )
                 }, onDismissRequest = {
                     showDialogNav = false
-                    navController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
+                    dialogNavController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
                 }, confirmButton = {
                     Text(text = stringResource(id = R.string.exit), style = Subtitle3)
                 }, dismissButton = {
                         Text(
                             modifier = Modifier.clickable {
                                 showDialogNav = false
-                                navController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
+                                dialogNavController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
                             },
                             text = stringResource(id = R.string.cancel),
                             style = Subtitle3
@@ -135,6 +137,7 @@ fun GroupScreen(
             // TODO 광고 배너
             GroupTabRow(
                 modifier = Modifier.fillMaxSize(),
+                navController = navController,
                 pagerState = pagerState,
                 groupUiState = groupUiState,
                 scheduleOverviewUiState = scheduleOverviewUiState
