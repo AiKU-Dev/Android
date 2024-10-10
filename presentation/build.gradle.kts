@@ -4,6 +4,7 @@ plugins {
     id(libs.plugins.parcelize.get().pluginId)
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    kotlin("plugin.serialization") version libs.versions.kotlin
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -71,4 +73,5 @@ dependencies {
     implementation(libs.hilt.compose)
 
     implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization.json)
 }
