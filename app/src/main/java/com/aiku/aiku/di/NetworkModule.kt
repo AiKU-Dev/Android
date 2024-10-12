@@ -1,12 +1,15 @@
 package com.aiku.aiku.di
 
+import android.util.Log
 import com.aiku.aiku.BuildConfig
 import com.aiku.core.adapter.LocalDateTimeAdapter
 import com.aiku.core.qualifer.AuthHeaderInterceptor
 import com.aiku.core.qualifer.BaseUrl
+import com.aiku.core.qualifer.KakaoAuthHeaderInterceptor
+import com.aiku.core.qualifer.KakaoResponseParsingInterceptor
+import com.aiku.core.qualifer.KakaoRetrofit
 import com.aiku.core.qualifer.ResponseExceptionInterceptor
 import com.aiku.core.qualifer.ResponseParsingInterceptor
-import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
@@ -23,10 +26,10 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.ResponseBody.Companion.toResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
+import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
@@ -78,6 +81,19 @@ object NetworkModule {
         }
     }
 
+    // Kakao API 전용 AuthInterceptor
+    @KakaoAuthHeaderInterceptor
+    @Provides
+    @Singleton
+    fun provideKakaoAuthInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", "KakaoAK ${BuildConfig.REST_API_KEY}")
+                .build()
+            chain.proceed(newRequest)
+        }
+    }
+
     @ResponseParsingInterceptor
     @Provides
     @Singleton
@@ -92,6 +108,21 @@ object NetworkModule {
 
             response.newBuilder()
                 .body(newResponseBody)
+                .build()
+        }
+    }
+
+    @KakaoResponseParsingInterceptor
+    @Provides
+    @Singleton
+    fun provideKakaoResponseParsingInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val request = chain.request()
+            val response = chain.proceed(request)
+
+            val responseBody = response.body?.string() ?: throw ErrorResponse(UNKNOWN, "Empty response body.")
+            return@Interceptor response.newBuilder()
+                .body(responseBody.toResponseBody(response.body?.contentType()))
                 .build()
         }
     }
@@ -118,23 +149,55 @@ object NetworkModule {
     }
 
 
+//    @Provides
+//    @Singleton
+//    fun provideOkHttpClient(
+//        httpLoggingInterceptor: HttpLoggingInterceptor,
+//        @AuthHeaderInterceptor authHeaderInterceptor: Interceptor,
+//        @ResponseExceptionInterceptor responseExceptionInterceptor: Interceptor,
+//        @ResponseParsingInterceptor responseParsingInterceptor: Interceptor,
+//        authenticator: Authenticator
+//    ) : OkHttpClient {
+//        return OkHttpClient.Builder()
+//            .connectTimeout(10, TimeUnit.SECONDS)
+//            .readTimeout(30, TimeUnit.SECONDS)
+//            .writeTimeout(15, TimeUnit.SECONDS)
+//            .addInterceptor(httpLoggingInterceptor)
+//            .addInterceptor(authHeaderInterceptor)
+//            .addInterceptor(responseExceptionInterceptor)
+//            .addInterceptor(responseParsingInterceptor)
+//            .authenticator(authenticator)
+//            .build()
+//    }
+
     @Provides
     @Singleton
     fun provideOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         @AuthHeaderInterceptor authHeaderInterceptor: Interceptor,
-        @ResponseExceptionInterceptor responseExceptionInterceptor: Interceptor,
-        @ResponseParsingInterceptor responseParsingInterceptor: Interceptor,
+        @KakaoAuthHeaderInterceptor kakaoAuthInterceptor: Interceptor,
+        @ResponseParsingInterceptor defaultInterceptor: Interceptor,
+        @KakaoResponseParsingInterceptor kakaoInterceptor: Interceptor,
         authenticator: Authenticator
-    ) : OkHttpClient {
+    ): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(10, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
-            .addInterceptor(authHeaderInterceptor)
-            .addInterceptor(responseExceptionInterceptor)
-            .addInterceptor(responseParsingInterceptor)
+            .addInterceptor { chain ->
+                val request = chain.request()
+                if (request.url.toString().contains("kakao.com")) {
+                    kakaoAuthInterceptor.intercept(chain) // Kakao API
+                } else {
+                    authHeaderInterceptor.intercept(chain) // 일반 API
+                }
+            }
+            .addInterceptor { chain ->
+                val request = chain.request()
+                if (request.url.toString().contains("kakao.com")) {
+                    kakaoInterceptor.intercept(chain) // KAKAO API
+                } else {
+                    defaultInterceptor.intercept(chain) // 일반 API
+                }
+            }
             .authenticator(authenticator)
             .build()
     }
@@ -149,6 +212,20 @@ object NetworkModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+    }
+
+    @KakaoRetrofit
+    @Provides
+    @Singleton
+    fun provideKakaoRetrofit(
+        okHttpClient: OkHttpClient,
+        moshi: Moshi
+    ): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl("https://dapi.kakao.com/")
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

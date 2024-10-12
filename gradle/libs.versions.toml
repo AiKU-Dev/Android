@@ -27,6 +27,8 @@ glide = "1.0.0-beta01"
 securityCryptoKtx = "1.1.0-alpha06"
 securityState = "1.0.0-alpha04"
 v2All = "2.20.1"
+v2Map = "2.20.6"
+android = "2.11.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -68,6 +70,8 @@ protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite",
 androidx-security-state = { module = "androidx.security:security-state", version.ref = "securityState" }
 androidx-security-crypto-ktx = { module = "androidx.security:security-crypto-ktx", version.ref = "securityCryptoKtx" }
 v2-all = { group = "com.kakao.sdk", name = "v2-all", version.ref = "v2All" }
+kakao-map = { group = "com.kakao.maps.open", name = "android", version = "2.11.9" }
+
 
 compose-glide = { group = "com.github.bumptech.glide", name = "compose", version.ref = "glide" }
 

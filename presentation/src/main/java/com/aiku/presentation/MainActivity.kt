@@ -11,6 +11,8 @@ import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.MainNavGraph
 import com.aiku.presentation.theme.AiKUTheme
+import com.aiku.presentation.ui.screen.schedule.composable.CreateScheduleScreen
+import com.aiku.presentation.ui.screen.schedule.composable.ShowLocationOnMapScreen
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -28,7 +30,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
+                    //ainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
+                    ShowLocationOnMapScreen()
                 }
 
             }

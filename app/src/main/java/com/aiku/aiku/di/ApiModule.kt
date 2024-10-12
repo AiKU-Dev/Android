@@ -1,5 +1,7 @@
 package com.aiku.aiku.di
 
+import com.aiku.core.qualifer.KakaoRetrofit
+import com.aiku.data.api.remote.CreateScheduleApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.api.remote.UserApi
@@ -7,7 +9,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -29,5 +33,11 @@ object ApiModule {
     @Singleton
     fun provideUserApi(retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCreateScheduleApi(@KakaoRetrofit retrofit: Retrofit): CreateScheduleApi {
+        return retrofit.create(CreateScheduleApi::class.java)
     }
 }

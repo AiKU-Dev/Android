@@ -3,18 +3,24 @@ package com.aiku.aiku.di
 import android.content.Context
 import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.data.api.remote.TokenApi
+import com.aiku.data.repository.CreateScheduleRepositoryImpl
 import com.aiku.data.repository.LoginRepositoryImpl
+import com.aiku.data.source.remote.CreateScheduleRemoteDataSource
 import com.aiku.data.source.remote.LoginRemoteDataSource
-import com.aiku.domain.repository.TokenRepository
+import com.aiku.domain.repository.CreateScheduleRepository
 import com.aiku.domain.repository.LoginRepository
+import com.aiku.domain.repository.TokenRepository
+import com.aiku.domain.usecase.CreateScheduleUseCase
 import com.aiku.domain.usecase.LoginUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ActivityContext
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CoroutineDispatcher
+import okhttp3.OkHttpClient
 
 @Module
 @InstallIn(ActivityComponent::class)
@@ -43,4 +49,10 @@ object ActivityModule {
         tokenApi: TokenApi): LoginRemoteDataSource {
         return LoginRemoteDataSource(context, coroutineDispatcher, tokenApi)
     }
+
+
+
+
+
+
 }

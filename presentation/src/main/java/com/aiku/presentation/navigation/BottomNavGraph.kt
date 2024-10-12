@@ -7,7 +7,7 @@ import androidx.navigation.compose.composable
 import com.aiku.presentation.navigation.route.BtmNavRoute
 import com.aiku.presentation.ui.screen.home.HomeScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
-import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
+import com.aiku.presentation.ui.screen.schedule.composable.MyScheduleScreen
 
 @Composable
 fun BottomNavGraph(

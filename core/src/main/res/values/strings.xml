@@ -5,6 +5,7 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
+    <string name="create">만들기</string>
 
     <!-- 이용 약관 동의 -->
     <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>
@@ -42,6 +43,17 @@
     <string name="nav_home">홈</string>
     <string name="nav_mySchedule">내 약속</string>
     <string name="nav_mypage">마이</string>
+
+    <!-- 약속 생성 -->
+    <string name="schedule_name">약속 이름</string>
+    <string name="schedule_name_setup_placeholder">약속 이름을 입력하세요</string>
+    <string name="schedule_name_setup_label">최대 15자 입력이 가능합니다</string>
+    <string name="schedule_time">약속 시간</string>
+    <string name="schedule_calendar">달력</string>
+    <string name="schedule_clock">시계</string>
+    <string name="schedule_location">약속 장소</string>
+    <string name="schedule_location_setup_placeholder">약속 장소를 검색하세요</string>
+
 
 
 </resources>

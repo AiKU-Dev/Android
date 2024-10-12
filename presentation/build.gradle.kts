@@ -71,4 +71,12 @@ dependencies {
     implementation(libs.hilt.compose)
 
     implementation(libs.compose.glide)
+
+    // Kakao Map SDK
+    implementation(libs.kakao.map)
+
+
+
+
+
 }
