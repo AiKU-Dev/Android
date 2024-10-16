@@ -38,7 +38,6 @@ import java.time.LocalDateTime
 @Composable
 fun WaitingScheduleScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
     group: GroupState,
     schedule: GroupScheduleOverviewState,
     viewModel: WaitingScheduleViewModel = hiltViewModel(
@@ -117,7 +116,6 @@ fun WaitingScheduleScreen(
 private fun WaitingScheduleScreenPreview() {
     WaitingScheduleScreen(
         modifier = Modifier,
-        navController = rememberNavController(),
         group = GroupState(
             id = 1,
             name = "놀자팟",

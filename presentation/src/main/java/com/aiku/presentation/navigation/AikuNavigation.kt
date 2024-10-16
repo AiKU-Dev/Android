@@ -150,7 +150,7 @@ fun AikuNavigation(
 
 
             navigation<Routes.Group.Graph>(
-                startDestination = Routes.Group.Group(1, "놀자놀자팟"),
+                startDestination = Routes.Group.Group(0, ""),
             ) {
                 composable<Routes.Group.Group> { backStackEntry ->
                     val groupArguments = backStackEntry.toRoute<Routes.Group.Group>()
@@ -181,7 +181,6 @@ fun AikuNavigation(
                         backStackEntry.toRoute<Routes.Group.ScheduleWaiting>().groupScheduleOverview
 
                     WaitingScheduleScreen(
-                        navController = navController,
                         group = group,
                         schedule = groupScheduleOverview
                     )
