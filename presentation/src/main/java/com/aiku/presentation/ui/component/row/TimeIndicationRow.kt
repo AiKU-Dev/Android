@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Caption1
 import com.aiku.presentation.util.to12TimeFormat
 import com.aiku.presentation.util.toDefaultDateFormat
@@ -22,18 +23,21 @@ import java.time.LocalDateTime
 fun TimeIndicationRow(
     modifier: Modifier = Modifier,
     time: LocalDateTime,
-    textStyle: TextStyle = Caption1
+    textStyle: TextStyle = Body2,
+    color: Color = Color.Black
 ) {
     Row(modifier = modifier.height(IntrinsicSize.Min)
     ) {
         Text(
             text = time.toDefaultDateFormat(true),
-            style = Caption1
+            style = textStyle,
+            color = color,
         )
-        VerticalDivider(thickness = 1.dp, color = Color.Black, modifier = Modifier.padding(horizontal = 8.dp))
+        VerticalDivider(thickness = 1.dp, color = color, modifier = Modifier.padding(horizontal = 8.dp))
         Text(
             text = time.to12TimeFormat(),
-            style = textStyle
+            style = textStyle,
+            color = color,
         )
     }
 }

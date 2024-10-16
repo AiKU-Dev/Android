@@ -21,7 +21,7 @@ fun CircularTimeGraph(
     modifier: Modifier = Modifier,
     contentColor: Color = Green5,
     extraColor: Color = Gray03,
-    width: Float = 17f,
+    width: Float = 20f,
     totalTime: Long,
     elapsedTime: Long
 ) {
@@ -53,7 +53,7 @@ fun CircularTimeGraph(
         drawCircle(
             color = contentColor,
             center = capOffset,
-            radius = 27f
+            radius = 30f
         )
     }
 }

@@ -1,9 +1,20 @@
 package com.aiku.presentation.ui.group.schedule
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ChipElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -11,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +39,7 @@ import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
+import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.ui.component.graph.CircularTimeGraph
 import com.aiku.presentation.ui.component.row.TimeIndicationRow
 import com.aiku.presentation.ui.group.GroupTopAppBar
@@ -65,45 +78,63 @@ fun WaitingScheduleScreen(
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding)
+            modifier = Modifier.fillMaxSize().padding(innerPadding),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AssistChip(
-                enabled = false,
-                onClick = { }, label = {
-                    Column {
-                        TimeIndicationRow(
-                            time = schedule.time,
-                            textStyle = Caption1.copy(fontWeight = FontWeight.Bold)
-                        )
-                        Text(text = schedule.location.name, modifier = Modifier.padding(top = 6.dp))
-                    }
-                }, trailingIcon = {
+            Card(
+                shape = RoundedCornerShape(50),
+                elevation = CardDefaults.elevatedCardElevation(
+                    defaultElevation = 1.dp
+                )
+            ) {
+                Row(
+                    modifier = Modifier.background(Color.White).padding(vertical = 12.dp, horizontal = 30.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_calendar),
                         contentDescription = stringResource(
                             id = R.string.schedule_calendar_content_description
-                        )
+                        ), tint = CobaltBlue
                     )
-                })
+                    Column(
+                        modifier = Modifier.padding(start = 8.dp)
+                    ) {
+                        TimeIndicationRow(
+                            time = schedule.time,
+                            textStyle = Body2.copy(fontWeight = FontWeight.Medium),
+                        )
+                        Text(
+                            text = schedule.location.name,
+                            modifier = Modifier.padding(top = 2.dp),
+                            color = Color.Black,
+                        )
+                    }
+                }
+            }
 
+            Spacer(modifier = Modifier.height(36.dp))
             Box(
-                modifier = Modifier.padding(top = 36.dp),
+                modifier = Modifier.size(250.dp),
                 contentAlignment = Alignment.Center
             ) {
                 CircularTimeGraph(
-                    totalTime = 1800, elapsedTime = secondsDiffFromNow
+                    modifier = Modifier.fillMaxSize(),
+                    totalTime = 1800,
+                    elapsedTime = 1000
                 )
-                Column {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
                         text = stringResource(R.string.remaining_time),
                         style = Body2,
                         fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 8.dp)
                     )
                     Text(
                         modifier = Modifier.padding(top = 10.dp),
                         text = secondsDiffFromNow.formatSecondsToHHMMSS(),
-                        style = Headline_2G
+                        style = Headline_2G,
                     )
                 }
             }
