@@ -150,7 +150,7 @@ fun AikuNavigation(
 
 
             navigation<Routes.Group.Graph>(
-                startDestination = Routes.Group.Group,
+                startDestination = Routes.Group.Group(1, "놀자놀자팟"),
             ) {
                 composable<Routes.Group.Group> { backStackEntry ->
                     val groupArguments = backStackEntry.toRoute<Routes.Group.Group>()
