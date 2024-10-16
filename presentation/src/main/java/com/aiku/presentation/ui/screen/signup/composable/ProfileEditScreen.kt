@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text2.input.TextFieldLineLimits
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -35,7 +33,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
@@ -57,12 +54,11 @@ import com.aiku.presentation.util.parseImageBitmap
 import com.aiku.presentation.util.takePhotoFromAlbum
 import com.aiku.presentation.util.takePhotoFromAlbumIntent
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProfileEditScreen(
     modifier: Modifier = Modifier,
-    navController: NavController,
     viewModel: CreateProfileViewModel = hiltViewModel(),
+    onCompleteEdit: () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -73,13 +69,15 @@ fun ProfileEditScreen(
     var nicknameTextFieldLabel by remember { mutableStateOf("") }
 
     var showDialogNav by remember { mutableStateOf(false) }
-    val navController = rememberNavController()
+    val dialogNavController = rememberNavController()
 
     var selectedDefaultCharacter by remember { mutableIntStateOf(R.drawable.char_head_boy) }
     var selectedBackgroundColor by remember { mutableStateOf(Green5) }
-    var selectedImageBitmap by remember { mutableStateOf(
-        (R.drawable.char_head_boy).asImageBitmap(context)
-    ) }
+    var selectedImageBitmap by remember {
+        mutableStateOf(
+            (R.drawable.char_head_boy).asImageBitmap(context)
+        )
+    }
 
     val takePhotoFromAlbumLauncher = takePhotoFromAlbum(onResult = { uri ->
         selectedImageBitmap = uri.parseImageBitmap(context)
@@ -90,7 +88,10 @@ fun ProfileEditScreen(
         modifier = modifier,
     ) {
         if (showDialogNav) {
-            NavHost(navController = navController, startDestination = ProfileImageDialogRoute.SelectWay.name) {
+            NavHost(
+                navController = dialogNavController,
+                startDestination = ProfileImageDialogRoute.SelectWay.name
+            ) {
                 dialog(ProfileImageDialogRoute.SelectWay.name) {
                     MinimalDialog(onDismissRequest = { showDialogNav = false }) {
                         Text(
@@ -100,7 +101,7 @@ fun ProfileEditScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable {
-                                    navController.navigate(ProfileImageDialogRoute.DefaultCharacter.name)
+                                    dialogNavController.navigate(ProfileImageDialogRoute.DefaultCharacter.name)
                                 }
                                 .padding(vertical = 16.dp)
                         )
@@ -120,7 +121,11 @@ fun ProfileEditScreen(
                     DefaultCharacterDialog(
                         onDismissRequest = {
                             showDialogNav = false
-                            navController.popBackStack(ProfileImageDialogRoute.SelectWay.name, inclusive = false, saveState = false)
+                            dialogNavController.popBackStack(
+                                ProfileImageDialogRoute.SelectWay.name,
+                                inclusive = false,
+                                saveState = false
+                            )
                         },
                         currentCharacterRes = selectedDefaultCharacter,
                         currentBackgroundColor = selectedBackgroundColor,
@@ -130,7 +135,11 @@ fun ProfileEditScreen(
                             selectedBackgroundColor = backgroundColor
 
                             showDialogNav = false
-                            navController.popBackStack(ProfileImageDialogRoute.SelectWay.name, inclusive = false, saveState = false)
+                            dialogNavController.popBackStack(
+                                ProfileImageDialogRoute.SelectWay.name,
+                                inclusive = false,
+                                saveState = false
+                            )
                         }
                     )
                 }
@@ -193,7 +202,7 @@ fun ProfileEditScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 43.dp),
-            lineLimits = TextFieldLineLimits.SingleLine,
+            singleLine = true,
             showLengthIndicator = true,
             maxLength = CreateProfileViewModel.MAX_NICKNAME_LENGTH,
             placeholder = stringResource(id = R.string.profile_nickname_setup_placeholder),
@@ -201,9 +210,12 @@ fun ProfileEditScreen(
         )
 
         Spacer(modifier = Modifier.weight(1f))
-        FullWidthButton(background = ButtonDefaults.buttonColors(containerColor = Green5), content = {
-            Text(text = stringResource(id = R.string.next))
-        })
+        FullWidthButton(
+            background = ButtonDefaults.buttonColors(containerColor = Green5),
+            content = {
+                Text(text = stringResource(id = R.string.next))
+            }, onClick = onCompleteEdit
+        )
     }
 
     when (saveProfileUiState) {

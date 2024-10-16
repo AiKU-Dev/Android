@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinCompose)
     id(libs.plugins.parcelize.get().pluginId)
     kotlin("kapt")
     alias(libs.plugins.hilt)
-    kotlin("plugin.serialization") version libs.versions.kotlin
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 android {

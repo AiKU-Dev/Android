@@ -1,38 +1,75 @@
 package com.aiku.presentation.navigation.route
 
+import com.aiku.presentation.state.group.GroupState
+import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
+import kotlinx.serialization.Serializable
+
+@Serializable
 object Routes {
 
-    const val SPLASH = "splash"
+    @Serializable
+    object Splash
 
+    @Serializable
     object Auth {
-        const val GRAPH = "authGraph"
-        const val LOGIN = "login"
-        const val TERM_AGREEMENT = "termAgreement"
-        const val TERM_CONTENT = "termContent"
-        const val PROFILE_EDIT = "profileEdit"
+        @Serializable
+        object Graph
+
+        @Serializable
+        object Login
+
+        @Serializable
+        object TermAgreement
+
+        @Serializable
+        data class TermContent(val identifier: Int)
+
+        @Serializable
+        object ProfileEdit
     }
 
     object Main {
-        object BtmNav {
-            const val GRAPH = "btmNavGraph"
-            const val HOME = "home"
-            const val MY_SCHEDULE = "mySchedule"
-            const val MY_PAGE = "myPage"
-        }
-        object TopNav {
-            const val NOTIFICATION = "notification"
-            const val SHOP = "shop"
-        }
+        @Serializable
+        object Graph
+
+        @Serializable
+        object Home
+
+        @Serializable
+        object MySchedule
+
+        @Serializable
+        object MyPage
+
+        @Serializable
+        object Notification
+
+        @Serializable
+        object Shop
     }
 
     object Group {
-        const val GRAPH = "groupGraph"
-        const val GROUP = "group"
-        const val SCHEDULE_WAITING = "scheduleWaiting"
-        const val SCHEDULE_RUNNING = "scheduleRunning"
+        @Serializable
+        object Graph
+
+        @Serializable
+        data class Group(val groupId: Long, val groupName: String)
+
+        @Serializable
+        data class ScheduleWaiting(
+            @Serializable val group: GroupState,
+            @Serializable val groupScheduleOverview: GroupScheduleOverviewState
+        )
+
+        @Serializable
+        object ScheduleRunning
 
         object CreateSchedule {
-            const val GRAPH = "createScheduleGraph"
+            @Serializable
+            object Graph
+
+            @Serializable
+            object First
             // TODO : 약속 생성 Route 추가
         }
     }

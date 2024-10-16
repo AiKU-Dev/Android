@@ -9,7 +9,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
-import com.aiku.presentation.navigation.MainNavGraph
+import com.aiku.presentation.navigation.AikuNavigation
 import com.aiku.presentation.theme.AiKUTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -28,9 +28,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
+                    AikuNavigation(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = navController,
+                        loginUseCase = loginUseCase
+                    )
                 }
-
             }
         }
     }

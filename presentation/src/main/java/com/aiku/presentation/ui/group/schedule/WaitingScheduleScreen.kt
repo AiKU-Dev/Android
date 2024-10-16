@@ -18,6 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Caption1
@@ -47,7 +48,7 @@ fun WaitingScheduleScreen(
     )
 ) {
 
-    var secondsDiffFromNow = schedule.time.getSecondsDifferenceFromNow()
+    val secondsDiffFromNow = schedule.time.getSecondsDifferenceFromNow()
 
     Scaffold(
         modifier = modifier,
@@ -116,6 +117,7 @@ fun WaitingScheduleScreen(
 private fun WaitingScheduleScreenPreview() {
     WaitingScheduleScreen(
         modifier = Modifier,
+        navController = rememberNavController(),
         group = GroupState(
             id = 1,
             name = "놀자팟",

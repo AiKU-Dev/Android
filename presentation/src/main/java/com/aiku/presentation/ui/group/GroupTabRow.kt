@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.group
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -18,8 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.aiku.core.theme.Subtitle_4G
+import com.aiku.presentation.state.group.GroupState
+import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green4
 import com.aiku.presentation.ui.group.schedule.GroupSchedulesView
@@ -28,14 +28,13 @@ import com.aiku.presentation.ui.group.viewmodel.ScheduleOverviewUiState
 import com.aiku.presentation.ui.type.GroupTabType
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GroupTabRow(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
     pagerState: PagerState,
     groupUiState: GroupUiState,
-    scheduleOverviewUiState: ScheduleOverviewUiState
+    scheduleOverviewUiState: ScheduleOverviewUiState,
+    onNavigateToWaitingScheduleScreen: (GroupScheduleOverviewState, GroupState) -> Unit = { _, _ -> }
 ) {
 
     val scope = rememberCoroutineScope()
@@ -104,17 +103,20 @@ fun GroupTabRow(
 
             } else if (index == tabs.indexOf(GroupTabType.SCHEDULE)) {
                 // TODO 약속뷰
-                when(scheduleOverviewUiState) {
+                when (scheduleOverviewUiState) {
                     is ScheduleOverviewUiState.Loading -> {
                         // TODO 로딩뷰
                     }
+
                     is ScheduleOverviewUiState.Success -> {
                         GroupSchedulesView(
-                            modifier = Modifier.fillMaxSize().padding(top = 16.dp),
-                            navController = navController,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(top = 16.dp),
                             group = (groupUiState as GroupUiState.Success).group,
                             scheduleOverviewPagination = scheduleOverviewUiState.scheduleOverviewPagination,
-                            onScheduleCreateClicked = {}    // TODO 약속 생성 클릭
+                            onScheduleCreateClicked = {},    // TODO 약속 생성 클릭
+                            onNavigateToWaitingScheduleScreen = onNavigateToWaitingScheduleScreen
                         )
                     }
                 }
