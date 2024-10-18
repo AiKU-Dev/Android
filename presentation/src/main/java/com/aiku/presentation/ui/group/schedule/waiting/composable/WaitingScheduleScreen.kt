@@ -1,14 +1,17 @@
 package com.aiku.presentation.ui.group.schedule.waiting.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -17,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +47,7 @@ import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.WaitingSchedule
 import com.aiku.presentation.util.formatSecondsToHHMMSS
 import com.aiku.presentation.util.getSecondsDifferenceFromNow
 import java.time.LocalDateTime
-import androidx.compose.runtime.getValue
+import kotlin.math.roundToInt
 
 @Composable
 fun WaitingScheduleScreen(
@@ -56,7 +60,6 @@ fun WaitingScheduleScreen(
         }
     )
 ) {
-
     val secondsDiffFromNow = scheduleOverview.time.getSecondsDifferenceFromNow()
     val scheduleUiState by viewModel.scheduleUiState.collectAsStateWithLifecycle()
 
@@ -83,75 +86,117 @@ fun WaitingScheduleScreen(
 
             }
             is ScheduleUiState.Success -> {
-                Column(
-                    modifier = Modifier.fillMaxSize().padding(innerPadding),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
                 ) {
-                    Card(
-                        shape = RoundedCornerShape(50),
-                        elevation = CardDefaults.elevatedCardElevation(
-                            defaultElevation = 1.dp
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier.background(Color.White)
-                                .padding(vertical = 12.dp, horizontal = 30.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Icon(
-                                painter = painterResource(id = R.drawable.ic_calendar),
-                                contentDescription = stringResource(
-                                    id = R.string.schedule_calendar_content_description
-                                ), tint = CobaltBlue
-                            )
-                            Column(
-                                modifier = Modifier.padding(start = 8.dp)
-                            ) {
-                                TimeIndicationRow(
-                                    time = scheduleOverview.time,
-                                    textStyle = Body2.copy(fontWeight = FontWeight.Medium),
-                                )
-                                Text(
-                                    text = scheduleOverview.location.name,
-                                    modifier = Modifier.padding(top = 2.dp),
-                                    color = Color.Black,
-                                )
-                            }
-                        }
-                    }
-
-                    Spacer(modifier = Modifier.height(36.dp))
-                    Box(
-                        modifier = Modifier.size(250.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        CircularTimeGraph(
-                            modifier = Modifier.fillMaxSize(),
-                            totalTime = 1800,
-                            elapsedTime = 1000
-                        )
+                    item {
                         Column(
+                            modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
+                            Card(
+                                shape = RoundedCornerShape(50),
+                                elevation = CardDefaults.elevatedCardElevation(
+                                    defaultElevation = 1.dp
+                                )
+                            ) {
+                                Row(
+                                    modifier = Modifier
+                                        .background(Color.White)
+                                        .padding(vertical = 12.dp, horizontal = 30.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_calendar),
+                                        contentDescription = stringResource(
+                                            id = R.string.schedule_calendar_content_description
+                                        ), tint = CobaltBlue
+                                    )
+                                    Column(
+                                        modifier = Modifier.padding(start = 8.dp)
+                                    ) {
+                                        TimeIndicationRow(
+                                            time = scheduleOverview.time,
+                                            textStyle = Body2.copy(fontWeight = FontWeight.Medium),
+                                        )
+                                        Text(
+                                            text = scheduleOverview.location.name,
+                                            modifier = Modifier.padding(top = 2.dp),
+                                            color = Color.Black,
+                                        )
+                                    }
+                                }
+                            }
+
+                            Spacer(modifier = Modifier.height(36.dp))
+                            Box(
+                                modifier = Modifier.size(250.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularTimeGraph(
+                                    modifier = Modifier.fillMaxSize(),
+                                    totalTime = 1800,
+                                    elapsedTime = 1000
+                                )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    Text(
+                                        text = stringResource(R.string.remaining_time),
+                                        style = Body2,
+                                        fontWeight = FontWeight.Medium,
+                                    )
+                                    Text(
+                                        modifier = Modifier.padding(top = 10.dp),
+                                        text = secondsDiffFromNow.formatSecondsToHHMMSS(),
+                                        style = Headline_2G,
+                                    )
+                                }
+                            }
+
                             Text(
-                                text = stringResource(R.string.remaining_time),
+                                text = stringResource(R.string.participated_members),
                                 style = Body2,
-                                fontWeight = FontWeight.Medium,
-                            )
-                            Text(
-                                modifier = Modifier.padding(top = 10.dp),
-                                text = secondsDiffFromNow.formatSecondsToHHMMSS(),
-                                style = Headline_2G,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier
+                                    .padding(top = 46.dp, start = 20.dp)
+                                    .align(Alignment.Start)
                             )
                         }
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
 
-                    Text(
-                        text = stringResource(R.string.participated_members),
-                        style = Body2,
-                        fontWeight = FontWeight.Medium,
-                        modifier = Modifier.padding(top = 46.dp, start = 20.dp).align(Alignment.Start)
-                    )
+                    items(
+                        count = ((scheduleUiState as ScheduleUiState.Success).schedule.members.size / 2f).roundToInt()
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 20.dp),
+                            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        ) {
+                            ParticipantCard(
+                                modifier = Modifier.weight(1f),
+                                member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it],
+                                rank = 2 * it + 1
+                            ) {
+
+                            }
+                            if (2 * it + 1 < (scheduleUiState as ScheduleUiState.Success).schedule.members.size) {
+                                ParticipantCard(
+                                    modifier = Modifier.weight(1f),
+                                    member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it + 1],
+                                    rank = 2 * it + 2
+                                ) {
+
+                                }
+                            }
+                            else {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
+                        Spacer(modifier = Modifier.size(10.dp))
+                    }
                 }
             }
         }

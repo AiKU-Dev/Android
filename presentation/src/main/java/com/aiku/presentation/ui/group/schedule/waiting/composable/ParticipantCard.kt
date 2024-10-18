@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -38,64 +42,87 @@ import com.aiku.core.theme.Caption1
 fun ParticipantCard(
     modifier: Modifier = Modifier,
     member: MemberState,
+    color: Color = Color.White,
+    shape: RoundedCornerShape = RoundedCornerShape(8.dp),
     rank: Int,
     onParticipantClicked: (MemberState) -> Unit
 ) {
-
-    Box(
-        modifier = modifier.background(Color.White).noRippleClickable(onClick = { onParticipantClicked(member) })
-    ) {
-        Box(
-            modifier = Modifier.align(Alignment.TopStart)
-                .size(30.dp).clip(RoundedCornerShape(bottomEnd = 8.dp)).background(Green5)
-        ) {
-            Text(
-                text = rank.toString(),
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.White,
-                style = Subtitle_4G
-            )
-        }
-        Text(
-            modifier = Modifier.align(Alignment.TopEnd).padding(8.dp).padding(horizontal = 6.dp),
-            text = "꼴찌로 선택",
-            color = CobaltBlue,
-            style = Body2,
-            fontWeight = FontWeight.Bold
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(
+            containerColor = color
+        ), shape = shape,
+        elevation = CardDefaults.elevatedCardElevation(
+            defaultElevation = 1.dp
         )
-
-        Row(
-            modifier = Modifier.align(Alignment.BottomStart).padding(top = 25.dp, bottom = 10.dp),
-            verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
+                .noRippleClickable(onClick = { onParticipantClicked(member) })
         ) {
-            ProfileImage(
-                modifier = Modifier.padding(horizontal = 10.dp).size(60.dp),
-                profile = member.profile
-            )
-            Column(
-                verticalArrangement = Arrangement.Center
+            Row(
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(RoundedCornerShape(bottomEnd = 8.dp))
+                        .background(Green5)
+                ) {
+                    Text(
+                        text = rank.toString(),
+                        modifier = Modifier.align(Alignment.Center),
+                        color = Color.White,
+                        style = Subtitle_4G
+                    )
+                }
+                Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    modifier = Modifier.padding(top = 10.dp),
-                    text = member.nickname,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .padding(horizontal = 6.dp),
+                    text = "꼴찌로 선택",
+                    color = CobaltBlue,
                     style = Body2,
                     fontWeight = FontWeight.Bold
                 )
-                Row(
-                    modifier = Modifier.padding(top = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
+            }
+            Spacer(modifier = Modifier.size(25.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                ProfileImage(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .size(60.dp),
+                    profile = member.profile
+                )
+                Column(
+                    verticalArrangement = Arrangement.Center
                 ) {
-                    Image(
-                        painter = painterResource(R.drawable.ic_aku),
-                        contentDescription = stringResource(R.string.participation_fee)
-                    )
                     Text(
-                        modifier = Modifier.padding(start = 4.dp),
-                        text = member.point.toString(),
-                        style = Caption1
+                        modifier = Modifier.padding(top = 10.dp),
+                        text = member.nickname,
+                        style = Body2,
+                        fontWeight = FontWeight.Bold
                     )
+                    Row(
+                        modifier = Modifier.padding(top = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.ic_aku),
+                            contentDescription = stringResource(R.string.participation_fee)
+                        )
+                        Text(
+                            modifier = Modifier.padding(start = 4.dp),
+                            text = member.point.toString(),
+                            style = Caption1
+                        )
+                    }
                 }
             }
+            Spacer(modifier = Modifier.size(10.dp))
         }
     }
 }
@@ -104,9 +131,15 @@ fun ParticipantCard(
 @Preview
 private fun ParticipantCardPreview() {
     ParticipantCard(
-        modifier = Modifier.size(200.dp).clip(RoundedCornerShape(8.dp)),
-        member = MemberState(1, "김철수", ProfileState(ProfileType.CHAR, "", ProfileCharacter.C01,
-            ProfileBackground.GREEN), 200),
+        modifier = Modifier
+            .size(200.dp)
+            .clip(RoundedCornerShape(8.dp)),
+        member = MemberState(
+            1, "김철수", ProfileState(
+                ProfileType.CHAR, "", ProfileCharacter.C01,
+                ProfileBackground.GREEN
+            ), 200
+        ),
         rank = 1,
         onParticipantClicked = {}
     )

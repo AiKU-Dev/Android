@@ -45,6 +45,7 @@ fun GroupScreen(
     groupId: Long,
     groupName: String,
     onNavigateToWaitingScheduleScreen: (GroupScheduleOverviewState, GroupState) -> Unit = { _, _ -> },
+    onNavigateToCreateScheduleScreen: (GroupState) -> Unit = { _ -> },
     viewModel: GroupViewModel = hiltViewModel(
         creationCallback = { factory: GroupViewModel.Factory ->
             factory.create(groupId)

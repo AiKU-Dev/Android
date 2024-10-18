@@ -158,7 +158,9 @@ fun AikuNavigation(
                                     groupScheduleOverview = groupScheduleOverview
                                 )
                             )
-                        },
+                        }, onNavigateToCreateScheduleScreen = {
+                            navController.navigate(Routes.Main.CreateSchedule.Graph)
+                        }
                     )
                 }
                 composable<Routes.Main.ScheduleWaiting>(
