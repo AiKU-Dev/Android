@@ -16,18 +16,21 @@ import kotlinx.serialization.Serializable
 data class MemberState(
     val id: Long,
     val nickname: String,
-    val profile: ProfileState
+    val profile: ProfileState,
+    val point: Long
 ) : Parcelable {
 
     fun toMember(): Member = Member(
         id = id,
         nickname = nickname,
-        profile = profile.toProfile()
+        profile = profile.toProfile(),
+        point = point
     )
 }
 
 fun Member.toMemberState(): MemberState = MemberState(
     id = id,
     nickname = nickname,
-    profile = profile.toProfileState()
+    profile = profile.toProfileState(),
+    point = point
 )

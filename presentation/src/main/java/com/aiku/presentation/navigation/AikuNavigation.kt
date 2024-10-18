@@ -23,7 +23,7 @@ import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.ui.component.navigation.BottomNavigation
 import com.aiku.presentation.ui.group.GroupScreen
-import com.aiku.presentation.ui.group.schedule.WaitingScheduleScreen
+import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
@@ -182,7 +182,7 @@ fun AikuNavigation(
 
                     WaitingScheduleScreen(
                         group = group,
-                        schedule = groupScheduleOverview
+                        scheduleOverview = groupScheduleOverview
                     )
                 }
                 composable<Routes.Group.ScheduleRunning> {

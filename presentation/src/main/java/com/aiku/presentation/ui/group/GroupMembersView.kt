@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,7 +25,7 @@ import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.ui.component.background.CircularBackground
 import com.aiku.presentation.ui.component.chip.OutlinedChip
-import com.aiku.presentation.ui.component.chip.ProfileIcon
+import com.aiku.presentation.ui.component.image.ProfileIcon
 
 private const val MEMBERS_PER_ROW = 3
 

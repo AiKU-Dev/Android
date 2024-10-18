@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
@@ -26,7 +27,8 @@ import com.aiku.domain.model.group.type.ProfileBackground
 import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.theme.Gray02
-import com.aiku.presentation.ui.component.chip.DefaultProfileIcon
+import com.aiku.presentation.ui.component.image.DefaultBackgroundProfileIcon
+import com.aiku.presentation.ui.component.image.DefaultProfileIcon
 import com.aiku.presentation.util.noRippleClickable
 
 @Composable
@@ -56,7 +58,7 @@ fun ParticipateOptionCard(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = optionTitle, style = Body2, fontWeight = FontWeight.Bold)
-        DefaultProfileIcon(
+        DefaultBackgroundProfileIcon(
             modifier = Modifier
                 .padding(top = 12.dp)
                 .size(64.dp),
@@ -100,4 +102,14 @@ fun ParticipateOptionCard(
             }
         }
     }
+}
+
+@Composable
+@Preview
+fun ParticipateOptionCardPreview() {
+    ParticipateOptionCard(
+        optionTitle = "일반 참가",
+        participateOption = ParticipateOption.NORMAL,
+        onClick = {}
+    )
 }
