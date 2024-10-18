@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.group.schedule.waiting.composable
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,7 +43,9 @@ import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
+import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.theme.CobaltBlue
+import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.ui.component.graph.CircularTimeGraph
 import com.aiku.presentation.ui.component.row.TimeIndicationRow
 import com.aiku.presentation.ui.group.GroupTopAppBar
@@ -62,6 +69,8 @@ fun WaitingScheduleScreen(
 ) {
     val secondsDiffFromNow = scheduleOverview.time.getSecondsDifferenceFromNow()
     val scheduleUiState by viewModel.scheduleUiState.collectAsStateWithLifecycle()
+
+    var selectedMember by remember { mutableIntStateOf(0) }
 
     Scaffold(
         modifier = modifier,
@@ -178,17 +187,19 @@ fun WaitingScheduleScreen(
                             ParticipantCard(
                                 modifier = Modifier.weight(1f),
                                 member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it],
-                                rank = 2 * it + 1
-                            ) {
-
+                                rank = 2 * it + 1,
+                                border = if (selectedMember == 2 * it + 1) BorderStroke(2.dp, Green5) else null
+                            ) { rank ->
+                                selectedMember = rank
                             }
                             if (2 * it + 1 < (scheduleUiState as ScheduleUiState.Success).schedule.members.size) {
                                 ParticipantCard(
                                     modifier = Modifier.weight(1f),
                                     member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it + 1],
-                                    rank = 2 * it + 2
-                                ) {
-
+                                    rank = 2 * it + 2,
+                                    border = if (selectedMember == 2 * it + 2) BorderStroke(2.dp, Green5) else null
+                                ) { rank ->
+                                    selectedMember = rank
                                 }
                             }
                             else {

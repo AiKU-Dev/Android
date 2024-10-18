@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.group.schedule.waiting.composable
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +46,8 @@ fun ParticipantCard(
     color: Color = Color.White,
     shape: RoundedCornerShape = RoundedCornerShape(8.dp),
     rank: Int,
-    onParticipantClicked: (MemberState) -> Unit
+    border: BorderStroke? = null,
+    onParticipantClicked: (rank: Int) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -54,11 +56,11 @@ fun ParticipantCard(
         ), shape = shape,
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 1.dp
-        )
+        ), border = border
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
-                .noRippleClickable(onClick = { onParticipantClicked(member) })
+                .noRippleClickable(onClick = { onParticipantClicked(rank) })
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -77,15 +79,26 @@ fun ParticipantCard(
                     )
                 }
                 Spacer(modifier = Modifier.weight(1f))
-                Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .padding(horizontal = 6.dp),
-                    text = "꼴찌로 선택",
-                    color = CobaltBlue,
-                    style = Body2,
-                    fontWeight = FontWeight.Bold
-                )
+                if (border == null) {
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .padding(horizontal = 6.dp),
+                        text = "꼴찌로 선택",
+                        color = CobaltBlue,
+                        style = Body2,
+                        fontWeight = FontWeight.Bold
+                    )
+                } else {
+                    Text(
+                        modifier = Modifier.padding(6.dp)
+                            .padding(horizontal = 6.dp).clip(
+                            RoundedCornerShape(50)
+                        ).background(CobaltBlue).padding(horizontal = 4.dp, vertical = 2.dp), text = "선택 완료",
+                        color = Color.White,
+                        style = Body2,
+                    )
+                }
             }
             Spacer(modifier = Modifier.size(25.dp))
             Row(
