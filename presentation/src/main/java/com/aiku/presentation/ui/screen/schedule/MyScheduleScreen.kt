@@ -10,7 +10,7 @@ import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MyScheduleScreen(
-
+    modifier: Modifier = Modifier
 ) {
         Box(
             modifier = Modifier

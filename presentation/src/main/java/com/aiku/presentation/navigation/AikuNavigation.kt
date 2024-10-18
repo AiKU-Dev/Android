@@ -128,41 +128,32 @@ fun AikuNavigation(
                         modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                         onGroupClicked = { groupId, groupName ->
                             navController.navigate(
-                                Routes.Group.Group(groupId, groupName)
+                                Routes.Main.Group(groupId, groupName)
                             )
                         }
                     )
                 }
                 composable<Routes.Main.MySchedule> {
-                    MyScheduleScreen()
+                    MyScheduleScreen(
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                    )
                 }
                 composable<Routes.Main.MyPage> {
                     MyPageScreen()
                 }
 
-                composable<Routes.Main.Shop> {
-                    // 상점 화면
-                }
-                composable<Routes.Main.Notification> {
-                    // 알림 화면
-                }
-            }
-
-
-            navigation<Routes.Group.Graph>(
-                startDestination = Routes.Group.Group(0, ""),
-            ) {
-                composable<Routes.Group.Group> { backStackEntry ->
-                    val groupArguments = backStackEntry.toRoute<Routes.Group.Group>()
+                composable<Routes.Main.Group> { backStackEntry ->
+                    val groupArguments = backStackEntry.toRoute<Routes.Main.Group>()
                     val groupId = groupArguments.groupId
                     val groupName = groupArguments.groupName
 
                     GroupScreen(
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                         groupId = groupId,
                         groupName = groupName,
                         onNavigateToWaitingScheduleScreen = { groupScheduleOverview, group ->
                             navController.navigate(
-                                Routes.Group.ScheduleWaiting(
+                                Routes.Main.ScheduleWaiting(
                                     group = group,
                                     groupScheduleOverview = groupScheduleOverview
                                 )
@@ -170,32 +161,41 @@ fun AikuNavigation(
                         },
                     )
                 }
-                composable<Routes.Group.ScheduleWaiting>(
+                composable<Routes.Main.ScheduleWaiting>(
                     typeMap = mapOf(
                         typeOf<GroupState>() to GroupNavType,
                         typeOf<GroupScheduleOverviewState>() to GroupScheduleOverviewNavType
                     )
                 ) { backStackEntry ->
-                    val group = backStackEntry.toRoute<Routes.Group.ScheduleWaiting>().group
+                    val group = backStackEntry.toRoute<Routes.Main.ScheduleWaiting>().group
                     val groupScheduleOverview =
-                        backStackEntry.toRoute<Routes.Group.ScheduleWaiting>().groupScheduleOverview
+                        backStackEntry.toRoute<Routes.Main.ScheduleWaiting>().groupScheduleOverview
 
                     WaitingScheduleScreen(
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                         group = group,
                         scheduleOverview = groupScheduleOverview
                     )
                 }
-                composable<Routes.Group.ScheduleRunning> {
+
+                composable<Routes.Main.ScheduleRunning> {
                     // 진행 중 약속 화면
                 }
 
-                navigation<Routes.Group.CreateSchedule.Graph>(
-                    startDestination = Routes.Group.CreateSchedule.First,
+                navigation<Routes.Main.CreateSchedule.Graph>(
+                    startDestination = Routes.Main.CreateSchedule.First,
                 ) {
-                    composable<Routes.Group.CreateSchedule.First> {
+                    composable<Routes.Main.CreateSchedule.First> {
 
                     }
                     // 약속 생성 화면 그래프
+                }
+
+                composable<Routes.Main.Shop> {
+                    // 상점 화면
+                }
+                composable<Routes.Main.Notification> {
+                    // 알림 화면
                 }
             }
         }
@@ -210,7 +210,7 @@ fun AikuNavigation(
                     BtmNav.My -> Routes.Main.MyPage
                 }
             ) {
-                popUpTo<Routes.Main.Graph> {
+                popUpTo<Routes.Main.Home> {
                     inclusive = false
                 }
                 launchSingleTop = true
@@ -221,10 +221,11 @@ fun AikuNavigation(
 
 @OptIn(ExperimentalSerializationApi::class)
 private fun NavBackStackEntry?.shouldShowBottomNav(): Boolean {
-    return when (this?.destination?.route) {
+    return when (this?.destination?.route?.substringBefore("/")) {
         Routes.Main.Home.serializer().descriptor.serialName,
         Routes.Main.MySchedule.serializer().descriptor.serialName,
-        Routes.Main.MyPage.serializer().descriptor.serialName -> true
+        Routes.Main.MyPage.serializer().descriptor.serialName,
+        Routes.Main.Group.serializer().descriptor.serialName -> true
 
         else -> false
     }

@@ -42,17 +42,6 @@ object Routes {
         object MyPage
 
         @Serializable
-        object Notification
-
-        @Serializable
-        object Shop
-    }
-
-    object Group {
-        @Serializable
-        object Graph
-
-        @Serializable
         data class Group(val groupId: Long, val groupName: String)
 
         @Serializable
@@ -72,5 +61,11 @@ object Routes {
             object First
             // TODO : 약속 생성 Route 추가
         }
+
+        @Serializable
+        object Notification
+
+        @Serializable
+        object Shop
     }
 }
