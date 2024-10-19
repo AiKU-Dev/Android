@@ -21,9 +21,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.produceState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -53,7 +56,10 @@ import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.ScheduleUiState
 import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.WaitingScheduleViewModel
 import com.aiku.presentation.util.formatSecondsToHHMMSS
 import com.aiku.presentation.util.getSecondsDifferenceFromNow
+import kotlinx.coroutines.delay
 import java.time.LocalDateTime
+import java.time.ZoneOffset.UTC
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -67,9 +73,8 @@ fun WaitingScheduleScreen(
         }
     )
 ) {
-    val secondsDiffFromNow = scheduleOverview.time.getSecondsDifferenceFromNow()
+    var secondsDiffFromNow by remember { mutableLongStateOf(scheduleOverview.time.getSecondsDifferenceFromNow()) }
     val scheduleUiState by viewModel.scheduleUiState.collectAsStateWithLifecycle()
-
     var selectedMember by remember { mutableIntStateOf(0) }
 
     Scaffold(
@@ -210,6 +215,13 @@ fun WaitingScheduleScreen(
                     }
                 }
             }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        while(true) {
+            secondsDiffFromNow = scheduleOverview.time.getSecondsDifferenceFromNow()
+            delay(1000L)
         }
     }
 }

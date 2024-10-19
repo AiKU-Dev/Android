@@ -6,6 +6,7 @@ import java.time.ZoneOffset.UTC
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import kotlin.math.abs
 
 /**
  * ex) 2024.09.26 목 or 2024.09.26
@@ -38,7 +39,7 @@ fun LocalDateTime.to12TimeFormat(): String {
  * 현재 시간과의 차이를 초 단위로 반환
  */
 fun LocalDateTime.getSecondsDifferenceFromNow(): Long {
-    return Duration.between(this, LocalDateTime.now(UTC)).seconds
+    return Duration.between(LocalDateTime.now(UTC), this).seconds
 }
 
 /**
