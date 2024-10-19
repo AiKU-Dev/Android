@@ -2,6 +2,7 @@ package com.aiku.presentation.util
 
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset.UTC
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -39,7 +40,7 @@ fun LocalDateTime.to12TimeFormat(): String {
  * 현재 시간과의 차이를 초 단위로 반환
  */
 fun LocalDateTime.getSecondsDifferenceFromNow(): Long {
-    return Duration.between(LocalDateTime.now(UTC), this).seconds
+    return Duration.between(LocalDateTime.now(ZoneId.of("Asia/Seoul")), this).seconds.coerceAtLeast(0)
 }
 
 /**

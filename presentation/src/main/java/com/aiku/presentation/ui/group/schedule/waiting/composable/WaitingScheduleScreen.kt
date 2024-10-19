@@ -57,6 +57,7 @@ import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.WaitingSchedule
 import com.aiku.presentation.util.formatSecondsToHHMMSS
 import com.aiku.presentation.util.getSecondsDifferenceFromNow
 import kotlinx.coroutines.delay
+import java.time.Duration
 import java.time.LocalDateTime
 import java.time.ZoneOffset.UTC
 import java.util.Locale
@@ -149,10 +150,12 @@ fun WaitingScheduleScreen(
                                 modifier = Modifier.size(250.dp),
                                 contentAlignment = Alignment.Center
                             ) {
+                                var totalTime = Duration.between((scheduleUiState as ScheduleUiState.Success).schedule.createdAt, scheduleOverview.time).seconds
+                                var elapsedTime = Duration.between((scheduleUiState as ScheduleUiState.Success).schedule.createdAt, LocalDateTime.now(UTC)).seconds.coerceAtMost(totalTime)
                                 CircularTimeGraph(
                                     modifier = Modifier.fillMaxSize(),
-                                    totalTime = 1800,
-                                    elapsedTime = 1000
+                                    totalTime = totalTime,
+                                    elapsedTime = elapsedTime,
                                 )
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally
