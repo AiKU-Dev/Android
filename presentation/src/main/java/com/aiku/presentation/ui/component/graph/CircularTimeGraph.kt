@@ -30,16 +30,16 @@ fun CircularTimeGraph(
         val radius = size.width / 2
         val sweepAngle = (ratio * 360)
         val capAngle = (sweepAngle - 90) - 360
-        val capOffsetX = cos(Math.toRadians(capAngle)).toFloat() * radius + size.width / 2
+        val capOffsetX = -cos(Math.toRadians(capAngle)).toFloat() * radius + size.width / 2
         val capOffsetY = sin(Math.toRadians(capAngle)).toFloat() * radius + size.height / 2
         val capOffset = Offset(capOffsetX, capOffsetY)
 
         drawArc(
             size = size,
             color = extraColor,
-            startAngle = sweepAngle.toFloat() + 270f,
+            startAngle = 270f - sweepAngle.toFloat(),
             useCenter = false,
-            sweepAngle = (360 - sweepAngle).toFloat(),
+            sweepAngle = sweepAngle.toFloat(),
             style = Stroke(width, cap = StrokeCap.Round)
         )
         drawArc(
@@ -47,7 +47,7 @@ fun CircularTimeGraph(
             color = contentColor,
             startAngle = 270f,
             useCenter = false,
-            sweepAngle = sweepAngle.toFloat(),
+            sweepAngle = (360 - sweepAngle).toFloat(),
             style = Stroke(width, cap = StrokeCap.Round)
         )
         drawCircle(

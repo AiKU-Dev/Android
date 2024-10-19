@@ -59,6 +59,7 @@ import com.aiku.presentation.util.getSecondsDifferenceFromNow
 import kotlinx.coroutines.delay
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.ZoneOffset.UTC
 import java.util.Locale
 import kotlin.math.roundToInt
@@ -151,7 +152,7 @@ fun WaitingScheduleScreen(
                                 contentAlignment = Alignment.Center
                             ) {
                                 var totalTime = Duration.between((scheduleUiState as ScheduleUiState.Success).schedule.createdAt, scheduleOverview.time).seconds
-                                var elapsedTime = Duration.between((scheduleUiState as ScheduleUiState.Success).schedule.createdAt, LocalDateTime.now(UTC)).seconds.coerceAtMost(totalTime)
+                                var elapsedTime = Duration.between((scheduleUiState as ScheduleUiState.Success).schedule.createdAt, LocalDateTime.now(ZoneId.of("Asia/Seoul"))).seconds.coerceAtMost(totalTime)
                                 CircularTimeGraph(
                                     modifier = Modifier.fillMaxSize(),
                                     totalTime = totalTime,
