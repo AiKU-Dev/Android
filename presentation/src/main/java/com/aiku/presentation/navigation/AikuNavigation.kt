@@ -219,7 +219,8 @@ fun AikuNavigation(
                             navController.navigate(
                                 Routes.ScheduleWaiting.Betting(
                                     member = member,
-                                    group = group
+                                    group = group,
+                                    scheduleId = groupScheduleOverview.id
                                 )
                             )
                         }
@@ -235,8 +236,6 @@ fun AikuNavigation(
                     val arguments = backStackEntry.toRoute<Routes.ScheduleWaiting.Betting>()
                     BettingScreen(
                         modifier = Modifier.fillMaxSize(),
-                        member = arguments.member,
-                        group = arguments.group,
                         onBettingComplete = {
                             navController.previousBackStackEntry?.savedStateHandle?.set("selectedMemberId", arguments.member.id)
                             navController.popBackStack()

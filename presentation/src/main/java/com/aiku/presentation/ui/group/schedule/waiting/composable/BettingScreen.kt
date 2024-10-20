@@ -21,6 +21,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,14 +51,13 @@ import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.ui.component.button.FullWidthButton
+import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.BettingUiState
 import com.aiku.presentation.ui.group.schedule.waiting.viewmodel.BettingViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BettingScreen(
     modifier: Modifier = Modifier,
-    member: MemberState,
-    group: GroupState,
     onBettingComplete: () -> Unit,
     viewModel: BettingViewModel = hiltViewModel()
 ) {
@@ -69,7 +69,7 @@ fun BettingScreen(
     ) {
         CenterAlignedTopAppBar(
             title = {
-                Text(text = group.name, style = Subtitle_3G)
+                Text(text = viewModel.group.name, style = Subtitle_3G)
             }
         )
         Column(
@@ -86,7 +86,7 @@ fun BettingScreen(
                             color = CobaltBlue
                         )
                     ) {
-                        append(member.nickname)
+                        append(viewModel.member.nickname)
                     }
                     append("님을 ")
                     withStyle(
@@ -150,7 +150,7 @@ fun BettingScreen(
                     if (akuInput.isNotEmpty()) {
                         Text(
                             modifier = Modifier.align(Alignment.Center),
-                            text = "${akuInput} 아쿠",
+                            text = "$akuInput 아쿠",
                             style = Body1,
                             fontWeight = FontWeight.SemiBold,
                             color = CobaltBlue,
@@ -167,7 +167,9 @@ fun BettingScreen(
                 containerColor = Green5,
                 disabledContainerColor = Gray02,
             ),
-            onClick = onBettingComplete
+            onClick = {
+                viewModel.bet()
+            }
         ) {
             Text(
                 text = "꼴찌로 선택하기",
@@ -175,6 +177,24 @@ fun BettingScreen(
                 color = Color.White,
                 fontWeight = FontWeight.Medium
             )
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.bettingUiState.collect { state ->
+            when (state) {
+                is BettingUiState.Loading -> {
+
+                }
+
+                is BettingUiState.Success -> {
+                    onBettingComplete()
+                }
+
+                is BettingUiState.BetAmountNotPositive -> {
+
+                }
+            }
         }
     }
 }

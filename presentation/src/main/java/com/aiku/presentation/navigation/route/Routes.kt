@@ -83,7 +83,8 @@ object Routes {
         @Serializable
         data class Betting(
             @Serializable val group: GroupState,
-            @Serializable val member: MemberState
+            @Serializable val member: MemberState,
+            val scheduleId: Long,
         )
     }
 }
