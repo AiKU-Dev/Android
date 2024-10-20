@@ -69,6 +69,8 @@ fun WaitingScheduleScreen(
     modifier: Modifier = Modifier,
     group: GroupState,
     scheduleOverview: GroupScheduleOverviewState,
+    selectedMemberId: Long = 0,
+    onMemberClicked: (MemberState) -> Unit = { },
     viewModel: WaitingScheduleViewModel = hiltViewModel(
         creationCallback = { factory: WaitingScheduleViewModel.Factory ->
             factory.create(group, scheduleOverview)
@@ -77,7 +79,6 @@ fun WaitingScheduleScreen(
 ) {
     var secondsDiffFromNow by remember { mutableLongStateOf(scheduleOverview.time.getSecondsDifferenceFromNow()) }
     val scheduleUiState by viewModel.scheduleUiState.collectAsStateWithLifecycle()
-    var selectedMember by remember { mutableIntStateOf(0) }
 
     Scaffold(
         modifier = modifier,
@@ -197,18 +198,18 @@ fun WaitingScheduleScreen(
                                 modifier = Modifier.weight(1f),
                                 member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it],
                                 rank = 2 * it + 1,
-                                border = if (selectedMember == 2 * it + 1) BorderStroke(2.dp, Green5) else null
-                            ) { rank ->
-                                selectedMember = rank
+                                border = if (selectedMemberId == 2L * it + 1) BorderStroke(2.dp, Green5) else null
+                            ) { member ->
+                                onMemberClicked(member)
                             }
                             if (2 * it + 1 < (scheduleUiState as ScheduleUiState.Success).schedule.members.size) {
                                 ParticipantCard(
                                     modifier = Modifier.weight(1f),
                                     member = (scheduleUiState as ScheduleUiState.Success).schedule.members[2 * it + 1],
                                     rank = 2 * it + 2,
-                                    border = if (selectedMember == 2 * it + 2) BorderStroke(2.dp, Green5) else null
-                                ) { rank ->
-                                    selectedMember = rank
+                                    border = if (selectedMemberId == 2L * it + 2) BorderStroke(2.dp, Green5) else null
+                                ) { member ->
+                                    onMemberClicked(member)
                                 }
                             }
                             else {

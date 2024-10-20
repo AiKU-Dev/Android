@@ -47,7 +47,7 @@ fun ParticipantCard(
     shape: RoundedCornerShape = RoundedCornerShape(8.dp),
     rank: Int,
     border: BorderStroke? = null,
-    onParticipantClicked: (rank: Int) -> Unit
+    onParticipantClicked: (member: MemberState) -> Unit
 ) {
     Card(
         modifier = modifier,
@@ -60,7 +60,7 @@ fun ParticipantCard(
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
-                .noRippleClickable(onClick = { onParticipantClicked(rank) })
+                .noRippleClickable(onClick = { onParticipantClicked(member) })
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically

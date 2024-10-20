@@ -1,5 +1,8 @@
 package com.aiku.presentation.navigation
 
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -9,20 +12,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.navigation
+import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.route.BtmNav
 import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
+import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.ui.component.navigation.BottomNavigation
 import com.aiku.presentation.ui.group.GroupScreen
+import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
@@ -59,11 +65,15 @@ fun AikuNavigation(
             }
         }
     ) { innerPadding ->
-
         NavHost(
             navController = navController,
             startDestination = Routes.Main.Graph,
-            modifier = Modifier
+            modifier = Modifier,
+            enterTransition = {
+                EnterTransition.None
+            }, exitTransition = {
+                ExitTransition.None
+            }
         ) {
             composable<Routes.Splash> {
                 SplashScreen(
@@ -153,7 +163,7 @@ fun AikuNavigation(
                         groupName = groupName,
                         onNavigateToWaitingScheduleScreen = { groupScheduleOverview, group ->
                             navController.navigate(
-                                Routes.Main.ScheduleWaiting(
+                                Routes.ScheduleWaiting.ScheduleWaiting(
                                     group = group,
                                     groupScheduleOverview = groupScheduleOverview
                                 )
@@ -161,22 +171,6 @@ fun AikuNavigation(
                         }, onNavigateToCreateScheduleScreen = {
                             navController.navigate(Routes.Main.CreateSchedule.Graph)
                         }
-                    )
-                }
-                composable<Routes.Main.ScheduleWaiting>(
-                    typeMap = mapOf(
-                        typeOf<GroupState>() to GroupNavType,
-                        typeOf<GroupScheduleOverviewState>() to GroupScheduleOverviewNavType
-                    )
-                ) { backStackEntry ->
-                    val group = backStackEntry.toRoute<Routes.Main.ScheduleWaiting>().group
-                    val groupScheduleOverview =
-                        backStackEntry.toRoute<Routes.Main.ScheduleWaiting>().groupScheduleOverview
-
-                    WaitingScheduleScreen(
-                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
-                        group = group,
-                        scheduleOverview = groupScheduleOverview
                     )
                 }
 
@@ -198,6 +192,56 @@ fun AikuNavigation(
                 }
                 composable<Routes.Main.Notification> {
                     // 알림 화면
+                }
+            }
+
+            navigation<Routes.ScheduleWaiting.Graph>(
+                startDestination = Routes.ScheduleWaiting.ScheduleWaiting(),
+            ) {
+                composable<Routes.ScheduleWaiting.ScheduleWaiting>(
+                    typeMap = mapOf(
+                        typeOf<GroupState>() to GroupNavType,
+                        typeOf<GroupScheduleOverviewState>() to GroupScheduleOverviewNavType
+                    )
+                ) { backStackEntry ->
+                    val group = backStackEntry.toRoute<Routes.ScheduleWaiting.ScheduleWaiting>().group
+                    val groupScheduleOverview =
+                        backStackEntry.toRoute<Routes.ScheduleWaiting.ScheduleWaiting>().groupScheduleOverview
+
+                    val selectedMemberId by backStackEntry.savedStateHandle.getStateFlow("selectedMemberId", 0L).collectAsStateWithLifecycle()
+
+                    WaitingScheduleScreen(
+                        modifier = Modifier,
+                        group = group,
+                        scheduleOverview = groupScheduleOverview,
+                        selectedMemberId = selectedMemberId,
+                        onMemberClicked = { member ->
+                            navController.navigate(
+                                Routes.ScheduleWaiting.Betting(
+                                    member = member,
+                                    group = group
+                                )
+                            )
+                        }
+                    )
+                }
+
+                composable<Routes.ScheduleWaiting.Betting>(
+                    typeMap = mapOf(
+                        typeOf<GroupState>() to GroupNavType,
+                        typeOf<MemberState>() to MemberNavType
+                    )
+                ) { backStackEntry ->
+                    val arguments = backStackEntry.toRoute<Routes.ScheduleWaiting.Betting>()
+                    BettingScreen(
+                        modifier = Modifier.fillMaxSize(),
+                        member = arguments.member,
+                        group = arguments.group,
+                        onBettingComplete = {
+                            navController.previousBackStackEntry?.savedStateHandle?.set("selectedMemberId", arguments.member.id)
+                            navController.popBackStack()
+                        }
+                    )
                 }
             }
         }

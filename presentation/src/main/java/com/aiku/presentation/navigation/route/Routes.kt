@@ -1,8 +1,12 @@
 package com.aiku.presentation.navigation.route
 
+import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
+import com.aiku.presentation.state.schedule.LocationState
+import com.aiku.presentation.state.user.MemberState
 import kotlinx.serialization.Serializable
+import java.time.LocalDateTime
 
 @Serializable
 object Routes {
@@ -45,12 +49,6 @@ object Routes {
         data class Group(val groupId: Long, val groupName: String)
 
         @Serializable
-        data class ScheduleWaiting(
-            @Serializable val group: GroupState,
-            @Serializable val groupScheduleOverview: GroupScheduleOverviewState
-        )
-
-        @Serializable
         object ScheduleRunning
 
         object CreateSchedule {
@@ -67,5 +65,25 @@ object Routes {
 
         @Serializable
         object Shop
+    }
+
+    object ScheduleWaiting {
+        @Serializable
+        object Graph
+
+        @Serializable
+        data class ScheduleWaiting(
+            @Serializable val group: GroupState = GroupState(0, "", emptyList()),
+            @Serializable val groupScheduleOverview: GroupScheduleOverviewState = GroupScheduleOverviewState(
+                0, "", LocationState(.0, .0, ""),
+                LocalDateTime.MAX,
+                ScheduleStatus.WAIT, 0, false)
+        )
+
+        @Serializable
+        data class Betting(
+            @Serializable val group: GroupState,
+            @Serializable val member: MemberState
+        )
     }
 }

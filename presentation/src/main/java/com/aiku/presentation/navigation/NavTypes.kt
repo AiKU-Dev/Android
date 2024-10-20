@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
+import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.util.getParcelableCompat
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -45,6 +46,26 @@ internal object GroupScheduleOverviewNavType : NavType<GroupScheduleOverviewStat
     }
 
     override fun serializeAsValue(value: GroupScheduleOverviewState): String {
+        return Uri.encode(Json.encodeToString(value))
+    }
+}
+
+internal object MemberNavType : NavType<MemberState>(
+    isNullableAllowed = false
+) {
+    override fun get(bundle: Bundle, key: String): MemberState {
+        return bundle.getParcelableCompat<MemberState>(key) as MemberState
+    }
+
+    override fun parseValue(value: String): MemberState {
+        return Json.decodeFromString<MemberState>(value)
+    }
+
+    override fun put(bundle: Bundle, key: String, value: MemberState) {
+        bundle.putParcelable(key, value)
+    }
+
+    override fun serializeAsValue(value: MemberState): String {
         return Uri.encode(Json.encodeToString(value))
     }
 }
