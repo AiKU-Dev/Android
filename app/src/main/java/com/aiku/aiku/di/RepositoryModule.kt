@@ -3,16 +3,19 @@ package com.aiku.aiku.di
 import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.data.repository.GroupRepositoryImpl
 import com.aiku.data.repository.TermsRepositoryImpl
+import com.aiku.data.repository.ScheduleRepositoryImpl
 import com.aiku.data.repository.TokenRepositoryImpl
 import com.aiku.data.repository.UserRepositoryImpl
 import com.aiku.data.source.local.TermsLocalDataSource
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.GroupRemoteDataSource
+import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
 import com.aiku.domain.repository.GroupRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.TokenRepository
+import com.aiku.domain.repository.ScheduleRepository
 import com.aiku.domain.repository.UserRepository
 import dagger.Module
 import dagger.Provides
@@ -51,6 +54,11 @@ object RepositoryModule {
         return TermsRepositoryImpl(termsLocalDataSource = termsLocalDataSource)
     }
 
+    fun provideScheduleRepository(
+        scheduleRemoteDataSource: ScheduleRemoteDataSource
+    ): ScheduleRepository {
+        return ScheduleRepositoryImpl(scheduleRemoteDataSource)
+    }
     @Provides
     @Singleton
     fun provideGroupRepository(

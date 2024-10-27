@@ -2,6 +2,7 @@ package com.aiku.aiku.di
 
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.api.remote.GroupApi
+import com.aiku.data.api.remote.ScheduleApi
 import com.aiku.data.api.remote.UserApi
 import dagger.Module
 import dagger.Provides
@@ -29,5 +30,11 @@ object ApiModule {
     @Singleton
     fun provideUserApi(retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScheduleApi(retrofit: Retrofit): ScheduleApi {
+        return retrofit.create(ScheduleApi::class.java)
     }
 }
