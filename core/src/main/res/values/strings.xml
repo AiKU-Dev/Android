@@ -5,6 +5,9 @@
     <string name="ok">확인</string>
     <string name="cancel">취소</string>
     <string name="next">다음</string>
+    <string name="profile_image">프로필 이미지</string>
+    <string name="chip_navigation_icon_content_description">칩 아이콘</string>
+    <string name="empty_content_description">콘텐츠 없음</string>
 
     <!-- 이용 약관 동의 -->
     <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>
@@ -44,4 +47,27 @@
     <string name="nav_mypage">마이</string>
 
 
+    <!-- 그룹 -->
+    <string name="group_more_icon_content_description">그룹 설정</string>
+    <string name="invite">초대하기</string>
+    <string name="member">멤버</string>
+    <string name="invite_member">멤버 초대하기</string>
+    <string name="schedule">약속</string>
+    <string name="analyze_group">그룹 분석</string>
+    <string name="exit_group">그룹 나가기</string>
+    <string name="exit">나가기</string>
+    <string name="exit_group_message">%s에서 나가시겠습니까?</string>
+    <string name="group_no_member_content_description">그룹에 멤버 없음</string>
+    <string name="suggest_invite_member">멤버를 초대해 보세요!</string>
+
+    <!-- 약속 -->
+    <string name="schedule_running">진행 중</string>
+    <string name="schedule_waiting">대기 중</string>
+    <string name="schedule_before_participation">참가 전</string>
+    <string name="schedule_terminated">종료</string>
+    <string name="location_content_description">위치</string>
+    <string name="create_schedule_content_description">약속 생성</string>
+    <string name="group_no_schedule_content_description">그룹에 약속 없음</string>
+    <string name="suggest_create_schedule">약속을 만들어 주세요!</string>
+    <string name="create_schedule">+ 약속 만들기</string>
 </resources>

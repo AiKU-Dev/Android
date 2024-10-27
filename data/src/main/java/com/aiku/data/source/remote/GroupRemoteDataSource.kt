@@ -4,14 +4,14 @@ import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.group.GroupDto
 import com.aiku.data.dto.group.GroupOverviewPaginationDto
-import com.aiku.data.dto.group.request.CreateGroupRequest
+import com.aiku.data.dto.group.request.CreateGroupRequestDto
 import javax.inject.Inject
 
 class GroupRemoteDataSource @Inject constructor(
     private val groupApi: GroupApi
 ) {
 
-    suspend fun createGroup(request: CreateGroupRequest): IdDto {
+    suspend fun createGroup(request: CreateGroupRequestDto): IdDto {
         return groupApi.createGroup(request)
     }
 

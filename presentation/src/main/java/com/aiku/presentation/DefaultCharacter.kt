@@ -8,8 +8,8 @@ enum class DefaultCharacter(
     @DrawableRes val characterRes: Int,
     @StringRes val characterName: Int
 ) {
-    MAN(R.drawable.char_man_1x, R.string.character_man),
-    BABY(R.drawable.char_baby_1x, R.string.character_baby),
-    SCRATCH(R.drawable.char_scratch_1x, R.string.character_scratch),
-    GIRL(R.drawable.char_girl_1x, R.string.character_girl),
+    MAN(R.drawable.char_head_boy, R.string.character_man),
+    BABY(R.drawable.char_head_baby, R.string.character_baby),
+    SCRATCH(R.drawable.char_head_scratch, R.string.character_scratch),
+    GIRL(R.drawable.char_head_girl, R.string.character_girl),
 }

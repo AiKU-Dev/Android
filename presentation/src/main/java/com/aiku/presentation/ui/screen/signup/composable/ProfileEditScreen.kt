@@ -75,10 +75,10 @@ fun ProfileEditScreen(
     var showDialogNav by remember { mutableStateOf(false) }
     val navController = rememberNavController()
 
-    var selectedDefaultCharacter by remember { mutableIntStateOf(R.drawable.char_man_1x) }
+    var selectedDefaultCharacter by remember { mutableIntStateOf(R.drawable.char_head_boy) }
     var selectedBackgroundColor by remember { mutableStateOf(Green5) }
     var selectedImageBitmap by remember { mutableStateOf(
-        (R.drawable.char_man_1x).asImageBitmap(context)
+        (R.drawable.char_head_boy).asImageBitmap(context)
     ) }
 
     val takePhotoFromAlbumLauncher = takePhotoFromAlbum(onResult = { uri ->

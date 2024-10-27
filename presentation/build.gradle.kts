@@ -70,5 +70,5 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.compose)
 
-    implementation(libs.compose.glide)
+    implementation(libs.coil.compose)
 }
