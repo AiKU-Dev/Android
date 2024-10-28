@@ -63,6 +63,8 @@ object RepositoryModule {
         return TermsRepositoryImpl(termsLocalDataSource = termsLocalDataSource)
     }
 
+    @Provides
+    @Singleton
     fun provideScheduleRepository(
         scheduleRemoteDataSource: ScheduleRemoteDataSource
     ): ScheduleRepository {

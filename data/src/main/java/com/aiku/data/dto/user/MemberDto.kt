@@ -12,7 +12,8 @@ import com.squareup.moshi.JsonClass
 data class MemberDto(
     @Json(name = "memberId") val id: Long?,
     @Json(name = "nickname") val nickname: String?,
-    @Json(name = "memberProfile") val profile: ProfileDto?
+    @Json(name = "memberProfile") val profile: ProfileDto?,
+    @Json(name = "point") val point: Long?
 ) {
 
     fun toMember(): Member = Member(
@@ -23,12 +24,13 @@ data class MemberDto(
             image = "",
             character = ProfileCharacter.C01,
             background = ProfileBackground.GREEN
-        )
+        ), point = point ?: 0
     )
 }
 
 fun Member.toMemberDto() = MemberDto(
     id = id,
     nickname = nickname,
-    profile = profile.toProfileDto()
+    profile = profile.toProfileDto(),
+    point = point
 )

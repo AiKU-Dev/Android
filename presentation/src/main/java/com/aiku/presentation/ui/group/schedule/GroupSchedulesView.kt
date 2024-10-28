@@ -9,6 +9,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -18,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.domain.model.schedule.type.ScheduleStatus
+import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewPaginationState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
@@ -29,10 +34,13 @@ import java.time.LocalDateTime
 @Composable
 fun GroupSchedulesView(
     modifier: Modifier,
+    group: GroupState,
     scheduleOverviewPagination: GroupScheduleOverviewPaginationState,
-    onScheduleCreateClicked: () -> Unit = {}
+    onScheduleCreateClicked: () -> Unit = {},
+    onNavigateToWaitingScheduleScreen: (GroupScheduleOverviewState, GroupState) -> Unit = { _, _ -> }
 ) {
 
+    var showParticipateDialog by remember { mutableStateOf(false) }
     if (scheduleOverviewPagination.groupScheduleOverview.isNotEmpty()) {
         LazyColumn(
             modifier = modifier
@@ -76,7 +84,25 @@ fun GroupSchedulesView(
             items(scheduleOverviewPagination.groupScheduleOverview.size) {
                 ScheduleCard(
                     modifier = Modifier.padding(bottom = 12.dp),
-                    schedule = scheduleOverviewPagination.groupScheduleOverview[it]
+                    schedule = scheduleOverviewPagination.groupScheduleOverview[it],
+                    onClick = { status ->
+                        when (status) {
+                            ScheduleStatus.BEFORE_PARTICIPATION -> {
+                                showParticipateDialog = true
+                            }
+
+                            ScheduleStatus.RUN -> Unit
+                            ScheduleStatus.WAIT -> {
+                                onNavigateToWaitingScheduleScreen(
+                                    scheduleOverviewPagination.groupScheduleOverview[it],
+                                    group
+                                )
+                            }
+
+                            ScheduleStatus.TERM -> Unit
+                            else -> Unit
+                        }
+                    }
                 )
             }
         }
@@ -87,6 +113,13 @@ fun GroupSchedulesView(
             onBottomChipClicked = onScheduleCreateClicked
         )
     }
+
+    if (showParticipateDialog) {
+        SelectParticipateOptionDialog(
+            onEnterClicked = { showParticipateDialog = false },
+            onDismissRequest = { showParticipateDialog = false }
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -94,6 +127,11 @@ fun GroupSchedulesView(
 private fun GroupScheduleViewPreview() {
     GroupSchedulesView(
         modifier = Modifier,
+        group = GroupState(
+            id = 1,
+            name = "놀자팟",
+            members = listOf()
+        ),
         scheduleOverviewPagination = GroupScheduleOverviewPaginationState(
             page = 1,
             groupId = 1,
@@ -135,6 +173,11 @@ private fun GroupScheduleViewPreview() {
 private fun EmptyGroupScheduleViewPreview() {
     GroupSchedulesView(
         modifier = Modifier,
+        group = GroupState(
+            id = 1,
+            name = "놀자팟",
+            members = listOf()
+        ),
         scheduleOverviewPagination = GroupScheduleOverviewPaginationState(
             page = 1,
             groupId = 1,

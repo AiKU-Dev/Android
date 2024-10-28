@@ -1,9 +1,11 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.kotlinCompose)
     id(libs.plugins.parcelize.get().pluginId)
     kotlin("kapt")
     alias(libs.plugins.hilt)
+    kotlin("plugin.serialization") version "2.0.20"
 }
 
 android {
@@ -37,7 +39,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 }
 
@@ -46,6 +48,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":domain"))
 
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
@@ -71,4 +74,5 @@ dependencies {
     implementation(libs.hilt.compose)
 
     implementation(libs.coil.compose)
+    implementation(libs.kotlinx.serialization.json)
 }

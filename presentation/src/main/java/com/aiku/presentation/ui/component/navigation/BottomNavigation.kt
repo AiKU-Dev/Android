@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.component.navigation
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,15 +10,12 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.aiku.core.theme.Caption1
 import com.aiku.presentation.navigation.route.BtmNav
 import com.aiku.presentation.theme.Gray02
@@ -29,17 +25,10 @@ import com.aiku.presentation.theme.Typo
 
 @Composable
 fun BottomNavigation(
-    navController: NavHostController,
-    onTabSelected: (String) -> Unit,) {
-
-    val items = listOf(
-        BtmNav.MySchedule,
-        BtmNav.Home,
-        BtmNav.My
-    )
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    bottomItems: List<BtmNav>,
+    selectedBottomItem: BtmNav,
+    onTabSelected: (BtmNav) -> Unit
+) {
 
     NavigationBar(
         modifier = Modifier
@@ -48,7 +37,7 @@ fun BottomNavigation(
             .padding(top = 1.dp),
         containerColor = Color.White
     ) {
-        items.forEach {
+        bottomItems.forEach {
             NavigationBarItem(
                 icon = {
                     Icon(
@@ -57,9 +46,9 @@ fun BottomNavigation(
                     )
                 },
                 label = { Text(stringResource(id = it.labelId), style = Caption1) },
-                selected = currentRoute == it.route,
+                selected = selectedBottomItem == it,
                 onClick = {
-                    onTabSelected(it.route)
+                    onTabSelected(it)
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Green5,

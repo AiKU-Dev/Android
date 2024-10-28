@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.Color
 import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.core.R
 import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
 import com.aiku.presentation.theme.Yellow5
@@ -20,9 +21,10 @@ fun ProfileCharacter.getDrawableResId(): Int {
 
 fun ProfileBackground.getColor(): Color {
     return when (this) {
-        ProfileBackground.RED -> Yellow5
+        ProfileBackground.YELLOW -> Yellow5
         ProfileBackground.GREEN -> Green5
-        ProfileBackground.BLUE -> Purple5
-        ProfileBackground.NONE -> Green5
+        ProfileBackground.PURPLE -> Purple5
+        ProfileBackground.GRAY -> Gray03
+        ProfileBackground.RED -> Color.Red
     }
 }

@@ -70,4 +70,14 @@
     <string name="group_no_schedule_content_description">그룹에 약속 없음</string>
     <string name="suggest_create_schedule">약속을 만들어 주세요!</string>
     <string name="create_schedule">+ 약속 만들기</string>
+    <string name="enter_schedule">입장하기</string>
+    <string name="select_participate_option">참가 옵션을 선택해 주세요!</string>
+    <string name="participation_fee">참가비</string>
+    <string name="require_advertise_for_handicap">· 광고 시청 필수</string>
+    <string name="alert_1vs1_racing_unavailable">· 1:1 레이싱 사용 불가</string>
+    <string name="participate_option_normal">일반 참가</string>
+    <string name="participate_option_handicap">깍두기</string>
+    <string name="schedule_calendar_content_description">날짜</string>
+    <string name="remaining_time">남은 시간</string>
+    <string name="participated_members">참여 멤버</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.group
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +25,8 @@ import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Subtitle3
+import com.aiku.presentation.state.group.GroupState
+import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.ui.component.button.IconFloatingActionButton
 import com.aiku.presentation.ui.component.dialog.DefaultAlertDialog
 import com.aiku.presentation.ui.component.dialog.SimpleMenu
@@ -38,12 +39,13 @@ enum class GroupSettingDialogRoute {
     Menu, ExitAlert
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun GroupScreen(
     modifier: Modifier = Modifier,
     groupId: Long,
     groupName: String,
+    onNavigateToWaitingScheduleScreen: (GroupScheduleOverviewState, GroupState) -> Unit = { _, _ -> },
+    onNavigateToCreateScheduleScreen: (GroupState) -> Unit = { _ -> },
     viewModel: GroupViewModel = hiltViewModel(
         creationCallback = { factory: GroupViewModel.Factory ->
             factory.create(groupId)
@@ -51,14 +53,17 @@ fun GroupScreen(
     )
 ) {
     val pagerState = rememberPagerState { GroupTabType.entries.size }
-    val navController = rememberNavController()
+    val dialogNavController = rememberNavController()
     var showDialogNav by remember { mutableStateOf(false) }
 
     val groupUiState by viewModel.groupUiState.collectAsStateWithLifecycle()
     val scheduleOverviewUiState by viewModel.scheduleOverviewUiState.collectAsStateWithLifecycle()
 
     if (showDialogNav) {
-        NavHost(navController = navController, startDestination = GroupSettingDialogRoute.Menu.name) {
+        NavHost(
+            navController = dialogNavController,
+            startDestination = GroupSettingDialogRoute.Menu.name
+        ) {
             dialog(GroupSettingDialogRoute.Menu.name) {
                 SimpleMenuDialog(onDismissRequest = {
                     showDialogNav = false
@@ -72,7 +77,7 @@ fun GroupScreen(
                     SimpleMenu(
                         title = stringResource(id = R.string.exit_group),
                         onClick = {
-                            navController.navigate(GroupSettingDialogRoute.ExitAlert.name)
+                            dialogNavController.navigate(GroupSettingDialogRoute.ExitAlert.name)
                         }
                     )
                 ))
@@ -87,19 +92,27 @@ fun GroupScreen(
                     )
                 }, onDismissRequest = {
                     showDialogNav = false
-                    navController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
+                    dialogNavController.popBackStack(
+                        GroupSettingDialogRoute.Menu.name,
+                        inclusive = false,
+                        saveState = false
+                    )
                 }, confirmButton = {
                     Text(text = stringResource(id = R.string.exit), style = Subtitle3)
                 }, dismissButton = {
-                        Text(
-                            modifier = Modifier.clickable {
-                                showDialogNav = false
-                                navController.popBackStack(GroupSettingDialogRoute.Menu.name, inclusive = false, saveState = false)
-                            },
-                            text = stringResource(id = R.string.cancel),
-                            style = Subtitle3
-                        )
-                    }
+                    Text(
+                        modifier = Modifier.clickable {
+                            showDialogNav = false
+                            dialogNavController.popBackStack(
+                                GroupSettingDialogRoute.Menu.name,
+                                inclusive = false,
+                                saveState = false
+                            )
+                        },
+                        text = stringResource(id = R.string.cancel),
+                        style = Subtitle3
+                    )
+                }
                 )
             }
         }
@@ -137,7 +150,8 @@ fun GroupScreen(
                 modifier = Modifier.fillMaxSize(),
                 pagerState = pagerState,
                 groupUiState = groupUiState,
-                scheduleOverviewUiState = scheduleOverviewUiState
+                scheduleOverviewUiState = scheduleOverviewUiState,
+                onNavigateToWaitingScheduleScreen = onNavigateToWaitingScheduleScreen
             )
         }
     }
