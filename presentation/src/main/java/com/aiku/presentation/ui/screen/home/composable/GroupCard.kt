@@ -22,12 +22,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle3_Bold
 import com.aiku.presentation.state.group.GroupOverviewPaginationState
 import com.aiku.presentation.theme.ColorStripCardStartPadding
+import com.aiku.presentation.theme.Purple80
+import com.aiku.presentation.ui.component.shadow.defaultShadow
+import java.time.LocalDateTime
 
 @Composable
 fun GroupCard(
@@ -37,13 +41,7 @@ fun GroupCard(
     onClick: () -> Unit,
 ) {
     Card(
-        modifier = modifier
-            .shadow(
-                elevation = 6.dp,  // 그림자 높이
-                shape = RoundedCornerShape(0.dp, 16.dp, 16.dp, 0.dp),
-                ambientColor = Color.Gray.copy(alpha = 0.8f),  // 그림자 색상 (투명도 조절)
-                spotColor = Color.Black.copy(alpha = 0.4f)    // 좀 더 부드러운 그림자 색상
-            ),
+        modifier = modifier.defaultShadow(),
         shape = RoundedCornerShape(0.dp, 16.dp, 16.dp, 0.dp),
         onClick = { onClick() },
         colors = CardDefaults.cardColors().copy(
@@ -92,4 +90,20 @@ fun GroupCard(
             }
         }
     }
+}
+
+@Preview(showBackground = true, name = "Group Card")
+@Composable
+private fun GroupCardPreview() {
+    GroupCard(
+        stripColor = Purple80,
+        onClick = { /*TODO : navigate to groupdetail*/ },
+        group = GroupOverviewPaginationState.GroupOverviewState(
+            1,
+            "그룹이름",
+            10,
+            LocalDateTime.now()
+        ),
+        modifier = Modifier.fillMaxWidth()
+    )
 }

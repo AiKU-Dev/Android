@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Caption1_Medium
@@ -23,9 +24,11 @@ private val RoundedDottedBorderBoxRadius = 10.dp
 private val RoundedDottedBorderBoxInnerPadding = 27.dp
 
 @Composable
-fun EmptyTodaySchedule(){
+fun EmptyTodayUserSchedule(
+    modifier: Modifier = Modifier
+){
     DashBorderBox(
-        modifier = Modifier.padding(top = 13.dp),
+        modifier = modifier,
         cornerRadius = RoundedDottedBorderBoxRadius,
         borderColor = Gray03,
         borderWidth = DashedBorderWidth
@@ -47,4 +50,10 @@ fun EmptyTodaySchedule(){
             )
         }
     }
+}
+
+@Preview(showBackground = true, name = "Empty Today Schedule")
+@Composable
+private fun EmptyTodaySchedulePreview() {
+    EmptyTodayUserSchedule()
 }

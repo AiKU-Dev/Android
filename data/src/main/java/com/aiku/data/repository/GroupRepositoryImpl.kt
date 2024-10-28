@@ -21,14 +21,6 @@ class GroupRepositoryImpl @Inject constructor(
 
 ) : GroupRepository {
 
-    private val myGroups: StateFlow<GroupOverviewPagination> = fetchGroups()
-        .flowOn(coroutineDispatcher)
-        .stateIn(
-            scope = CoroutineScope(coroutineDispatcher),
-            started = SharingStarted.Lazily,
-            initialValue = GroupOverviewPagination(1, emptyList())
-        )
-
     override fun createGroup(name: String): Flow<Group> {
         return flow {
             emit(
@@ -49,7 +41,9 @@ class GroupRepositoryImpl @Inject constructor(
     }
 
     override fun fetchGroups(): Flow<GroupOverviewPagination> {
-        return myGroups
+        return flow {
+            emit(groupRemoteDataSource.fetchGroups().toGroupOverviewPagination())
+        }
     }
 
     override fun fetchGroup(groupId: Long): Flow<Group> {

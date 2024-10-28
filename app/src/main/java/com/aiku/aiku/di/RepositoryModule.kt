@@ -54,11 +54,7 @@ object RepositoryModule {
         return TermsRepositoryImpl(termsLocalDataSource = termsLocalDataSource)
     }
 
-    fun provideScheduleRepository(
-        scheduleRemoteDataSource: ScheduleRemoteDataSource
-    ): ScheduleRepository {
-        return ScheduleRepositoryImpl(scheduleRemoteDataSource)
-    }
+
     @Provides
     @Singleton
     fun provideGroupRepository(
@@ -66,6 +62,14 @@ object RepositoryModule {
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher
     ): GroupRepository {
         return GroupRepositoryImpl(groupRemoteDataSource = groupRemoteDataSource, coroutineDispatcher)
+    }
+
+    @Provides
+    @Singleton
+    fun provideScheduleRepository(
+        scheduleRemoteDataSource: ScheduleRemoteDataSource
+    ): ScheduleRepository {
+        return ScheduleRepositoryImpl(scheduleRemoteDataSource)
     }
 
 }

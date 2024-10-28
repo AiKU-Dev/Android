@@ -31,3 +31,11 @@ fun LocalDateTime.to12TimeFormat(): String {
     val formatter = DateTimeFormatter.ofPattern("a hh:mm", Locale.KOREA)
     return this.format(formatter)
 }
+
+/**
+ * ex) 13:00
+ */
+fun LocalDateTime.to24TimeFormat(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    return this.format(formatter)
+}

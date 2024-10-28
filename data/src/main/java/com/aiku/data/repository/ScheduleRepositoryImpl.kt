@@ -3,6 +3,7 @@ package com.aiku.data.repository
 import com.aiku.data.dto.schedule.request.toCreateScheduleReqDto
 import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
+import com.aiku.domain.model.schedule.UserScheduleOverviewPagination
 import com.aiku.domain.model.schedule.request.CreateScheduleReq
 import com.aiku.domain.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
@@ -37,6 +38,18 @@ class ScheduleRepositoryImpl @Inject constructor(
             emit(scheduleRemoteDateSource.fetchGroupSchedules(
                 groupId, page, startDate, endDate
             ).toGroupScheduleOverviewPagination())
+        }
+    }
+
+    override fun fetchUserSchedules(
+        page: Int,
+        startDate: LocalDateTime,
+        endDate: LocalDateTime
+    ): Flow<UserScheduleOverviewPagination> {
+        return flow {
+            emit(scheduleRemoteDateSource.fetchUserSchedules(
+                page, startDate, endDate
+            ).toUserScheduleOverviewPagination())
         }
     }
 }

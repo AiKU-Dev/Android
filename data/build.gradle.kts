@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,7 +63,7 @@ dependencies {
     implementation(libs.androidx.security.state)
     implementation(libs.androidx.security.crypto.ktx)
 
-    implementation(libs.v2.all)
+    implementation(libs.v2.all) //Kakao
 }
 
 protobuf {

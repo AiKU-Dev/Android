@@ -2,9 +2,11 @@ package com.aiku.aiku.di
 
 
 import com.aiku.domain.repository.GroupRepository
+import com.aiku.domain.repository.ScheduleRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
 import com.aiku.domain.usecase.CreateGroupUseCase
+import com.aiku.domain.usecase.FetchUserSchedulesUseCase
 import com.aiku.domain.usecase.ReadTermsUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import dagger.Module
@@ -39,6 +41,14 @@ object UseCaseModule {
         groupRepository: GroupRepository
     ): CreateGroupUseCase {
         return CreateGroupUseCase(groupRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFetchUserScheduleUseCase(
+        scheduleRepository: ScheduleRepository
+    ): FetchUserSchedulesUseCase {
+        return FetchUserSchedulesUseCase(scheduleRepository)
     }
 
 }
