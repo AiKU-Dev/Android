@@ -4,7 +4,9 @@ import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import com.aiku.domain.model.schedule.Location
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Parcelize
 @Immutable
 data class LocationState(

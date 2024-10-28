@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.screen.splash.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import com.aiku.presentation.ui.screen.login.viewmodel.LoginViewModel
 fun SplashScreen(
     loginUseCase: LoginUseCase,
     loginViewModel: LoginViewModel = hiltViewModel(),
+    onComplete: (isSuccessful: Boolean) -> Unit
 ) {
     val autoLoginUiState by loginViewModel.autoLoginUiState.collectAsStateWithLifecycle()
     val animationCompleted = remember { mutableStateOf(false) }
@@ -34,8 +34,12 @@ fun SplashScreen(
             when (autoLoginUiState) {
                 AutoLoginUiState.Idle -> Unit
                 AutoLoginUiState.Loading -> Unit
-                AutoLoginUiState.Success -> { } // 홈 화면으로 이동
-                AutoLoginUiState.ServerError, AutoLoginUiState.TokenNotFound -> {  } // 로그인 화면으로 이동
+                AutoLoginUiState.Success -> {
+                    onComplete(true)
+                } // 홈 화면으로 이동
+                AutoLoginUiState.ServerError, AutoLoginUiState.TokenNotFound -> {
+                    onComplete(false)
+                } // 로그인 화면으로 이동
             }
         }
     }

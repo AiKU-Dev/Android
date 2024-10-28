@@ -7,7 +7,9 @@ import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.domain.model.group.type.ProfileType
 import com.aiku.domain.model.user.Profile
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Parcelize
 @Immutable
 data class ProfileState(

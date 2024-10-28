@@ -45,6 +45,8 @@ val Gray04 = Color(0xFF565657)
 val Gray05 = Color(0xFF333335)
 val Gray06 = Color(0xFF171719)
 
+val RED1 = Color(0xFFF66879)
+
 val ColorError = Color(0xFFE90E0E)
 
 val CobaltBlue = Color(0xFF201CAF)

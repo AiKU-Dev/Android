@@ -2,6 +2,8 @@ package com.aiku.data.api.remote
 
 import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.schedule.GroupScheduleOverviewPaginationDto
+import com.aiku.data.dto.schedule.ScheduleDto
+import com.aiku.data.dto.schedule.request.BetAkuReqDto
 import com.aiku.data.dto.schedule.request.CreateScheduleReqDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,4 +27,16 @@ interface ScheduleApi {
         @Query("startDate") startDate: LocalDateTime,
         @Query("endDate") endDate: LocalDateTime
     ): GroupScheduleOverviewPaginationDto
+
+    @GET("groups/{groupId}/schedules/{scheduleId}")
+    suspend fun fetchGroupScheduleDetail(
+        @Path("groupId") groupId: Long,
+        @Path("scheduleId") scheduleId: Long
+    ): ScheduleDto
+
+    @POST("schedules/{scheduleId}/bettings")
+    suspend fun bet(
+        @Path("scheduleId") scheduleId: Long,
+        @Body betAkuRequest: BetAkuReqDto
+    ): Unit
 }

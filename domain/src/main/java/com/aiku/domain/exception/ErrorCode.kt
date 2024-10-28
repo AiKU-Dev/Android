@@ -18,6 +18,9 @@ const val REQUIRE_NICKNAME_INPUT = 20000
 const val INVALID_NICKNAME_FORMAT = 20002
 const val NICKNAME_LENGTH_EXCEED = 20004
 
+/** Schedule */
+const val BET_AMOUNT_NOT_POSITIVE = 20100
+
 
 /** HTTP Status Codes */
 //object HttpStatusCodes {

@@ -26,6 +26,7 @@ fun CircularBackground(
     modifier: Modifier = Modifier,
     color: Color = Green,
     onClick: () -> Unit = {},
+    enabled: Boolean = true,
     showClickRipple: Boolean = true,
     content: @Composable () -> Unit = {}
 ) {
@@ -35,8 +36,10 @@ fun CircularBackground(
             .aspectRatio(1f)
             .clip(CircleShape)
             .then(
-                if (showClickRipple) Modifier.clickable(onClick = onClick)
-                else Modifier.noRippleClickable(onClick = onClick)
+                if (enabled) {
+                    if (showClickRipple) Modifier.clickable(onClick = onClick)
+                    else Modifier.noRippleClickable(onClick = onClick)
+                } else Modifier
             ),
         contentAlignment = Alignment.Center
     ) {
