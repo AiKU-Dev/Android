@@ -14,6 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,11 +46,20 @@ import java.time.format.DateTimeFormatter
 
 @Composable
 fun HomeScreen() {
+    var showCreateGroupDialog by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = { Text("Home") },
-        floatingActionButton = { FloatingActionPlusButton(onClick = { /* TODO : navigate to make group */ }) }
+        floatingActionButton = { FloatingActionPlusButton(onClick = { showCreateGroupDialog = true }) }
     ) { innerPadding ->
+
         HomeContent(innerPadding)
+
+        if (showCreateGroupDialog) {
+            CreateGroupDialog(
+                onDismissRequest = { showCreateGroupDialog = false }
+            )
+        }
     }
 }
 

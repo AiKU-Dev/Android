@@ -41,7 +41,7 @@ class GroupViewModel @Inject constructor( //TODO : 상일님이랑 합치기
     fun createGroup() {
         createGroupUseCase(_groupNameInput.value)
             .onStart { _createGroupUiState.emit(CreateGroupUiState.Loading) }
-            .onEach { _createGroupUiState.emit(CreateGroupUiState.Success)}
+            .onEach { _createGroupUiState.emit(CreateGroupUiState.Success) }
             .onError { error ->
                 val uiState = when (error.code) {
                     INVALID_INPUT -> CreateGroupUiState.InvalidInput

@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     //MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
-                    HomeScreen(navController = navController)
+                    HomeScreen()
                 }
 
             }

@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle3_Bold
-import com.aiku.presentation.state.group.GroupOverviewPaginationState
+import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.theme.ColorStripCardStartPadding
 import com.aiku.presentation.theme.Purple80
 import com.aiku.presentation.ui.component.shadow.defaultShadow
@@ -37,7 +36,7 @@ import java.time.LocalDateTime
 fun GroupCard(
     modifier: Modifier = Modifier,
     color: Color,
-    group: GroupOverviewPaginationState.GroupOverviewState,
+    group: GroupOverviewState,
     onClick: () -> Unit,
 ) {
     Card(
@@ -98,7 +97,7 @@ private fun GroupCardPreview() {
     GroupCard(
         color = Purple80,
         onClick = { /*TODO : navigate to groupdetail*/ },
-        group = GroupOverviewPaginationState.GroupOverviewState(
+        group = GroupOverviewState(
             1,
             "그룹이름",
             10,

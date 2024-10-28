@@ -173,6 +173,14 @@ val Body1 = TextStyle(
     letterSpacing = 0.sp
 )
 
+val Body1_SemiBold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 16.sp,
+    lineHeight = 22.sp,
+    letterSpacing = 0.sp
+)
+
 val Body2 = TextStyle(
     fontFamily = pretendardFontFamily,
     fontWeight = FontWeight.Light,

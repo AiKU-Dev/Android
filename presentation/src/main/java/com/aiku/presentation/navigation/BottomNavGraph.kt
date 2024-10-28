@@ -15,7 +15,7 @@ fun BottomNavGraph(
 ) {
     NavHost(navController = btmNavController, startDestination = BtmNavRoute.HOME.name) {
         composable(BtmNavRoute.HOME.name) {
-            HomeScreen(btmNavController)
+            HomeScreen()
         }
         composable(BtmNavRoute.MYSCHEDULE.name) {
             MyScheduleScreen(btmNavController)
