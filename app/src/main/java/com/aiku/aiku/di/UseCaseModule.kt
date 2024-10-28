@@ -6,9 +6,10 @@ import com.aiku.domain.repository.ScheduleRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
 import com.aiku.domain.usecase.CreateGroupUseCase
-import com.aiku.domain.usecase.FetchUserSchedulesUseCase
+import com.aiku.domain.usecase.schedule.FetchUserSchedulesUseCase
 import com.aiku.domain.usecase.ReadTermsUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
+import com.aiku.domain.usecase.group.FetchGroupsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,7 +46,15 @@ object UseCaseModule {
 
     @Provides
     @Singleton
-    fun provideFetchUserScheduleUseCase(
+    fun provideFetchGroupsUseCase(
+        groupRepository: GroupRepository
+    ): FetchGroupsUseCase {
+        return FetchGroupsUseCase(groupRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFetchUserSchedulesUseCase(
         scheduleRepository: ScheduleRepository
     ): FetchUserSchedulesUseCase {
         return FetchUserSchedulesUseCase(scheduleRepository)

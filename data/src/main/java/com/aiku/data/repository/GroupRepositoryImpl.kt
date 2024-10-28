@@ -1,9 +1,12 @@
 package com.aiku.data.repository
 
+import androidx.paging.PagingData
 import com.aiku.data.dto.group.request.CreateGroupRequestDto
 import com.aiku.data.source.remote.GroupRemoteDataSource
+import com.aiku.data.util.createPager
 import com.aiku.domain.model.group.Group
 import com.aiku.domain.model.group.GroupOverviewPagination
+import com.aiku.domain.model.schedule.UserScheduleOverview
 import com.aiku.domain.repository.GroupRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -40,10 +43,15 @@ class GroupRepositoryImpl @Inject constructor(
         }.flowOn(coroutineDispatcher)
     }
 
-    override fun fetchGroups(): Flow<GroupOverviewPagination> {
-        return flow {
-            emit(groupRemoteDataSource.fetchGroups().toGroupOverviewPagination())
-        }
+    override fun fetchGroups(): Flow<PagingData<GroupOverviewPagination.GroupOverview>> {
+        return createPager(
+            pageSize = 10,
+            loadData = { page ->
+                val dto = groupRemoteDataSource.fetchGroups(page)
+                val pagination = dto.toGroupOverviewPagination()
+                pagination.data
+            }
+        )
     }
 
     override fun fetchGroup(groupId: Long): Flow<Group> {

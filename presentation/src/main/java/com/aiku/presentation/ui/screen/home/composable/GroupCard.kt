@@ -36,7 +36,7 @@ import java.time.LocalDateTime
 @Composable
 fun GroupCard(
     modifier: Modifier = Modifier,
-    stripColor: Color,
+    color: Color,
     group: GroupOverviewPaginationState.GroupOverviewState,
     onClick: () -> Unit,
 ) {
@@ -53,7 +53,7 @@ fun GroupCard(
                 .fillMaxWidth()
                 .drawBehind {
                     drawRect(
-                        color = stripColor,
+                        color = color,
                         topLeft = Offset(0f, 0f),
                         size = Size(24f, size.height)
                     )
@@ -96,7 +96,7 @@ fun GroupCard(
 @Composable
 private fun GroupCardPreview() {
     GroupCard(
-        stripColor = Purple80,
+        color = Purple80,
         onClick = { /*TODO : navigate to groupdetail*/ },
         group = GroupOverviewPaginationState.GroupOverviewState(
             1,

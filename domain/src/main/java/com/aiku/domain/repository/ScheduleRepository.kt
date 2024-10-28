@@ -1,5 +1,6 @@
 package com.aiku.domain.repository
 
+import androidx.paging.PagingData
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
 import com.aiku.domain.model.schedule.UserScheduleOverview
 import com.aiku.domain.model.schedule.UserScheduleOverviewPagination
@@ -16,10 +17,7 @@ interface ScheduleRepository {
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): Flow<GroupScheduleOverviewPagination>
-    fun fetchUserSchedules(
-        page: Int,
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): Flow<UserScheduleOverviewPagination>
+
+    fun fetchUserSchedules(startDate: LocalDateTime, endDate: LocalDateTime): Flow<PagingData<UserScheduleOverview>>
 
 }

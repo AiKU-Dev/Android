@@ -1,6 +1,5 @@
 package com.aiku.data.dto.schedule
 
-import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
 import com.aiku.domain.model.schedule.UserScheduleOverviewPagination
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass

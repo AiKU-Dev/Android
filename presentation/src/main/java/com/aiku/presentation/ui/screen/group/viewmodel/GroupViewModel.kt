@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
 
 @HiltViewModel
-class GroupViewModel @Inject constructor(
+class GroupViewModel @Inject constructor( //TODO : 상일님이랑 합치기
     private val createGroupUseCase: CreateGroupUseCase
 ): ViewModel(){
 

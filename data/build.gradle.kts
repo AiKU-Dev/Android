@@ -45,7 +45,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
 
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -64,6 +63,7 @@ dependencies {
     implementation(libs.androidx.security.crypto.ktx)
 
     implementation(libs.v2.all) //Kakao
+    implementation(libs.androidx.paging.runtime) //paging
 }
 
 protobuf {

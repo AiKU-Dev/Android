@@ -8,25 +8,24 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_2G
 import com.aiku.core.theme.Subtitle_4G
-import com.aiku.presentation.state.group.GroupOverviewPaginationState
+import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
@@ -36,14 +35,14 @@ import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.button.FloatingActionPlusButton
+import com.aiku.presentation.ui.screen.home.viewmodel.GroupsUiState
 import com.aiku.presentation.ui.screen.home.viewmodel.HomeViewModel
-import com.aiku.presentation.ui.screen.home.viewmodel.UserScheduleUiState
+import com.aiku.presentation.ui.screen.home.viewmodel.UserSchedulesUiState
 import java.time.LocalDate
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen() {
     Scaffold(
         topBar = { Text("Home") },
         floatingActionButton = { FloatingActionPlusButton(onClick = { /* TODO : navigate to make group */ }) }
@@ -55,17 +54,14 @@ fun HomeScreen(navController: NavHostController) {
 @Composable
 fun HomeContent(
     innerPadding: PaddingValues,
-    homeViewModel: HomeViewModel = hiltViewModel()) {
+    homeViewModel: HomeViewModel = hiltViewModel()
+) {
 
-    val userScheduleState = homeViewModel.userScheduleUiState.collectAsState()
+    val userSchedulesUiState by homeViewModel.userSchedulesUiState.collectAsState()
+    val lazyUserSchedulePagingItems = homeViewModel.userSchedules.collectAsLazyPagingItems()
 
-    // TODO : GroupViewModel에서 불러오기
-    val items = listOf(
-        "그룹1", "그룹2", "그룹3", "그룹4", "그룹5", "그룹6"
-    )
-
-
-    val stripColors = listOf(Green5, Yellow5, Purple5)
+    val groupsUiState by homeViewModel.groupsUiState.collectAsState()
+    val lazyGroupPagingItems = homeViewModel.groups.collectAsLazyPagingItems()
 
     Column(
         modifier = Modifier
@@ -90,27 +86,16 @@ fun HomeContent(
                 color = Typo
             )
 
-            userScheduleState.value.let { uiState ->
-                when (uiState) {
-                    is UserScheduleUiState.Loading -> { }
-                    is UserScheduleUiState.Success -> {
-                        if (uiState.scheduleOverviewPagination.userScheduleOverview.isEmpty()) {
-                            EmptyTodayUserSchedule()
-                        } else {
-                            TodayUserSchedules(
-                                userScheduleOverviewsState = uiState.scheduleOverviewPagination.userScheduleOverview,
-                                onLoadMore = {
-                                    if (uiState.scheduleOverviewPagination.userScheduleOverview.size == 11) {
-                                        homeViewModel.onUserSchedulePageChanged(uiState.scheduleOverviewPagination.page + 1)
-                                    }
-                                },
-                                onLoadPrevious = {
-                                    if (uiState.scheduleOverviewPagination.page > 1) {
-                                        homeViewModel.onUserSchedulePageChanged(uiState.scheduleOverviewPagination.page - 1)
-                                    }
-                                }
-                            )
-                        }
+            when (userSchedulesUiState) {
+                UserSchedulesUiState.Loading -> { }
+
+                UserSchedulesUiState.Error -> { }
+
+                UserSchedulesUiState.Success -> {
+                    if (lazyUserSchedulePagingItems.itemCount == 0) {
+                        EmptyTodayUserSchedule()
+                    } else {
+                        TodayUserSchedules(lazyUserSchedulePagingItems)
                     }
                 }
             }
@@ -132,32 +117,20 @@ fun HomeContent(
                 style = Subtitle_4G,
                 color = Typo
             )
+            when (groupsUiState) {
+                GroupsUiState.Loading -> { }
 
-            //TODO : 그룹이 있는 경우 vs 없는 경우
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 15.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                var stripColorIndex = 0
-                items(items) { item ->
-                    val stripColor = stripColors[stripColorIndex]
-                    stripColorIndex = (stripColorIndex + 1) % stripColors.size
+                GroupsUiState.Error -> { }
 
-                    GroupCard(
-                        stripColor = stripColor,
-                        onClick = { /*TODO : navigate to groupdetail*/ },
-                        group = GroupOverviewPaginationState.GroupOverviewState(
-                            1,
-                            "그룹이름",
-                            10,
-                            LocalDateTime.now()
-                        ),
-                        modifier = Modifier.fillMaxWidth()
-                    )
+                GroupsUiState.Success -> {
+                    if (lazyUserSchedulePagingItems.itemCount == 0) {
+                        //TODO : 그룹 empty
+                    } else {
+                        UserGroups(lazyGroupPagingItems)
+                    }
                 }
             }
+
         }
 
     }
@@ -165,27 +138,85 @@ fun HomeContent(
 
 @Composable
 fun TodayUserSchedules(
-    userScheduleOverviewsState: List<UserScheduleOverviewState>,
-    onLoadMore: () -> Unit,
-    onLoadPrevious: () -> Unit
+    lazyPagingItems: LazyPagingItems<UserScheduleOverviewState>
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        itemsIndexed(userScheduleOverviewsState) { index, schedule ->
-            TodayUserScheduleCard(
-                schedule = schedule,
-                onClick = {/*navigation*/}
-            )
-
-            if (index == userScheduleOverviewsState.size - 1 && userScheduleOverviewsState.size == 11) {
-                onLoadMore()
+        items(lazyPagingItems.itemCount) { index ->
+            lazyPagingItems[index]?.let {
+                TodayUserScheduleCard(
+                    schedule = it,
+                    onClick = { /* Navigation or Action */ }
+                )
             }
 
-            if (index == 0) {
-                onLoadPrevious()
-            }
         }
+
+
+        /* 처리 중 상태 반영
+        lazyPagingItems.apply {
+            when {
+                loadState.refresh is androidx.paging.LoadState.Loading -> {
+                    item { Text("Refreshing schedules...") }
+                }
+
+                loadState.append is androidx.paging.LoadState.Loading -> {
+                    item { Text("Loading more...") }
+                }
+
+                loadState.append is androidx.paging.LoadState.Error -> {
+                    item { Text("Failed to load more schedules.") }
+                }
+            }
+        }*/
+    }
+}
+
+@Composable
+fun UserGroups(
+    lazyPagingItems: LazyPagingItems<GroupOverviewState>
+) {
+    val colors = listOf(Green5, Yellow5, Purple5)
+
+    LazyColumn(
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        var colorIndex = 0
+        items(lazyPagingItems.itemCount) { index ->
+            lazyPagingItems[index]?.let {
+                val color = colors[colorIndex]
+                colorIndex = (colorIndex + 1) % colors.size
+
+                lazyPagingItems[index]?.let { it1 ->
+                    GroupCard(
+                        color = color,
+                        onClick = { /*TODO : navigate to groupdetail*/ },
+                        group = it1,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
+            }
+
+        }
+
+
+        /* 처리 중 상태 반영
+        lazyPagingItems.apply {
+            when {
+                loadState.refresh is androidx.paging.LoadState.Loading -> {
+                    item { Text("Refreshing schedules...") }
+                }
+
+                loadState.append is androidx.paging.LoadState.Loading -> {
+                    item { Text("Loading more...") }
+                }
+
+                loadState.append is androidx.paging.LoadState.Error -> {
+                    item { Text("Failed to load more schedules.") }
+                }
+            }
+        }*/
     }
 }
 
@@ -193,6 +224,5 @@ fun TodayUserSchedules(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    val navController = rememberNavController()
-    HomeScreen(navController = navController)
+    HomeScreen()
 }

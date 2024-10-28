@@ -1,9 +1,15 @@
 package com.aiku.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
 import com.aiku.data.dto.schedule.request.toCreateScheduleReqDto
 import com.aiku.data.source.remote.ScheduleRemoteDataSource
+import com.aiku.data.util.createPager
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
-import com.aiku.domain.model.schedule.UserScheduleOverviewPagination
+import com.aiku.domain.model.schedule.UserScheduleOverview
 import com.aiku.domain.model.schedule.request.CreateScheduleReq
 import com.aiku.domain.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
@@ -42,14 +48,16 @@ class ScheduleRepositoryImpl @Inject constructor(
     }
 
     override fun fetchUserSchedules(
-        page: Int,
         startDate: LocalDateTime,
         endDate: LocalDateTime
-    ): Flow<UserScheduleOverviewPagination> {
-        return flow {
-            emit(scheduleRemoteDateSource.fetchUserSchedules(
-                page, startDate, endDate
-            ).toUserScheduleOverviewPagination())
-        }
+    ): Flow<PagingData<UserScheduleOverview>> {
+        return createPager(
+            pageSize = 10,
+            loadData = { page ->
+                val dto = scheduleRemoteDateSource.fetchUserSchedules(page, startDate, endDate)
+                val pagination = dto.toUserScheduleOverviewPagination()
+                pagination.userScheduleOverview
+            }
+        )
     }
 }

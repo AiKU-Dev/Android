@@ -30,13 +30,14 @@ class ScheduleRemoteDataSource @Inject constructor(
         return scheduleApi.fetchGroupSchedules(groupId, page, startDate, endTime)
     }
 
+
     suspend fun fetchUserSchedules(
         page: Int,
         startDate: LocalDateTime,
         endDate: LocalDateTime
     ): UserScheduleOverviewPaginationDto {
         //TODO : return scheduleApi.fetchUserSchedules(page, startDate, endDate)
-        Log.d("UserSchedule", "UserSchedule 페이지 호출")
+
         return UserScheduleOverviewPaginationDto(
             page = page,
             runningSchedule = 0,

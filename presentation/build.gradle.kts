@@ -72,4 +72,5 @@ dependencies {
     implementation(libs.hilt.compose)
 
     implementation(libs.coil.compose)
+    implementation(libs.androidx.paging.compose) //paging
 }

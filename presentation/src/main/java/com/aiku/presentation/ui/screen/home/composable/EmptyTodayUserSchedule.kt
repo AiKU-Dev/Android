@@ -3,6 +3,7 @@ package com.aiku.presentation.ui.screen.home.composable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
@@ -21,20 +22,19 @@ import com.aiku.presentation.ui.component.shape.DashBorderBox
 private val CharHeadUnknownSize = 46.dp
 private val DashedBorderWidth = 1.dp
 private val RoundedDottedBorderBoxRadius = 10.dp
-private val RoundedDottedBorderBoxInnerPadding = 27.dp
 
 @Composable
 fun EmptyTodayUserSchedule(
     modifier: Modifier = Modifier
 ){
     DashBorderBox(
-        modifier = modifier,
+        modifier = Modifier.size(140.dp, 125.dp),
         cornerRadius = RoundedDottedBorderBoxRadius,
         borderColor = Gray03,
         borderWidth = DashedBorderWidth
     ) {
         Column(
-            modifier = Modifier.padding(RoundedDottedBorderBoxInnerPadding),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
