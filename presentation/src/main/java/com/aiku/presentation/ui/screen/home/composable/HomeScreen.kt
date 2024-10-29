@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_2G
 import com.aiku.core.theme.Subtitle_4G
+import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
@@ -50,6 +52,7 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onGroupClicked: (groupId: Long, groupName: String) -> Unit,
+    onTodayScheduleClicked: () -> Unit
 ) {
     var showCreateGroupDialog by remember { mutableStateOf(false) }
 
@@ -113,7 +116,10 @@ fun HomeContent(
                     if (lazyUserSchedulePagingItems.itemCount == 0) {
                         EmptyTodayUserSchedule()
                     } else {
-                        TodayUserSchedules(lazyUserSchedulePagingItems)
+                        TodayUserSchedules(
+                            lazyUserSchedulePagingItems,
+                            onTodayScheduleClicked = {}
+                        )
                     }
                 }
             }
@@ -144,7 +150,9 @@ fun HomeContent(
                     if (lazyUserSchedulePagingItems.itemCount == 0) {
                         //TODO : 그룹 empty
                     } else {
-                        UserGroups(lazyGroupPagingItems)
+                        Groups(
+                            lazyGroupPagingItems,
+                            { groupId, groupName -> })
                     }
                 }
             }
@@ -156,7 +164,8 @@ fun HomeContent(
 
 @Composable
 fun TodayUserSchedules(
-    lazyPagingItems: LazyPagingItems<UserScheduleOverviewState>
+    lazyPagingItems: LazyPagingItems<UserScheduleOverviewState>,
+    onTodayScheduleClicked: () -> Unit
 ) {
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -165,10 +174,9 @@ fun TodayUserSchedules(
             lazyPagingItems[index]?.let {
                 TodayUserScheduleCard(
                     schedule = it,
-                    onClick = { /* Navigation or Action */ }
+                    onClick = { onTodayScheduleClicked() }
                 )
             }
-
         }
 
 
@@ -192,8 +200,9 @@ fun TodayUserSchedules(
 }
 
 @Composable
-fun UserGroups(
-    lazyPagingItems: LazyPagingItems<GroupOverviewState>
+fun Groups(
+    lazyPagingItems: LazyPagingItems<GroupOverviewState>,
+    onGroupClicked: (groupId: Long, groupName: String) -> Unit
 ) {
     val colors = listOf(Green5, Yellow5, Purple5)
 
@@ -209,7 +218,7 @@ fun UserGroups(
                 lazyPagingItems[index]?.let { it1 ->
                     GroupCard(
                         color = color,
-                        onClick = { /*TODO : navigate to groupdetail*/ },
+                        onClick = { onGroupClicked(1, "야호") },
                         group = it1,
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -248,6 +257,7 @@ fun DefaultPreview() {
             navController.navigate(
                 Routes.Main.Group(groupId, groupName)
             )
-        }
+        },
+        onTodayScheduleClicked = {}
     )
 }

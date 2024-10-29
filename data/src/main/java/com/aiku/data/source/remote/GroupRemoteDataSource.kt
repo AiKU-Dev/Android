@@ -27,7 +27,6 @@ class GroupRemoteDataSource @Inject constructor(
 
     suspend fun fetchGroups(page:Int): GroupOverviewPaginationDto {
         //TODO : return groupApi.fetchGroups(page)
-
         return GroupOverviewPaginationDto(
             page = page,
             data = List(11) { index ->

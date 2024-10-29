@@ -140,7 +140,8 @@ fun AikuNavigation(
                             navController.navigate(
                                 Routes.Main.Group(groupId, groupName)
                             )
-                        }
+                        },
+                        onTodayScheduleClicked = {}
                     )
                 }
                 composable<Routes.Main.MySchedule> {

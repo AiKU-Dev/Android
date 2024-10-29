@@ -24,7 +24,6 @@ import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
-import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.chip.ScheduleStatusChip
 import com.aiku.presentation.ui.component.shadow.defaultShadow
 import com.aiku.presentation.util.to24TimeFormat
@@ -46,8 +45,7 @@ fun TodayUserScheduleCard(
             containerColor = when (schedule.status) {
                 ScheduleStatus.RUN -> Green5
                 ScheduleStatus.WAIT -> Purple5
-                ScheduleStatus.TERM -> Gray03
-                ScheduleStatus.BEFORE_PARTICIPATION -> Yellow5
+                else -> Gray03
             }
         )
     ) {
