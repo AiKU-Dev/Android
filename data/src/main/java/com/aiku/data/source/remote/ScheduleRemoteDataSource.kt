@@ -7,6 +7,8 @@ import com.aiku.data.dto.schedule.GroupScheduleOverviewPaginationDto
 import com.aiku.data.dto.schedule.LocationDto
 import com.aiku.data.dto.schedule.UserScheduleOverviewDto
 import com.aiku.data.dto.schedule.UserScheduleOverviewPaginationDto
+import com.aiku.data.dto.schedule.ScheduleDto
+import com.aiku.data.dto.schedule.request.BetAkuReqDto
 import com.aiku.data.dto.schedule.request.CreateScheduleReqDto
 import com.aiku.domain.model.schedule.type.ScheduleStatus
 import java.time.LocalDateTime
@@ -28,6 +30,14 @@ class ScheduleRemoteDataSource @Inject constructor(
         endTime: LocalDateTime
     ): GroupScheduleOverviewPaginationDto {
         return scheduleApi.fetchGroupSchedules(groupId, page, startDate, endTime)
+    }
+
+    suspend fun fetchGroupScheduleDetail(groupId: Long, scheduleId: Long): ScheduleDto {
+        return scheduleApi.fetchGroupScheduleDetail(groupId, scheduleId)
+    }
+
+    suspend fun bet(scheduleId: Long, betAkuRequest: BetAkuReqDto) {
+        return scheduleApi.bet(scheduleId, betAkuRequest)
     }
 
 

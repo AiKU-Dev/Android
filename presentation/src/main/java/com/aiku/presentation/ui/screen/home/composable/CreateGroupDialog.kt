@@ -1,12 +1,9 @@
 package com.aiku.presentation.ui.screen.home.composable
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text2.input.TextFieldLineLimits
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,24 +17,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import com.aiku.core.R
 import com.aiku.core.theme.Body1
 import com.aiku.core.theme.Body1_SemiBold
-import com.aiku.core.theme.Caption1
-import com.aiku.core.theme.Headline_3G
 import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.ui.component.button.FullWidthButton
-import com.aiku.presentation.ui.component.dialog.DefaultAlertDialog
 import com.aiku.presentation.ui.component.dialog.MinimalDialog
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
 import com.aiku.presentation.ui.screen.group.viewmodel.CreateGroupUiState
 import com.aiku.presentation.ui.screen.group.viewmodel.GroupViewModel
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun CreateGroupDialog(
     groupViewModel: GroupViewModel = hiltViewModel(),
@@ -64,7 +56,7 @@ fun CreateGroupDialog(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
-                lineLimits = TextFieldLineLimits.SingleLine,
+                maxLines = 1,
                 showLengthIndicator = true,
                 maxLength = GroupViewModel.MAX_GROUPNAME_LENGTH,
                 placeholder = stringResource(id = R.string.group_name_setup_placeholder),

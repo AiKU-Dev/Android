@@ -15,10 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
 import com.aiku.core.R
 import com.aiku.core.theme.Subtitle3
-import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Typo
@@ -28,10 +26,8 @@ fun CheckMarkWithText(
     modifier: Modifier,
     checkedState: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    identifier : Int,
     content: String,
-    authNavController: NavHostController
-
+    onNavigateToTermContent: () -> Unit
 ) {
 
     Row(
@@ -54,7 +50,9 @@ fun CheckMarkWithText(
             textDecoration = TextDecoration.Underline,
             modifier = Modifier
                 .padding(start = CheckMarkContentPadding)
-                .clickable { authNavController.navigate("${SignUpRoute.TERM_CONTENT.name}/$identifier") }
+                .clickable {
+                    onNavigateToTermContent()
+                }
         )
     }
 }

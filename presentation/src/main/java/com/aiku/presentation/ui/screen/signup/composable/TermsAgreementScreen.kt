@@ -21,12 +21,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
 import com.aiku.core.theme.Headline_2G
 import com.aiku.core.theme.Subtitle3_SemiBold
-import com.aiku.presentation.navigation.route.SignUpRoute
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.ScreenBottomPadding
@@ -38,8 +35,9 @@ import com.aiku.presentation.ui.screen.signup.viewmodel.TermsViewModel
 
 @Composable
 fun TermsAgreementScreen(
-    authNavController: NavHostController,
-    termsViewModel: TermsViewModel = hiltViewModel()
+    onNavigateToProfileEditScreen: () -> Unit,
+    onNavigateToTermContentScreen: (identifier: Int) -> Unit,
+    termsViewModel: TermsViewModel = hiltViewModel(),
 ) {
 
     val checkedStates by termsViewModel.checkedStates.collectAsState()
@@ -104,9 +102,8 @@ fun TermsAgreementScreen(
                 onCheckedChange = { isChecked ->
                     termsViewModel.onCheckedChanged(index, isChecked)
                 },
-                identifier = index,
                 content = item,
-                authNavController = authNavController
+                onNavigateToTermContent = { onNavigateToTermContentScreen(index) }
             )
         }
 
@@ -117,7 +114,7 @@ fun TermsAgreementScreen(
                 containerColor = Green5,
                 disabledContainerColor = Gray02
             ),
-            onClick = { authNavController.navigate(SignUpRoute.PROFILE_EDIT.name) },
+            onClick = onNavigateToProfileEditScreen,
             content = {
                 Text(
                     text = stringResource(id = R.string.terms_agree_start),
@@ -139,6 +136,5 @@ private val ButtonContentPadding = 45.dp
 @Preview
 @Composable
 private fun TermsAgreementScreenPreview() {
-    val authNavController = rememberNavController()
-    TermsAgreementScreen(authNavController)
+
 }

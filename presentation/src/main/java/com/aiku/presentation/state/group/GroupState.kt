@@ -7,7 +7,9 @@ import com.aiku.domain.model.group.Group
 import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.state.user.toMemberState
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Parcelize
 @Immutable
 data class GroupState(

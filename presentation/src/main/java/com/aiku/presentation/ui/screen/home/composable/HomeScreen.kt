@@ -22,12 +22,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_2G
 import com.aiku.core.theme.Subtitle_4G
+import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.theme.Gray02
@@ -45,9 +47,13 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onGroupClicked: (groupId: Long, groupName: String) -> Unit,
+) {
     var showCreateGroupDialog by remember { mutableStateOf(false) }
 
+    //TODO : (수정) FAB는 Scaffold에 어떻게 추가해야할지 몰라서 일단 놔뒀어요
     Scaffold(
         topBar = { Text("Home") },
         floatingActionButton = { FloatingActionPlusButton(onClick = { showCreateGroupDialog = true }) }
@@ -236,5 +242,12 @@ fun UserGroups(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
-    HomeScreen()
+    val navController = rememberNavController()
+    HomeScreen(
+        onGroupClicked = { groupId, groupName ->
+            navController.navigate(
+                Routes.Main.Group(groupId, groupName)
+            )
+        }
+    )
 }

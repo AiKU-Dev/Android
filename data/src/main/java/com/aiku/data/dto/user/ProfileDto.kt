@@ -22,7 +22,7 @@ data class ProfileDto(
         character = character?.let { ProfileCharacter.valueOf(it.uppercase(Locale.ROOT)) }
             ?: ProfileCharacter.NONE,
         background = background?.let { ProfileBackground.valueOf(it.uppercase(Locale.ROOT)) }
-            ?: ProfileBackground.NONE
+            ?: ProfileBackground.GRAY
     )
 }
 

@@ -7,12 +7,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
-import com.aiku.presentation.navigation.MainNavGraph
+import com.aiku.presentation.navigation.AikuNavigation
 import com.aiku.presentation.theme.AiKUTheme
-import com.aiku.presentation.ui.screen.group.composable.CreateGroupScreen
-import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,6 +23,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             AiKUTheme {
                 val navController = rememberNavController()
@@ -31,10 +31,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //MainNavGraph(mainNavController = navController, loginUseCase = loginUseCase)
-                    HomeScreen()
+                    AikuNavigation(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = navController,
+                        loginUseCase = loginUseCase
+                    )
                 }
-
             }
         }
     }

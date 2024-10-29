@@ -1,5 +1,6 @@
 package com.aiku.data.repository
 
+import com.aiku.data.dto.schedule.request.toBetAkuReqDto
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,6 +10,8 @@ import com.aiku.data.dto.schedule.request.toCreateScheduleReqDto
 import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.data.util.createPager
 import com.aiku.domain.model.schedule.GroupScheduleOverviewPagination
+import com.aiku.domain.model.schedule.Schedule
+import com.aiku.domain.model.schedule.request.BetAkuReq
 import com.aiku.domain.model.schedule.UserScheduleOverview
 import com.aiku.domain.model.schedule.request.CreateScheduleReq
 import com.aiku.domain.repository.ScheduleRepository
@@ -44,6 +47,25 @@ class ScheduleRepositoryImpl @Inject constructor(
             emit(scheduleRemoteDateSource.fetchGroupSchedules(
                 groupId, page, startDate, endDate
             ).toGroupScheduleOverviewPagination())
+        }
+    }
+
+    override fun fetchGroupScheduleDetail(
+        groupId: Long,
+        scheduleId: Long
+    ): Flow<Schedule> {
+        return flow {
+            emit(scheduleRemoteDateSource.fetchGroupScheduleDetail(
+                groupId, scheduleId
+            ).toSchedule())
+        }
+    }
+
+    override fun bet(scheduleId: Long, betAkuReq: BetAkuReq): Flow<Unit> {
+        return flow {
+            emit(scheduleRemoteDateSource.bet(
+                scheduleId, betAkuReq.toBetAkuReqDto()
+            ))
         }
     }
 
