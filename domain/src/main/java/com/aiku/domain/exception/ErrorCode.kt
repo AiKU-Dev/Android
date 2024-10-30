@@ -12,6 +12,9 @@ const val ERROR_AUTO_LOGIN = 3002 //TODO : 서버 에러 세분화
 
 
 
+/** 입력 */
+const val INVALID_INPUT = 11006
+
 /** Client-side Error code */
 const val TOKEN_NOT_FOUND = 11003
 const val REQUIRE_NICKNAME_INPUT = 20000

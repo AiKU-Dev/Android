@@ -62,7 +62,8 @@ dependencies {
     implementation(libs.androidx.security.state)
     implementation(libs.androidx.security.crypto.ktx)
 
-    implementation(libs.v2.all)
+    implementation(libs.v2.all) //Kakao
+    implementation(libs.androidx.paging.runtime) //paging
 }
 
 protobuf {

@@ -90,6 +90,7 @@ fun BottomLinedTextField(
                         Text(
                             color = if (value.length > maxLength) ColorError else Gray03,
                             text = "${value.length}/${maxLength}",
+                            style = Caption1
                         )
                     }
                 }

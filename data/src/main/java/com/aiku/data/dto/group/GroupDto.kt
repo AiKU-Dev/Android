@@ -11,7 +11,6 @@ data class GroupDto(
     @Json(name = "groupName") val name: String?,
     @Json(name = "members") val members: List<MemberDto>?,
 ) {
-
     fun toGroup(): Group = Group(
         id = id ?: 0,
         name = name ?: "",

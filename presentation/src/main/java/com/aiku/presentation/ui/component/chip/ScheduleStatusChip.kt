@@ -1,6 +1,7 @@
 package com.aiku.presentation.ui.component.chip
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +23,7 @@ import com.aiku.presentation.theme.Purple5
 import com.aiku.presentation.theme.Yellow5
 
 @Composable
-fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
+fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus, isOutlineOnly : Boolean = false) {
     val label = stringResource(
         id = when (status) {
             ScheduleStatus.RUN -> R.string.schedule_running
@@ -31,17 +32,21 @@ fun ScheduleStatusChip(modifier: Modifier = Modifier, status: ScheduleStatus) {
             ScheduleStatus.BEFORE_PARTICIPATION -> R.string.schedule_before_participation
         }
     )
-    val color = when (status) {
+
+    val color = if(isOutlineOnly) Color.Transparent else when (status) {
         ScheduleStatus.RUN -> Green5
         ScheduleStatus.WAIT -> Purple5
         ScheduleStatus.TERM -> Gray03
         ScheduleStatus.BEFORE_PARTICIPATION -> Yellow5
     }
+
     Box(
         modifier = modifier.background(
             color = color,
             shape = RoundedCornerShape(10.dp)
-        ).padding(vertical = 4.dp, horizontal = 10.dp),
+        )
+            .border(width = if(isOutlineOnly) 1.dp else 0.dp, color = Color.White, shape = RoundedCornerShape(999.dp))
+            .padding(vertical = 4.dp, horizontal = 10.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
@@ -75,4 +80,10 @@ private fun ScheduleTermStatusChipPreview(modifier: Modifier = Modifier) {
 @Composable
 private fun ScheduleBeforeParticipationStatusChipPreview(modifier: Modifier = Modifier) {
     ScheduleStatusChip(modifier = modifier, status = ScheduleStatus.BEFORE_PARTICIPATION)
+}
+
+@Preview(showBackground = false, name = "OUTLINE_ONLY")
+@Composable
+private fun ScheduleOutlineStatusChipPreview(modifier: Modifier = Modifier) {
+    ScheduleStatusChip(modifier = modifier, status = ScheduleStatus.TERM, isOutlineOnly = true)
 }

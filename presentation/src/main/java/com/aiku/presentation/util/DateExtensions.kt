@@ -37,6 +37,14 @@ fun LocalDateTime.to12TimeFormat(): String {
 }
 
 /**
+ * ex) 13:00
+ */
+fun LocalDateTime.to24TimeFormat(): String {
+    val formatter = DateTimeFormatter.ofPattern("HH:mm")
+    return this.format(formatter)
+}
+
+/**
  * 현재 시간과의 차이를 초 단위로 반환
  */
 fun LocalDateTime.getSecondsDifferenceFromNow(): Long {
@@ -52,3 +60,4 @@ fun Long.formatSecondsToHHMMSS(): String {
     val remainingSeconds = this % 60
     return String.format(Locale.KOREA, "%02d : %02d : %02d", hours, minutes, remainingSeconds)
 }
+

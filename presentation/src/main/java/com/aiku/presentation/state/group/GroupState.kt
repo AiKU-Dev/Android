@@ -3,6 +3,7 @@ package com.aiku.presentation.state.group
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
 import com.aiku.domain.model.group.Group
+
 import com.aiku.presentation.state.user.MemberState
 import com.aiku.presentation.state.user.toMemberState
 import kotlinx.parcelize.Parcelize

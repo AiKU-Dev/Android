@@ -39,7 +39,7 @@ fun CheckMarkWithText(
         Image(
             modifier = Modifier.size(CheckMarkSize),
             painter = painterResource(id = R.drawable.ic_check),
-            contentDescription = stringResource(id = R.string.check_mark),
+            contentDescription = "check mark",
             colorFilter = ColorFilter.tint(color = if (checkedState) Green5 else Gray02)
         )
 

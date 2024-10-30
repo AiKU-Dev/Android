@@ -5,5 +5,5 @@ import com.aiku.domain.model.user.Member
 data class Group(
     val id: Long,
     val name: String,
-    val members: List<Member>,
+    val members: List<Member>
 )

@@ -4,6 +4,7 @@ import com.aiku.data.dto.IdDto
 import com.aiku.data.dto.schedule.GroupScheduleOverviewPaginationDto
 import com.aiku.data.dto.schedule.ScheduleDto
 import com.aiku.data.dto.schedule.request.BetAkuReqDto
+import com.aiku.data.dto.schedule.UserScheduleOverviewPaginationDto
 import com.aiku.data.dto.schedule.request.CreateScheduleReqDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -39,4 +40,12 @@ interface ScheduleApi {
         @Path("scheduleId") scheduleId: Long,
         @Body betAkuRequest: BetAkuReqDto
     ): Unit
+
+    @GET("/member/schedules")
+    suspend fun fetchUserSchedules(
+        @Query("page") page: Int,
+        @Query("startDate") startDate: LocalDateTime,
+        @Query("endDate") endDate: LocalDateTime
+    ): UserScheduleOverviewPaginationDto
+
 }

@@ -6,7 +6,6 @@ import com.aiku.core.qualifer.AuthHeaderInterceptor
 import com.aiku.core.qualifer.BaseUrl
 import com.aiku.core.qualifer.ResponseExceptionInterceptor
 import com.aiku.core.qualifer.ResponseParsingInterceptor
-import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.UNKNOWN
@@ -28,6 +27,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+
 
 @Module
 @InstallIn(SingletonComponent::class)

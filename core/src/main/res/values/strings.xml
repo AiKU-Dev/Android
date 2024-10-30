@@ -8,6 +8,7 @@
     <string name="profile_image">프로필 이미지</string>
     <string name="chip_navigation_icon_content_description">칩 아이콘</string>
     <string name="empty_content_description">콘텐츠 없음</string>
+    <string name="create">생성하기</string>
 
     <!-- 이용 약관 동의 -->
     <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>
@@ -28,6 +29,7 @@
     <string name="character_baby">기본 캐릭터2</string>
     <string name="character_scratch">기본 캐릭터3</string>
     <string name="character_girl">기본 캐릭터4</string>
+    <string name="character_nohair">대머리 캐릭터</string>
 
     <!-- 프로필 생성 -->
     <string name="profile_setup_instruction">친구들에게 보여질\n프로필을 만들어주세요!</string>
@@ -41,11 +43,19 @@
     <string name="select_character">캐릭터를 선택해주세요!</string>
     <string name="default_character_content_description">기본 캐릭터</string>
 
+    <!-- 홈 -->
+    <string name="home_today_schedule">오늘 내 약속</string>
+    <string name="home_no_schedule">아직 약속이 없어요</string>
+
     <!-- navigation -->
     <string name="nav_home">홈</string>
     <string name="nav_mySchedule">내 약속</string>
     <string name="nav_mypage">마이</string>
 
+    <!-- 그룹 -->
+    <string name="group_name">그룹 이름</string>
+    <string name="group_name_setup_placeholder">그룹 이름을 입력하세요</string>
+    <string name="group_name_setup_label">최대 15자 입력이 가능합니다</string>
 
     <!-- 그룹 -->
     <string name="group_more_icon_content_description">그룹 설정</string>

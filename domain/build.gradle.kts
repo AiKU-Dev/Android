@@ -11,4 +11,6 @@ java {
 dependencies {
     implementation(libs.javax.inject)
     implementation(libs.coroutines)
+    implementation(libs.androidx.paging.common)
+
 }

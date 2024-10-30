@@ -16,7 +16,7 @@ import javax.inject.Singleton
 object ApiModule {
     @Provides
     @Singleton
-    fun provideAuthApi(retrofit: Retrofit): TokenApi {
+    fun provideTokenApi(retrofit: Retrofit): TokenApi {
         return retrofit.create(TokenApi::class.java)
     }
 

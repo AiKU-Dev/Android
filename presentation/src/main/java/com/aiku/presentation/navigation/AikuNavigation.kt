@@ -30,7 +30,7 @@ import com.aiku.presentation.ui.component.navigation.BottomNavigation
 import com.aiku.presentation.ui.group.GroupScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
-import com.aiku.presentation.ui.screen.home.HomeScreen
+import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
@@ -140,7 +140,8 @@ fun AikuNavigation(
                             navController.navigate(
                                 Routes.Main.Group(groupId, groupName)
                             )
-                        }
+                        },
+                        onTodayScheduleClicked = {}
                     )
                 }
                 composable<Routes.Main.MySchedule> {
