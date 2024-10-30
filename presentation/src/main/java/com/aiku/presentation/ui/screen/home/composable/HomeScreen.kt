@@ -58,7 +58,7 @@ fun HomeScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar(
+            CenterAlignedTopAppBar( //TODO : Topbar 수정
                 title = { Text("Home") }
             )
         },
@@ -217,11 +217,9 @@ fun Groups(
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        var colorIndex = 0
         items(lazyPagingItems.itemCount) { index ->
             lazyPagingItems[index]?.let {
-                val color = colors[colorIndex]
-                colorIndex = (colorIndex + 1) % colors.size
+                val color = colors[index % colors.size]
 
                 lazyPagingItems[index]?.let { it1 ->
                     GroupCard(
