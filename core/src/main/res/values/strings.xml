@@ -8,7 +8,7 @@
     <string name="profile_image">프로필 이미지</string>
     <string name="chip_navigation_icon_content_description">칩 아이콘</string>
     <string name="empty_content_description">콘텐츠 없음</string>
-    <string name="create">만들기</string>
+    <string name="create">생성하기</string>
 
     <!-- 이용 약관 동의 -->
     <string name="terms_welcome_aiku">AiKU에\n오신 것을 환영합니다!</string>

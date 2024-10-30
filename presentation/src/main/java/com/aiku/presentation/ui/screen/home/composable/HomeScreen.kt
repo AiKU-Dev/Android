@@ -2,13 +2,13 @@ package com.aiku.presentation.ui.screen.home.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,14 +30,12 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_2G
 import com.aiku.core.theme.Subtitle_4G
-import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
-import com.aiku.presentation.theme.ScaffoldTopContentSpacing
 import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.theme.Yellow5
@@ -48,6 +46,7 @@ import com.aiku.presentation.ui.screen.home.viewmodel.UserSchedulesUiState
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -56,13 +55,21 @@ fun HomeScreen(
 ) {
     var showCreateGroupDialog by remember { mutableStateOf(false) }
 
-    //TODO : (수정) FAB는 Scaffold에 어떻게 추가해야할지 몰라서 일단 놔뒀어요
     Scaffold(
-        topBar = { Text("Home") },
+        modifier = modifier,
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text("Home") }
+            )
+        },
         floatingActionButton = { FloatingActionPlusButton(onClick = { showCreateGroupDialog = true }) }
     ) { innerPadding ->
 
-        HomeContent(innerPadding)
+        HomeContent(
+            modifier = Modifier.padding(top = innerPadding.calculateTopPadding()),
+            onGroupClicked = onGroupClicked,
+            onTodayScheduleClicked = onTodayScheduleClicked
+        )
 
         if (showCreateGroupDialog) {
             CreateGroupDialog(
@@ -74,8 +81,10 @@ fun HomeScreen(
 
 @Composable
 fun HomeContent(
-    innerPadding: PaddingValues,
-    homeViewModel: HomeViewModel = hiltViewModel()
+    modifier: Modifier = Modifier,
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onGroupClicked: (groupId: Long, groupName: String) -> Unit,
+    onTodayScheduleClicked: () -> Unit
 ) {
 
     val userSchedulesUiState by homeViewModel.userSchedulesUiState.collectAsState()
@@ -85,10 +94,9 @@ fun HomeContent(
     val lazyGroupPagingItems = homeViewModel.groups.collectAsLazyPagingItems()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
-            .padding(innerPadding)
-            .padding(top = ScaffoldTopContentSpacing)
+            .padding(top = 30.dp)
     ) {
         Column(
             modifier = Modifier
@@ -101,7 +109,7 @@ fun HomeContent(
                 color = Typo
             )
             Text(
-                modifier = Modifier.padding(top = 6.dp),
+                modifier = Modifier.padding(top = 6.dp, bottom = 17.dp),
                 text = stringResource(id = R.string.home_today_schedule),
                 style = Body2,
                 color = Typo
@@ -118,7 +126,7 @@ fun HomeContent(
                     } else {
                         TodayUserSchedules(
                             lazyUserSchedulePagingItems,
-                            onTodayScheduleClicked = {}
+                            onTodayScheduleClicked
                         )
                     }
                 }
@@ -136,7 +144,7 @@ fun HomeContent(
                 modifier = Modifier.padding(top = 16.dp)
             )
             Text(
-                modifier = Modifier.padding(top = 22.dp),
+                modifier = Modifier.padding(top = 26.dp, bottom = 19.dp),
                 text = "닉네임's Group", //TODO : user이름으로 변경
                 style = Subtitle_4G,
                 color = Typo
@@ -152,7 +160,7 @@ fun HomeContent(
                     } else {
                         Groups(
                             lazyGroupPagingItems,
-                            { groupId, groupName -> })
+                            onGroupClicked)
                     }
                 }
             }

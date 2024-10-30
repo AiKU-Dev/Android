@@ -15,7 +15,7 @@ import com.aiku.core.R
 import com.aiku.presentation.theme.CobaltBlue
 
 private val FABSize = 54.dp
-private val FABIconSize = 34.dp
+private val FABIconSize = 20.dp
 
 @Composable
 fun FloatingActionPlusButton(onClick: () -> Unit) {

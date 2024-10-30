@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.home.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,17 +27,17 @@ import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.dialog.MinimalDialog
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
-import com.aiku.presentation.ui.screen.group.viewmodel.CreateGroupUiState
-import com.aiku.presentation.ui.screen.group.viewmodel.GroupViewModel
+import com.aiku.presentation.ui.screen.home.viewmodel.CreateGroupUiState
+import com.aiku.presentation.ui.screen.home.viewmodel.HomeViewModel
 
 @Composable
 fun CreateGroupDialog(
-    groupViewModel: GroupViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel(),
     onDismissRequest: () -> Unit
 ) {
-    val groupNameInput by groupViewModel.groupNameInput.collectAsStateWithLifecycle()
-    val isButtonEnabled by groupViewModel.isBtnEnabled.collectAsStateWithLifecycle()
-    val createGroupUiState by groupViewModel.createGroupUiState.collectAsStateWithLifecycle()
+    val groupNameInput by homeViewModel.groupNameInput.collectAsStateWithLifecycle()
+    val isButtonEnabled by homeViewModel.isBtnEnabled.collectAsStateWithLifecycle()
+    val createGroupUiState by homeViewModel.createGroupUiState.collectAsStateWithLifecycle()
 
     MinimalDialog(onDismissRequest = onDismissRequest) {
         Column(
@@ -51,13 +52,13 @@ fun CreateGroupDialog(
 
             BottomLinedTextField(
                 value = groupNameInput,
-                onValueChange = groupViewModel::onGroupNameInputChanged,
+                onValueChange = homeViewModel::onGroupNameInputChanged,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 32.dp),
                 maxLines = 1,
                 showLengthIndicator = true,
-                maxLength = GroupViewModel.MAX_GROUPNAME_LENGTH,
+                maxLength = HomeViewModel.MAX_GROUPNAME_LENGTH,
                 placeholder = stringResource(id = R.string.group_name_setup_placeholder),
                 label = stringResource(id = R.string.group_name_setup_label),
                 textStyle = Body1
@@ -70,7 +71,7 @@ fun CreateGroupDialog(
                     containerColor = Green5,
                     disabledContainerColor = Gray02
                 ),
-                onClick = { groupViewModel.createGroup() },
+                onClick = { homeViewModel.createGroup() },
                 content = {
                     Text(
                         text = stringResource(id = R.string.create),
@@ -88,8 +89,8 @@ fun CreateGroupDialog(
                 onDismissRequest()
             }
             CreateGroupUiState.Loading -> { }
-            CreateGroupUiState.InvalidInput -> { }
-            CreateGroupUiState.ServerError -> { }
+            CreateGroupUiState.InvalidInput -> {}
+            CreateGroupUiState.ServerError -> {}
             else -> {}
         }
     }

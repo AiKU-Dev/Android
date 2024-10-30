@@ -11,7 +11,9 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
+import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
+import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
