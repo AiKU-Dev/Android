@@ -6,23 +6,23 @@ import androidx.room.PrimaryKey
 import com.aiku.domain.model.notification.Notification
 import com.aiku.domain.model.notification.NotificationCategory
 
-@Entity
+@Entity(tableName = "notification")
 data class NotificationEntity(
-    @ColumnInfo(name = "category") val category: NotificationCategory,
+    @ColumnInfo(name = "category") val category: String,
     @ColumnInfo(name = "title") val title: String,
     @ColumnInfo(name = "content") val content: String,
 ) {
     @PrimaryKey(autoGenerate = true) var id: Long = 0
 
     fun toNotification() = Notification(
-        category = category,
+        category = NotificationCategory.valueOf(category),
         title = title,
         content = content,
     )
 }
 
 fun Notification.toNotificationEntity() = NotificationEntity(
-    category = category,
+    category = category.name,
     title = title,
     content = content,
 )

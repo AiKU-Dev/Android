@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_3G
@@ -57,6 +58,7 @@ fun NotificationScreen(
 ) {
 
     var selectedTab by remember { mutableStateOf(NotificationTab.ALL) }
+    val notificationUiState = notificationViewModel.notificationUiState.collectAsStateWithLifecycle()
 
     LazyColumn(
         modifier = modifier

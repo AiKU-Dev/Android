@@ -13,4 +13,6 @@ class NotificationLocalDataSource @Inject constructor(
     fun insertNotification(notification: NotificationEntity) {
         dao.insertNotification(notification)
     }
+
+    fun getNotifications() = dao.getNotifications()
 }
