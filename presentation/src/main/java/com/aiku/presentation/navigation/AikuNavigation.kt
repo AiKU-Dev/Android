@@ -33,7 +33,7 @@ import com.aiku.presentation.ui.group.GroupScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
-import com.aiku.presentation.ui.screen.home.composable.NotificationScreen
+import com.aiku.presentation.ui.screen.notification.composable.NotificationScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen

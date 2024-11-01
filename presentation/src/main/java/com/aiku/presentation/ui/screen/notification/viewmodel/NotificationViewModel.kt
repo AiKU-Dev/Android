@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.screen.home.viewmodel
+package com.aiku.presentation.ui.screen.notification.viewmodel
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

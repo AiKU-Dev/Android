@@ -1,4 +1,4 @@
-package com.aiku.presentation.ui.screen.home.composable
+package com.aiku.presentation.ui.screen.notification.composable
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -33,9 +33,10 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Subtitle_3G
 import com.aiku.presentation.theme.CobaltBlue
+import com.aiku.presentation.theme.Gray01
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
-import com.aiku.presentation.ui.screen.home.viewmodel.NotificationViewModel
+import com.aiku.presentation.ui.screen.notification.viewmodel.NotificationViewModel
 import com.aiku.presentation.util.noRippleClickable
 
 enum class NotificationTab(
@@ -62,6 +63,7 @@ fun NotificationScreen(
     ) {
         item {
             CenterAlignedTopAppBar(
+                modifier = Modifier.fillMaxWidth().background(Gray01),
                 title = {
                     Text(text = stringResource(R.string.notification), style = Subtitle_3G)
                 }
