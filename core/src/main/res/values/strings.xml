@@ -98,6 +98,12 @@
     <string name="notification_racing">레이싱</string>
     <string name="notification_aku">아쿠</string>
     <string name="notification_event">이벤트</string>
+    <string name="no_notification_yet">아직 알림이 없어요!</string>
+    <string name="notification_all_title">알림 전체</string>
+    <string name="notification_schedule_title">약속</string>
+    <string name="notification_racing_title">1:1 레이싱</string>
+    <string name="notification_aku_title">아쿠</string>
+    <string name="notification_event_title">이벤트</string>
 
     <!-- 상점 -->
     <string name="store">상점</string>

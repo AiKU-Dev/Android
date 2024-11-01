@@ -37,7 +37,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBaseUrl() : String {
-        return "https://api.aiku.com/"   // TODO : BaseUrl
+        return "https://611687df-7049-4862-b139-f01b63c2667f.mock.pstmn.io"   // TODO : BaseUrl
     }
 
     @Provides
