@@ -2,6 +2,7 @@ package com.aiku.presentation.navigation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -26,11 +27,13 @@ import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.user.MemberState
+import com.aiku.presentation.theme.Gray01
 import com.aiku.presentation.ui.component.navigation.BottomNavigation
 import com.aiku.presentation.ui.group.GroupScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
+import com.aiku.presentation.ui.screen.home.composable.NotificationScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.my.MyPageScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
@@ -141,7 +144,10 @@ fun AikuNavigation(
                                 Routes.Main.Group(groupId, groupName)
                             )
                         },
-                        onTodayScheduleClicked = {}
+                        onTodayScheduleClicked = {},
+                        onNavigateToNotification = {
+                            navController.navigate(Routes.Main.Notification)
+                        }
                     )
                 }
                 composable<Routes.Main.MySchedule> {
@@ -192,7 +198,9 @@ fun AikuNavigation(
                     // 상점 화면
                 }
                 composable<Routes.Main.Notification> {
-                    // 알림 화면
+                    NotificationScreen(
+                        modifier = Modifier.fillMaxSize().background(Gray01)
+                    )
                 }
             }
 

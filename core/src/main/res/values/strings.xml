@@ -98,4 +98,7 @@
     <string name="notification_racing">레이싱</string>
     <string name="notification_aku">아쿠</string>
     <string name="notification_event">이벤트</string>
+
+    <!-- 상점 -->
+    <string name="store">상점</string>
 </resources>

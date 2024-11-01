@@ -109,4 +109,7 @@ dependencies {
     implementation(libs.protobuf.javalite)
 
     implementation(libs.v2.all) //kakao sdk
+
+    implementation(libs.room)
+    kapt(libs.room.compiler)
 }
