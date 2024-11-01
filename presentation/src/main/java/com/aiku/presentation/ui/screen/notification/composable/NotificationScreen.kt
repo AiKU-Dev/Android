@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -57,7 +58,7 @@ fun NotificationScreen(
     notificationViewModel: NotificationViewModel = hiltViewModel()
 ) {
 
-    var selectedTab by remember { mutableStateOf(NotificationTab.ALL) }
+    var selectedTab by rememberSaveable { mutableStateOf(NotificationTab.ALL) }
     val notificationUiState = notificationViewModel.notificationUiState.collectAsStateWithLifecycle()
 
     LazyColumn(
@@ -81,7 +82,10 @@ fun NotificationScreen(
                     TabItemView(
                         title = stringResource(it.titleResId),
                         isSelected = selectedTab == it,
-                        onClick = { selectedTab = it },
+                        onClick = {
+                            notificationViewModel.setNotificationCategory(it.name)
+                            selectedTab = it
+                        },
                     )
                 }
             }
