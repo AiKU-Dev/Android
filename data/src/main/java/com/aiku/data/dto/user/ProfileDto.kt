@@ -27,10 +27,10 @@ data class ProfileDto(
 
     companion object {
         val EMPTY = ProfileDto(
-            type = ProfileType.IMG.name,
+            type = ProfileType.CHAR.name,
             image = "",
-            character = ProfileCharacter.NONE.name,
-            background = ProfileBackground.GRAY.name
+            character = ProfileCharacter.C01.name,
+            background = ProfileBackground.GREEN.name
         )
     }
 }

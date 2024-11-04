@@ -114,4 +114,12 @@
     <string name="badge">칭호</string>
     <string name="my_aku">내 아쿠</string>
     <string name="go_to_store">상점 바로가기</string>
+    <string name="item_notification">알림</string>
+    <string name="item_account">계정</string>
+    <string name="item_see_terms">약관 확인</string>
+    <string name="item_set_permissions">권한 설정</string>
+    <string name="item_inquiry">1:1문의</string>
+    <string name="item_help">도움말</string>
+    <string name="item_give_rating">별점 남기기</string>
+
 </resources>
