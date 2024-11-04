@@ -75,6 +75,9 @@ object Routes {
 
         @Serializable
         data class SeeTermDetail(val term: TermViewState)
+
+        @Serializable
+        object Inquiry
     }
 
     object ScheduleWaiting {

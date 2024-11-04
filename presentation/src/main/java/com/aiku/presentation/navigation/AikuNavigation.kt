@@ -14,6 +14,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -36,6 +37,7 @@ import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
+import com.aiku.presentation.ui.screen.my.composable.InquiryScreen
 import com.aiku.presentation.ui.screen.my.composable.MyPageListType
 import com.aiku.presentation.ui.screen.my.composable.MyPageScreen
 import com.aiku.presentation.ui.screen.my.composable.NotificationSettingScreen
@@ -179,7 +181,7 @@ fun AikuNavigation(
                                     // 권한 설정 화면
                                 }
                                 MyPageListType.INQUIRY -> {
-                                    // 문의 화면
+                                    navController.navigate(Routes.Main.Inquiry)
                                 }
                                 MyPageListType.HELP -> {
                                     // 도움말 화면
@@ -307,6 +309,15 @@ fun AikuNavigation(
                     val arguments = it.toRoute<Routes.Main.SeeTermDetail>()
                     SeeTermDetailScreen(
                         term = arguments.term
+                    )
+                }
+
+                composable<Routes.Main.Inquiry> {
+                    InquiryScreen(
+                        modifier = Modifier.fillMaxSize().background(Color.White).padding(horizontal = 20.dp).padding(bottom = 36.dp),
+                        onNavigateTermDetailScreen = {
+                            navController.navigate(Routes.Main.SeeTermDetail(it))
+                        }
                     )
                 }
             }

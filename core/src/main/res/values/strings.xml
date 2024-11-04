@@ -127,5 +127,11 @@
     <string name="terms_item_privacy">개인정보 보호 동의</string>
     <string name="terms_item_location">위치 기반 서비스 이용약관</string>
     <string name="terms_item_marketing">마케팅 정보 수신 동의</string>
+    <string name="how_to_help">무엇을 도와드릴까요?</string>
+    <string name="input_inquiry_title">문의할 내용의 제목을 입력하세요.</string>
+    <string name="input_inquiry_content">문의할 내용을 입력하세요.</string>
+    <string name="check_user_information">답변을 받으실 정보가 맞나요?</string>
+    <string name="user_name">사용자 이름</string>
+    <string name="terms_item_collect_privacy">개인정보 수집 및 이용 동의</string>
 
 </resources>
