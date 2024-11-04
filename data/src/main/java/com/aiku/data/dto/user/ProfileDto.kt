@@ -24,6 +24,15 @@ data class ProfileDto(
         background = background?.let { ProfileBackground.valueOf(it.uppercase(Locale.ROOT)) }
             ?: ProfileBackground.GRAY
     )
+
+    companion object {
+        val EMPTY = ProfileDto(
+            type = ProfileType.IMG.name,
+            image = "",
+            character = ProfileCharacter.NONE.name,
+            background = ProfileBackground.GRAY.name
+        )
+    }
 }
 
 fun Profile.toProfileDto() = ProfileDto(
