@@ -10,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-
-//화면 너비의 직사각형 버튼
 @Composable
 fun FullWidthButton(
     modifier: Modifier = Modifier,

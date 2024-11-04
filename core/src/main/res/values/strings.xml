@@ -107,4 +107,11 @@
 
     <!-- 상점 -->
     <string name="store">상점</string>
+
+    <!-- 마이페이지 -->
+    <string name="my_page">마이페이지</string>
+    <string name="edit_profile">프로필 편집</string>
+    <string name="badge">칭호</string>
+    <string name="my_aku">내 아쿠</string>
+    <string name="go_to_store">상점 바로가기</string>
 </resources>
