@@ -65,6 +65,9 @@ object Routes {
 
         @Serializable
         object Shop
+
+        @Serializable
+        object NotificationSetting
     }
 
     object ScheduleWaiting {

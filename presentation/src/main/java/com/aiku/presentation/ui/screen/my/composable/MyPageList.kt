@@ -26,7 +26,7 @@ import com.aiku.presentation.theme.Gray02
 enum class MyPageListType(
     @StringRes val titleRes: Int
 ) {
-    NOTIFICATION(R.string.item_notification),
+    NOTIFICATION(R.string.item_notification_setting),
     ACCOUNT(R.string.item_account),
     SEE_TERMS(R.string.item_see_terms),
     SET_PERMISSIONS(R.string.item_set_permissions),

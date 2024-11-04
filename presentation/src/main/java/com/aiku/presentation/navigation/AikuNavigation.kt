@@ -13,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -35,7 +36,9 @@ import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingSchedul
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.notification.composable.NotificationScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
-import com.aiku.presentation.ui.screen.my.MyPageScreen
+import com.aiku.presentation.ui.screen.my.composable.MyPageListType
+import com.aiku.presentation.ui.screen.my.composable.MyPageScreen
+import com.aiku.presentation.ui.screen.my.composable.NotificationSettingScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
 import com.aiku.presentation.ui.screen.signup.composable.ProfileEditScreen
 import com.aiku.presentation.ui.screen.signup.composable.TermsAgreementScreen
@@ -156,7 +159,34 @@ fun AikuNavigation(
                     )
                 }
                 composable<Routes.Main.MyPage> {
-                    MyPageScreen()
+                    MyPageScreen(
+                        modifier = Modifier.fillMaxSize().background(Gray01),
+                        onListItemClicked = {
+                            when(it) {
+                                MyPageListType.NOTIFICATION -> {
+                                    navController.navigate(Routes.Main.NotificationSetting)
+                                }
+                                MyPageListType.ACCOUNT -> {
+                                    // 계정 화면
+                                }
+                                MyPageListType.SEE_TERMS -> {
+                                    // 약관 화면
+                                }
+                                MyPageListType.SET_PERMISSIONS -> {
+                                    // 권한 설정 화면
+                                }
+                                MyPageListType.INQUIRY -> {
+                                    // 문의 화면
+                                }
+                                MyPageListType.HELP -> {
+                                    // 도움말 화면
+                                }
+                                MyPageListType.GIVE_RATING -> {
+                                    // 평가 화면
+                                }
+                            }
+                        }
+                    )
                 }
 
                 composable<Routes.Main.Group> { backStackEntry ->
@@ -200,6 +230,11 @@ fun AikuNavigation(
                 composable<Routes.Main.Notification> {
                     NotificationScreen(
                         modifier = Modifier.fillMaxSize().background(Gray01)
+                    )
+                }
+                composable<Routes.Main.NotificationSetting> {
+                    NotificationSettingScreen(
+                        modifier = Modifier.fillMaxSize().background(Color.White)
                     )
                 }
             }

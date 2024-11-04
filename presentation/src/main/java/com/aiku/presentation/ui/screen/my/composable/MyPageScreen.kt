@@ -58,6 +58,7 @@ import com.aiku.presentation.ui.screen.my.viewmodel.MyPageViewModel
 @Composable
 fun MyPageScreen(
     modifier: Modifier = Modifier,
+    onListItemClicked: (MyPageListType) -> Unit = {},
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
@@ -196,9 +197,7 @@ fun MyPageScreen(
                 .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(10.dp))
             ,
-            onItemClicked = {
-                // TODO : Navigate
-            }
+            onItemClicked = onListItemClicked
         )
     }
 }
