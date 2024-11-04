@@ -28,17 +28,20 @@ import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.user.MemberState
+import com.aiku.presentation.state.user.TermViewState
 import com.aiku.presentation.theme.Gray01
 import com.aiku.presentation.ui.component.navigation.BottomNavigation
 import com.aiku.presentation.ui.group.GroupScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.BettingScreen
 import com.aiku.presentation.ui.group.schedule.waiting.composable.WaitingScheduleScreen
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
-import com.aiku.presentation.ui.screen.notification.composable.NotificationScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.my.composable.MyPageListType
 import com.aiku.presentation.ui.screen.my.composable.MyPageScreen
 import com.aiku.presentation.ui.screen.my.composable.NotificationSettingScreen
+import com.aiku.presentation.ui.screen.my.composable.SeeTermDetailScreen
+import com.aiku.presentation.ui.screen.my.composable.SeeTermsScreen
+import com.aiku.presentation.ui.screen.notification.composable.NotificationScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
 import com.aiku.presentation.ui.screen.signup.composable.ProfileEditScreen
 import com.aiku.presentation.ui.screen.signup.composable.TermsAgreementScreen
@@ -170,7 +173,7 @@ fun AikuNavigation(
                                     // 계정 화면
                                 }
                                 MyPageListType.SEE_TERMS -> {
-                                    // 약관 화면
+                                    navController.navigate(Routes.Main.SeeTerms)
                                 }
                                 MyPageListType.SET_PERMISSIONS -> {
                                     // 권한 설정 화면
@@ -284,6 +287,26 @@ fun AikuNavigation(
                             navController.previousBackStackEntry?.savedStateHandle?.set("selectedMemberId", arguments.member.id)
                             navController.popBackStack()
                         }
+                    )
+                }
+
+                composable<Routes.Main.SeeTerms> {
+                    SeeTermsScreen(
+                        modifier = Modifier.fillMaxSize().background(Color.White),
+                        onTermItemClicked = {
+                            navController.navigate(Routes.Main.SeeTermDetail(it))
+                        }
+                    )
+                }
+
+                composable<Routes.Main.SeeTermDetail>(
+                    typeMap = mapOf(
+                        typeOf<TermViewState>() to TermNavType
+                    )
+                ) {
+                    val arguments = it.toRoute<Routes.Main.SeeTermDetail>()
+                    SeeTermDetailScreen(
+                        term = arguments.term
                     )
                 }
             }

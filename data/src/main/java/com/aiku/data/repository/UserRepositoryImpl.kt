@@ -1,11 +1,13 @@
 package com.aiku.data.repository
 
 import com.aiku.data.dto.user.UserDto
+import com.aiku.data.dto.user.toTerms
 import com.aiku.data.dto.user.toUserDto
 import com.aiku.data.entity.toUser
 import com.aiku.data.entity.toUserEntity
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
+import com.aiku.domain.model.user.Terms
 import com.aiku.domain.model.user.User
 import com.aiku.domain.repository.UserRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -45,5 +47,9 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun fetchUser(): Flow<User> {
         return user
+    }
+
+    override suspend fun fetchTerms(): Terms {
+        return userRemoteDataSource.fetchTerms().toTerms()
     }
 }

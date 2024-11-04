@@ -123,5 +123,9 @@
     <string name="item_give_rating">별점 남기기</string>
     <string name="notification_item_push">푸시 알림</string>
     <string name="notification_item_advertisement">광고 알림</string>
+    <string name="terms_item_service">서비스 이용약관</string>
+    <string name="terms_item_privacy">개인정보 보호 동의</string>
+    <string name="terms_item_location">위치 기반 서비스 이용약관</string>
+    <string name="terms_item_marketing">마케팅 정보 수신 동의</string>
 
 </resources>
