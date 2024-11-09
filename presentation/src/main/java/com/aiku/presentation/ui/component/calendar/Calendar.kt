@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
@@ -42,7 +44,8 @@ fun Calendar(
     selectedDate: LocalDate?,
     onDateSelected: (LocalDate) -> Unit,
     onPreviousMonth: () -> Unit,
-    onNextMonth: () -> Unit
+    onNextMonth: () -> Unit,
+    datesWithSchedules: List<LocalDate>
 ) {
     val yearMonth = YearMonth.of(year, month)
     val daysInMonth = yearMonth.lengthOfMonth()  // 해당 월의 일 수
@@ -116,6 +119,7 @@ fun Calendar(
                 DateCell(
                     day = day + 1,
                     isSelected = date == selectedDate,
+                    hasSchedule = datesWithSchedules.contains(date),
                     onClick = { onDateSelected(date) }
                 )
             }
@@ -127,6 +131,7 @@ fun Calendar(
 fun DateCell(
     day: Int,
     isSelected: Boolean,
+    hasSchedule: Boolean,
     onClick: () -> Unit
 ) {
     Box(
@@ -140,10 +145,28 @@ fun DateCell(
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text(
-            text = day.toString(),
-            color = if (isSelected) Color.White else Gray04,
-            style = Body2_Medium
-        )
+        Column(
+            modifier = Modifier.padding(4.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            if (hasSchedule) {
+                Box(
+                    modifier = Modifier
+                        .size(5.dp)
+                        .background(color = if (isSelected) Color.White else CobaltBlue, shape = CircleShape),
+                )
+            } else {
+                Spacer(modifier = Modifier.size(5.dp))
+            }
+
+            Text(
+                modifier = Modifier.padding(top = 6.dp, bottom = 11.dp),
+                text = day.toString(),
+                color = if (isSelected) Color.White else Gray04,
+                style = Body2_Medium
+            )
+        }
     }
 }

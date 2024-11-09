@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.paging.filter
 import androidx.paging.map
 import com.aiku.domain.usecase.schedule.FetchUserSchedulesUseCase
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -34,6 +36,27 @@ class CalendarViewModel @Inject constructor(
     /** 현재 년도와 월 **/
     private val _currentYearMonth = MutableStateFlow(YearMonth.now())
     val currentYearMonth: StateFlow<YearMonth> = _currentYearMonth.asStateFlow()
+
+    private val _userMonthlySchedulesUiState = MutableStateFlow<UserMonthlySchedulesUiState>(UserMonthlySchedulesUiState.Loading)
+    val userMonthlySchedulesUiState: StateFlow<UserMonthlySchedulesUiState> = _userMonthlySchedulesUiState.asStateFlow()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val userMonthlySchedules: Flow<PagingData<UserScheduleOverviewState>> = _currentYearMonth
+        .filterNotNull()
+        .flatMapLatest { yearMonth ->
+            val startDate = yearMonth.atDay(1).atStartOfDay()
+            val endDate = yearMonth.atEndOfMonth().atTime(23, 59, 59)
+
+            fetchUserSchedulesUseCase(startDate, endDate, false)
+                .map { pagingData ->
+                    pagingData.map { it.toUserScheduleOverviewState() }
+                }
+                .onStart { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Loading) }
+                .onEach { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Success) }
+                .onError { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Error) }
+                .cachedIn(viewModelScope)
+        }
+
 
     /** 이전 달로 이동 **/
     fun onPreviousMonth() {
@@ -64,8 +87,8 @@ class CalendarViewModel @Inject constructor(
     val userSchedules: Flow<PagingData<UserScheduleOverviewState>> = _selectedDate
         .filterNotNull()
         .flatMapLatest { date ->
-            val startDate = date.atStartOfDay() // LocalDateTime으로 변환: 00:00:00
-            val endDate = date.atTime(23, 59, 59) // LocalDateTime으로 변환: 23:59:59
+            val startDate = date.atStartOfDay()
+            val endDate = date.atTime(23, 59, 59)
             fetchUserSchedulesUseCase(startDate, endDate, false)
                 .map { pagingData ->
                     pagingData.map { it.toUserScheduleOverviewState() }
@@ -81,5 +104,11 @@ sealed interface UserSchedulesUiState {
     data object Loading : UserSchedulesUiState
     data object Success : UserSchedulesUiState
     data object Error : UserSchedulesUiState
+}
+
+sealed interface UserMonthlySchedulesUiState {
+    data object Loading : UserMonthlySchedulesUiState
+    data object Success : UserMonthlySchedulesUiState
+    data object Error : UserMonthlySchedulesUiState
 }
 
