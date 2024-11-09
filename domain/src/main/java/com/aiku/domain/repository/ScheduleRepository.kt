@@ -22,6 +22,6 @@ interface ScheduleRepository {
     fun fetchGroupScheduleDetail(groupId: Long, scheduleId: Long): Flow<Schedule>
     fun bet(scheduleId: Long, betAkuReq: BetAkuReq): Flow<Unit>
 
-    fun fetchUserSchedules(startDate: LocalDateTime, endDate: LocalDateTime): Flow<PagingData<UserScheduleOverview>>
+    fun fetchUserSchedules(startDate: LocalDateTime, endDate: LocalDateTime, isToday : Boolean): Flow<PagingData<UserScheduleOverview>>
 
 }

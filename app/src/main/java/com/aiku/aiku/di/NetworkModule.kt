@@ -37,7 +37,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBaseUrl() : String {
-        return "https://api.aiku.com/"   // TODO : BaseUrl
+        return "http://3.36.49.12:8080/"
     }
 
     @Provides

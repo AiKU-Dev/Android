@@ -15,13 +15,13 @@ import java.time.LocalDateTime
 data class GroupScheduleOverviewState(
     val id: Long,
     val name: String,
-    val location: LocationState,
+    override val location: LocationState,
     @Serializable(with = LocalDateTimeAsStringSerializer::class)
-    val time: LocalDateTime,
-    val status: ScheduleStatus,
-    val memberSize: Int,
+    override val time: LocalDateTime,
+    override val status: ScheduleStatus,
+    override val memberSize: Int,
     val accept: Boolean
-) : Parcelable
+) : ScheduleOverviewState
 
 fun GroupScheduleOverview.toGroupScheduleOverviewState() =
     GroupScheduleOverviewState(id, name, location.toLocationState(), time, status, memberSize, accept)

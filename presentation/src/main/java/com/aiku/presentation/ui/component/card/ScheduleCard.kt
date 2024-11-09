@@ -37,6 +37,8 @@ import com.aiku.core.theme.Subtitle3
 import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
+import com.aiku.presentation.state.schedule.ScheduleOverviewState
+import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Green5
@@ -51,9 +53,16 @@ import java.time.LocalDateTime
 @Composable
 fun ScheduleCard(
     modifier: Modifier = Modifier,
-    schedule: GroupScheduleOverviewState,
+    schedule: ScheduleOverviewState,
     onClick: (ScheduleStatus) -> Unit = {}
 ) {
+
+    val name = when (schedule) {
+        is UserScheduleOverviewState -> schedule.scheduleName
+        is GroupScheduleOverviewState -> schedule.name
+        else -> null
+    }
+
     var cardColor by remember {
         mutableStateOf(Purple5)
     }
@@ -84,7 +93,9 @@ fun ScheduleCard(
                 .padding(top = 13.dp, start = 24.dp, end = 12.dp),
         ) {
             Row(modifier = Modifier.fillMaxWidth()) {
-                Text(text = schedule.name, style = Subtitle3)
+                if (name != null) {
+                    Text(text = name, style = Subtitle3)
+                }
                 Spacer(modifier = Modifier.weight(1f))
                 ScheduleStatusChip(status = schedule.status)
             }

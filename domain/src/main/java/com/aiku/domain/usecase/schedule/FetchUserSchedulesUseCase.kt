@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 class FetchUserSchedulesUseCase(
     private val scheduleRepository: ScheduleRepository
 ) {
-    operator fun invoke(startDate: LocalDateTime, endDate: LocalDateTime): Flow<PagingData<UserScheduleOverview>> {
-        return scheduleRepository.fetchUserSchedules(startDate, endDate)
+    operator fun invoke(startDate: LocalDateTime, endDate: LocalDateTime, isToday : Boolean): Flow<PagingData<UserScheduleOverview>> {
+        return scheduleRepository.fetchUserSchedules(startDate, endDate, isToday)
     }
 }

@@ -189,6 +189,22 @@ val Body2 = TextStyle(
     letterSpacing = 0.sp
 )
 
+val Body2_Medium = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Medium,
+    fontSize = 14.sp,
+    lineHeight = 18.sp,
+    letterSpacing = 0.sp
+)
+
+val Body2_SemiBold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 14.sp,
+    lineHeight = 18.sp,
+    letterSpacing = 0.sp
+)
+
 val Caption1 = TextStyle(
     fontFamily = pretendardFontFamily,
     fontWeight = FontWeight.Normal,

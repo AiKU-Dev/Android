@@ -146,7 +146,8 @@ fun AikuNavigation(
                 }
                 composable<Routes.Main.MySchedule> {
                     MyScheduleScreen(
-                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
+                        modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
+                        onUserScheduleClicked = {} //TODO : navigate
                     )
                 }
                 composable<Routes.Main.MyPage> {

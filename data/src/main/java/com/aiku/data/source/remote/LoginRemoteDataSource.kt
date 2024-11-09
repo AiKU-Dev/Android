@@ -3,6 +3,7 @@ package com.aiku.data.source.remote
 import android.content.Context
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.dto.TokenDto
+import com.aiku.data.dto.group.request.IssueATRTRequest
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
 import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
 import com.aiku.domain.exception.ERROR_KAKAO_USER_INFO_FETCH
@@ -60,16 +61,7 @@ class LoginRemoteDataSource @Inject constructor(
             }
             // idToken -> AT, RT 발급
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_OCID_FETCH, "idToken 발급 실패")
-
-            // 임시로 쓰레기값을 반환
-            val fakeTokenDto = TokenDto(
-                grantType = "Bearer",
-                accessToken = "fakeAccessToken1234",
-                refreshToken = "fakeRefreshToken1234",
-                memberId = 99999
-            )
-            fakeTokenDto
-            // TODO : authApi.issueATRT(request = IssueATRTRequest(idToken)) + 서버 에러 세분화
+            tokenApi.issueATRT(request = IssueATRTRequest(idToken))
 
         } catch (e: Exception) { throw ErrorResponse(ERROR_KAKAO_LOGIN, "An error occurred: ${e.message}") }
     }
@@ -82,8 +74,7 @@ class LoginRemoteDataSource @Inject constructor(
                 val fakeTokenDto = TokenDto(
                     grantType = "Bearer",
                     accessToken = "fakeAccessToken1234",
-                    refreshToken = "fakeRefreshToken1234",
-                    memberId = 99999
+                    refreshToken = "fakeRefreshToken1234"
                 )
                 fakeTokenDto
                 // TODO : authApi.issueAT(IssueATRequest(refreshToken, accessToken)) + 서버 에러 세분화

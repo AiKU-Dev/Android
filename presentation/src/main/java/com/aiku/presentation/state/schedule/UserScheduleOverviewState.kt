@@ -15,11 +15,11 @@ data class UserScheduleOverviewState(
     val groupName: String,
     val scheduleId: Long,
     val scheduleName: String,
-    val location: LocationState,
-    val time: LocalDateTime,
-    val status: ScheduleStatus,
-    val memberSize: Int
-) : Parcelable
+    override val location: LocationState,
+    override val time: LocalDateTime,
+    override val status: ScheduleStatus,
+    override val memberSize: Int
+) : ScheduleOverviewState
 
 fun UserScheduleOverview.toUserScheduleOverviewState() =
     UserScheduleOverviewState(groupId, groupName, scheduleId, scheduleName, location.toLocationState(), time, status, memberSize)
