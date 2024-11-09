@@ -31,15 +31,34 @@ class CalendarViewModel @Inject constructor(
     private val fetchUserSchedulesUseCase: FetchUserSchedulesUseCase
 ) : ViewModel() {
 
-    private val _selectedDate = MutableStateFlow<LocalDate?>(null)
-    val selectedDate: StateFlow<LocalDate?> = _selectedDate.asStateFlow()
-
-    // 현재 연도와 월 상태
+    /** 현재 년도와 월 **/
     private val _currentYearMonth = MutableStateFlow(YearMonth.now())
     val currentYearMonth: StateFlow<YearMonth> = _currentYearMonth.asStateFlow()
 
+    /** 이전 달로 이동 **/
+    fun onPreviousMonth() {
+        viewModelScope.launch {
+            _currentYearMonth.value = _currentYearMonth.value.minusMonths(1)
+        }
+    }
+
+    /** 다음 달로 이동 **/
+    fun onNextMonth() {
+        viewModelScope.launch {
+            _currentYearMonth.value = _currentYearMonth.value.plusMonths(1)
+        }
+    }
+
+    /** 선택된 날짜 약속 **/
+    private val _selectedDate = MutableStateFlow<LocalDate?>(null)
+    val selectedDate: StateFlow<LocalDate?> = _selectedDate.asStateFlow()
+
     private val _userSchedulesUiState = MutableStateFlow<UserSchedulesUiState>(UserSchedulesUiState.Loading)
     val userSchedulesUiState: StateFlow<UserSchedulesUiState> = _userSchedulesUiState.asStateFlow()
+
+    fun selectDate(date: LocalDate) {
+        _selectedDate.value = date
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val userSchedules: Flow<PagingData<UserScheduleOverviewState>> = _selectedDate
@@ -56,25 +75,6 @@ class CalendarViewModel @Inject constructor(
                 .onEach { _userSchedulesUiState.emit(UserSchedulesUiState.Success) }
                 .onError { _userSchedulesUiState.emit(UserSchedulesUiState.Error) }
         }
-
-    /** 날짜 선택 **/
-    fun selectDate(date: LocalDate) {
-        _selectedDate.value = date
-    }
-
-    /** 이전 달로 이동 **/
-    fun onPreviousMonth() {
-        viewModelScope.launch {
-            _currentYearMonth.value = _currentYearMonth.value.minusMonths(1)
-        }
-    }
-
-    /** 다음 달로 이동 **/
-    fun onNextMonth() {
-        viewModelScope.launch {
-            _currentYearMonth.value = _currentYearMonth.value.plusMonths(1)
-        }
-    }
 }
 
 sealed interface UserSchedulesUiState {
