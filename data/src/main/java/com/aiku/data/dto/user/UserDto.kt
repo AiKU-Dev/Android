@@ -38,6 +38,17 @@ data class UserDto(
         ),
         point = point ?: 0
     )
+
+    companion object {
+        val EMPTY = UserDto(
+            id = 0,
+            nickname = "",
+            kakaoId = "",
+            profile = ProfileDto.EMPTY,
+            badge = BadgeDto.EMPTY,
+            point = 0
+        )
+    }
 }
 
 fun User.toUserDto() = UserDto(

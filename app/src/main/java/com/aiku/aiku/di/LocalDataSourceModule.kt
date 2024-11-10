@@ -4,6 +4,8 @@ import com.aiku.data.api.local.TokenSharedPreferencesStorage
 import com.aiku.data.api.local.UserDataStoreStorage
 import com.aiku.data.source.local.TokenLocalDataSource
 import android.content.Context
+import com.aiku.data.api.local.room.AikuDatabase
+import com.aiku.data.source.local.NotificationLocalDataSource
 import com.aiku.data.source.local.TermsLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.LoginRemoteDataSource
@@ -40,5 +42,13 @@ object LocalDataSourceModule {
     @Singleton
     fun provideTermsLocalDataSource(@ApplicationContext context: Context): TermsLocalDataSource {
         return TermsLocalDataSource(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNotificationLocalDataSource(
+        aikuDatabase: AikuDatabase
+    ): NotificationLocalDataSource {
+        return NotificationLocalDataSource(aikuDatabase)
     }
 }

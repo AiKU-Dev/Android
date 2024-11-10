@@ -7,9 +7,11 @@ import retrofit2.http.Body
 import retrofit2.http.POST
 
 interface TokenApi {
-    @POST("login/sign-in")
-    suspend fun issueATRT(@Body request: IssueATRTRequest): TokenDto
-
     @POST("login/refresh")
     suspend fun issueAT(@Body request: IssueATRequest): TokenDto //TODO : Body 수정
+}
+
+interface NoAuthTokenApi {
+    @POST("login/sign-in")
+    suspend fun issueATRT(@Body request: IssueATRTRequest): TokenDto
 }

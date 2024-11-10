@@ -2,6 +2,9 @@ package com.aiku.presentation.state.user
 
 import android.os.Parcelable
 import androidx.compose.runtime.Immutable
+import com.aiku.domain.model.group.type.ProfileBackground
+import com.aiku.domain.model.group.type.ProfileCharacter
+import com.aiku.domain.model.group.type.ProfileType
 import com.aiku.domain.model.user.Badge
 import com.aiku.domain.model.user.Profile
 import com.aiku.domain.model.user.User
@@ -26,6 +29,25 @@ data class UserState(
         badge = badge.toBadge(),
         point = point
     )
+
+    companion object {
+        val EMPTY = UserState(
+            id = 0,
+            nickname = "",
+            kakaoId = "",
+            profile = ProfileState(
+                type = ProfileType.CHAR,
+                image = "",
+                character = ProfileCharacter.C01,
+                background = ProfileBackground.GREEN
+            ),
+            badge = BadgeState(
+                name = "",
+                image = ""
+            ),
+            point = 0
+        )
+    }
 }
 
 fun User.toUserState(): UserState = UserState(

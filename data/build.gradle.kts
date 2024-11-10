@@ -64,6 +64,10 @@ dependencies {
 
     implementation(libs.v2.all) //Kakao
     implementation(libs.androidx.paging.runtime) //paging
+
+    implementation(libs.room)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 }
 
 protobuf {

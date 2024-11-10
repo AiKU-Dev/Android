@@ -14,6 +14,13 @@ data class BadgeDto(
         name = name ?: "",
         image = image ?: ""
     )
+
+    companion object {
+        val EMPTY = BadgeDto(
+            name = "",
+            image = ""
+        )
+    }
 }
 
 fun Badge.toBadgeDto() = BadgeDto(
