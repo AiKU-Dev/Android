@@ -48,6 +48,7 @@ import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.button.FloatingActionPlusButton
 import com.aiku.presentation.ui.screen.home.viewmodel.GroupsUiState
 import com.aiku.presentation.ui.screen.home.viewmodel.HomeViewModel
+import com.aiku.presentation.ui.screen.home.viewmodel.TodayUserSchedulesUiState
 import com.aiku.presentation.ui.screen.home.viewmodel.UserSchedulesUiState
 import com.aiku.presentation.util.noRippleClickable
 import java.time.LocalDate
@@ -117,7 +118,7 @@ fun HomeContent(
     onTodayScheduleClicked: () -> Unit
 ) {
 
-    val userSchedulesUiState by homeViewModel.userSchedulesUiState.collectAsState()
+    val todayUserSchedulesUiState by homeViewModel.todayUserSchedulesUiState.collectAsState()
     val lazyUserSchedulePagingItems = homeViewModel.userSchedules.collectAsLazyPagingItems()
 
     val groupsUiState by homeViewModel.groupsUiState.collectAsState()
@@ -145,12 +146,12 @@ fun HomeContent(
                 color = Typo
             )
 
-            when (userSchedulesUiState) {
-                UserSchedulesUiState.Loading -> { }
+            when (todayUserSchedulesUiState) {
+                TodayUserSchedulesUiState.Loading -> { }
 
-                UserSchedulesUiState.Error -> { }
+                TodayUserSchedulesUiState.Error -> { }
 
-                UserSchedulesUiState.Success -> {
+                TodayUserSchedulesUiState.Success -> {
                     if (lazyUserSchedulePagingItems.itemCount == 0) {
                         EmptyTodayUserSchedule()
                     } else {

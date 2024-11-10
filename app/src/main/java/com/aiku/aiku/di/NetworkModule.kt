@@ -38,6 +38,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideBaseUrl() : String {
+        return "http://3.36.49.12:8080/"
         return "http://3.36.49.12:8080/"   // TODO : BaseUrl
     }
 

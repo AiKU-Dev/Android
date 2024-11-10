@@ -23,7 +23,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 import javax.inject.Inject
 
 // 오늘 내 약속, 내 그룹
@@ -35,20 +37,20 @@ class HomeViewModel @Inject constructor(
 ) : ViewModel() {
 
     /** 오늘 내 약속 **/
-    private val _userSchedulesUiState = MutableStateFlow<UserSchedulesUiState>(UserSchedulesUiState.Loading)
-    val userSchedulesUiState: StateFlow<UserSchedulesUiState> = _userSchedulesUiState.asStateFlow()
+    private val _todayUserSchedulesUiState = MutableStateFlow<TodayUserSchedulesUiState>(TodayUserSchedulesUiState.Loading)
+    val todayUserSchedulesUiState: StateFlow<TodayUserSchedulesUiState> = _todayUserSchedulesUiState.asStateFlow()
 
-    private val startDate = LocalDateTime.now()
-    private val endDate = LocalDateTime.now()
+    private val startDate = LocalDate.now().atStartOfDay()
+    private val endDate = LocalDate.now().atTime(LocalTime.MAX)
 
-    val userSchedules: Flow<PagingData<UserScheduleOverviewState>> = fetchUserSchedulesUseCase(startDate, endDate)
+    val userSchedules: Flow<PagingData<UserScheduleOverviewState>> = fetchUserSchedulesUseCase(startDate, endDate, true)
         .map { pagingData ->
             pagingData.map { it.toUserScheduleOverviewState() }
         }
         .cachedIn(viewModelScope)
-        .onStart { _userSchedulesUiState.emit(UserSchedulesUiState.Loading) }
-        .onEach { _userSchedulesUiState.emit(UserSchedulesUiState.Success) }
-        .onError { _userSchedulesUiState.emit(UserSchedulesUiState.Error) }
+        .onStart { _todayUserSchedulesUiState.emit(TodayUserSchedulesUiState.Loading) }
+        .onEach { _todayUserSchedulesUiState.emit(TodayUserSchedulesUiState.Success) }
+        .onError { _todayUserSchedulesUiState.emit(TodayUserSchedulesUiState.Error) }
 
     /** 내 그룹 **/
     private val _groupsUiState = MutableStateFlow<GroupsUiState>(GroupsUiState.Loading)
@@ -99,10 +101,10 @@ class HomeViewModel @Inject constructor(
 
 }
 
-sealed interface UserSchedulesUiState {
-    data object Loading : UserSchedulesUiState
-    data object Success : UserSchedulesUiState
-    data object Error : UserSchedulesUiState
+sealed interface TodayUserSchedulesUiState {
+    data object Loading : TodayUserSchedulesUiState
+    data object Success : TodayUserSchedulesUiState
+    data object Error : TodayUserSchedulesUiState
 }
 
 sealed interface GroupsUiState {

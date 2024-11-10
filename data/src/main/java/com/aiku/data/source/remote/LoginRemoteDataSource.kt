@@ -65,7 +65,6 @@ class LoginRemoteDataSource @Inject constructor(
             }
             // idToken -> AT, RT 발급
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_OCID_FETCH, "idToken 발급 실패")
-
             noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
 
         } catch (e: Exception) { throw ErrorResponse(ERROR_KAKAO_LOGIN, "An error occurred: ${e.message}") }

@@ -8,13 +8,11 @@ import com.squareup.moshi.JsonClass
 data class TokenDto(
     @Json(name = "grantType") val grantType: String?,
     @Json(name = "accessToken") val accessToken: String?,
-    @Json(name = "refreshToken") val refreshToken: String?,
-    @Json(name = "memberId") val memberId: Int?
+    @Json(name = "refreshToken") val refreshToken: String?
 ){
     fun toToken(): Token = Token(
         grantType = grantType ?: "",
         accessToken = accessToken ?: "",
-        refreshToken = refreshToken ?: "",
-        memberId = memberId ?: 0
+        refreshToken = refreshToken ?: ""
     )
 }

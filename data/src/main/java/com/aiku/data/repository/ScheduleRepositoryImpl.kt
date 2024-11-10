@@ -73,16 +73,28 @@ class ScheduleRepositoryImpl @Inject constructor(
 
     override fun fetchUserSchedules(
         startDate: LocalDateTime,
-        endDate: LocalDateTime
+        endDate: LocalDateTime,
+        isToday: Boolean
     ): Flow<PagingData<UserScheduleOverview>> {
-        return createPagerWithFilter(
-            pageSize = 10,
-            loadData = { page ->
-                val dto = scheduleRemoteDateSource.fetchUserSchedules(page, startDate, endDate)
-                val pagination = dto.toUserScheduleOverviewPagination()
-                pagination.userScheduleOverview
-            },
-            filterCondition = { it.status == ScheduleStatus.RUN || it.status == ScheduleStatus.WAIT }
-        )
+        if(isToday) { //오늘 내 약속
+            return createPagerWithFilter(
+                pageSize = 10,
+                loadData = { page ->
+                    val dto = scheduleRemoteDateSource.fetchUserSchedules(page, startDate, endDate)
+                    val pagination = dto.toUserScheduleOverviewPagination()
+                    pagination.userScheduleOverview
+                },
+                filterCondition = { it.status == ScheduleStatus.RUN || it.status == ScheduleStatus.WAIT }
+            )
+        }else { //캘린더
+            return createPager(
+                pageSize = 10,
+                loadData = { page ->
+                    val dto = scheduleRemoteDateSource.fetchUserSchedules(page, startDate, endDate)
+                    val pagination = dto.toUserScheduleOverviewPagination()
+                    pagination.userScheduleOverview
+                }
+            )
+        }
     }
 }
