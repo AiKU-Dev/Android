@@ -104,7 +104,8 @@ fun NotificationScreen(
             else {
                 NotificationContentScreen(
                     modifier = Modifier.fillMaxSize().padding(top = 22.dp),
-                    notifications = (notificationUiState as? NotificationUiState.Success)?.notifications ?: emptyList()
+                    notifications = (notificationUiState as? NotificationUiState.Success)?.notifications ?: emptyList(),
+                    selectedTab
                 )
             }
         }

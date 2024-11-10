@@ -18,6 +18,7 @@ data class NotificationEntity(
         category = NotificationCategory.valueOf(category),
         title = title,
         content = content,
+        id = id
     )
 }
 

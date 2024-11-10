@@ -49,7 +49,6 @@ import com.aiku.presentation.ui.component.button.FloatingActionPlusButton
 import com.aiku.presentation.ui.screen.home.viewmodel.GroupsUiState
 import com.aiku.presentation.ui.screen.home.viewmodel.HomeViewModel
 import com.aiku.presentation.ui.screen.home.viewmodel.TodayUserSchedulesUiState
-import com.aiku.presentation.ui.screen.home.viewmodel.UserSchedulesUiState
 import com.aiku.presentation.util.noRippleClickable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
