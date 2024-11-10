@@ -5,6 +5,7 @@ import com.aiku.presentation.state.group.GroupState
 import com.aiku.presentation.state.schedule.GroupScheduleOverviewState
 import com.aiku.presentation.state.schedule.LocationState
 import com.aiku.presentation.state.user.MemberState
+import com.aiku.presentation.state.user.TermViewState
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 
@@ -65,6 +66,18 @@ object Routes {
 
         @Serializable
         object Shop
+
+        @Serializable
+        object NotificationSetting
+
+        @Serializable
+        object SeeTerms
+
+        @Serializable
+        data class SeeTermDetail(val term: TermViewState)
+
+        @Serializable
+        object Inquiry
     }
 
     object ScheduleWaiting {

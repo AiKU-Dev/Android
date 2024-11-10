@@ -21,8 +21,4 @@ class UserDataStoreStorage @Inject constructor(
                 .build()
         }
     }
-
-    fun getUser(): Flow<UserEntity> {
-        return userDataStore.data
-    }
 }

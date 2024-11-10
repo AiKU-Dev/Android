@@ -2,6 +2,7 @@ package com.aiku.aiku.di
 
 import android.content.Context
 import com.aiku.core.qualifer.IoDispatcher
+import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.repository.LoginRepositoryImpl
 import com.aiku.data.source.remote.LoginRemoteDataSource
@@ -40,7 +41,9 @@ object ActivityModule {
     fun provideLoginRemoteDataSource(
         @ActivityContext context: Context,
         @IoDispatcher coroutineDispatcher: CoroutineDispatcher,
-        tokenApi: TokenApi): LoginRemoteDataSource {
-        return LoginRemoteDataSource(context, coroutineDispatcher, tokenApi)
+        tokenApi: TokenApi,
+        noAuthTokenApi: NoAuthTokenApi
+    ): LoginRemoteDataSource {
+        return LoginRemoteDataSource(context, coroutineDispatcher, tokenApi, noAuthTokenApi)
     }
 }

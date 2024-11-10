@@ -12,8 +12,4 @@ class UserLocalDataSource @Inject constructor(
     suspend fun saveUser(user: UserEntity) {
         dataStoreManager.saveUser(user)
     }
-
-    fun getUser(): Flow<UserEntity> {
-        return dataStoreManager.getUser()
-    }
 }

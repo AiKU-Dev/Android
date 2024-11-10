@@ -2,13 +2,15 @@ package com.aiku.aiku.di
 
 import com.aiku.aiku.BuildConfig
 import com.aiku.core.adapter.LocalDateTimeAdapter
+import com.aiku.core.qualifer.Auth
 import com.aiku.core.qualifer.AuthHeaderInterceptor
 import com.aiku.core.qualifer.BaseUrl
-import com.aiku.core.qualifer.ResponseExceptionInterceptor
-import com.aiku.core.qualifer.ResponseParsingInterceptor
+import com.aiku.core.qualifer.NoAuth
+import com.aiku.core.qualifer.ResponseInterceptor
 import com.aiku.data.source.local.TokenLocalDataSource
+import com.aiku.domain.exception.ClientNetworkException
 import com.aiku.domain.exception.ErrorResponse
-import com.aiku.domain.exception.UNKNOWN
+import com.aiku.domain.exception.ServerNetworkException
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -28,7 +30,6 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
@@ -38,6 +39,7 @@ object NetworkModule {
     @Singleton
     fun provideBaseUrl() : String {
         return "http://3.36.49.12:8080/"
+        return "http://3.36.49.12:8080/"   // TODO : BaseUrl
     }
 
     @Provides
@@ -68,27 +70,40 @@ object NetworkModule {
         tokenLocalDataSource: TokenLocalDataSource,
     ): Interceptor {
         return Interceptor { chain: Interceptor.Chain ->
-            runBlocking {
-                val accessToken = tokenLocalDataSource.getAccessToken() ?: ""
-                val newRequest: Request = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $accessToken")
-                    .build()
-                chain.proceed(newRequest)
-            }
+            val accessToken = runBlocking { tokenLocalDataSource.getAccessToken() ?: "" }
+            val newRequest: Request = chain.request().newBuilder()
+                .addHeader("Authorization", "Bearer $accessToken")
+                .build()
+            chain.proceed(newRequest)
         }
     }
 
-    @ResponseParsingInterceptor
+    @ResponseInterceptor
     @Provides
     @Singleton
-    fun provideResponseParsingInterceptor() : Interceptor {
+    fun provideResponseInterceptor(
+        moshi: Moshi
+    ) : Interceptor {
         return Interceptor { chain ->
             val response = chain.proceed(chain.request())
-            val body = response.body?.string() ?: throw ErrorResponse(UNKNOWN, "Unknown Error", "")
+            when (response.code) {
+                in 400 ..< 500 -> throw ClientNetworkException(response.code)
+                in 500 ..< 600 -> throw ServerNetworkException(response.code)
+            }
+            val originalBody = response.body ?: throw UnknownError("response body is null")
 
-            val jsonObject = JSONObject(body)
+            val source = originalBody.source()
+            val buffer = source.buffer.clone()
+            val bodyString = buffer.readUtf8()
+
+            if (response.isSuccessful.not()) {
+                val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
+                throw exception ?: UnknownError("error response is null")
+            }
+
+            val jsonObject = JSONObject(bodyString)
             val resultObject = jsonObject.getJSONObject("result")
-            val newResponseBody = resultObject.toString().toResponseBody(response.body?.contentType())
+            val newResponseBody = resultObject.toString().toResponseBody(originalBody.contentType())
 
             response.newBuilder()
                 .body(newResponseBody)
@@ -96,35 +111,13 @@ object NetworkModule {
         }
     }
 
-    @ResponseExceptionInterceptor
+    @Auth
     @Provides
     @Singleton
-    fun provideHttpExceptionInterceptor(
-        moshi: Moshi
-    ) : Interceptor {
-        return Interceptor { chain ->
-            val response = chain.proceed(chain.request())
-            if (response.isSuccessful.not()) {
-                val errorBody = response.body?.string().also {
-                    if (it == null) {
-                        throw ErrorResponse(UNKNOWN, "Unknown Error", "")
-                    }
-                }
-                val exception = moshi.adapter(ErrorResponse::class.java).fromJson(errorBody!!)
-                throw exception ?: ErrorResponse(UNKNOWN, "Unknown Error", "")
-            }
-            response
-        }
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideOkHttpClient(
+    fun provideAuthOkHttpClient(
         httpLoggingInterceptor: HttpLoggingInterceptor,
         @AuthHeaderInterceptor authHeaderInterceptor: Interceptor,
-        @ResponseExceptionInterceptor responseExceptionInterceptor: Interceptor,
-        @ResponseParsingInterceptor responseParsingInterceptor: Interceptor,
+        @ResponseInterceptor responseInterceptor: Interceptor,
         authenticator: Authenticator
     ) : OkHttpClient {
         return OkHttpClient.Builder()
@@ -133,17 +126,46 @@ object NetworkModule {
             .writeTimeout(15, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor)
             .addInterceptor(authHeaderInterceptor)
-            .addInterceptor(responseExceptionInterceptor)
-            .addInterceptor(responseParsingInterceptor)
+            .addInterceptor(responseInterceptor)
             .authenticator(authenticator)
             .build()
     }
 
+    @NoAuth
     @Provides
     @Singleton
-    fun provideRetrofit(
+    fun provideNoAuthOkHttpClient(
+        @ResponseInterceptor responseInterceptor: Interceptor,
+    ) : OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(responseInterceptor)
+            .build()
+    }
+
+    @Auth
+    @Provides
+    @Singleton
+    fun provideAuthRetrofit(
         @BaseUrl baseUrl: String,
-        okHttpClient: OkHttpClient,
+        @Auth okHttpClient: OkHttpClient,
+        moshi: Moshi
+    ) : Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+    }
+
+    @NoAuth
+    @Provides
+    @Singleton
+    fun provideNoAuthRetrofit(
+        @BaseUrl baseUrl: String,
+        @NoAuth okHttpClient: OkHttpClient,
         moshi: Moshi
     ) : Retrofit {
         return Retrofit.Builder()

@@ -1,9 +1,11 @@
 package com.aiku.data.source.remote
 
 import android.content.Context
+import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.dto.TokenDto
 import com.aiku.data.dto.group.request.IssueATRTRequest
+import com.aiku.data.dto.group.request.IssueATRequest
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
 import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
 import com.aiku.domain.exception.ERROR_KAKAO_USER_INFO_FETCH
@@ -22,19 +24,21 @@ import kotlin.coroutines.suspendCoroutine
 class LoginRemoteDataSource @Inject constructor(
     @ActivityContext private val context: Context,
     private val coroutineDispatcher: CoroutineDispatcher,
-    private val tokenApi: TokenApi
+    private val tokenApi: TokenApi,
+    private val noAuthTokenApi: NoAuthTokenApi
 ) {
 
     suspend fun loginWithKakaoTalk(): TokenDto {
         return withContext(coroutineDispatcher) {
             try {
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                    performLogin { callback -> UserApiClient.instance.loginWithKakaoTalk(context, callback = callback)
-                    }
+                    performLogin { callback -> UserApiClient.instance.loginWithKakaoTalk(context, callback = callback) }
                 } else {
                     loginWithKakaoAccount()
                 }
-            } catch (e: ErrorResponse) { throw e }
+            } catch (e: ErrorResponse) {
+                throw e
+            }
         }
     }
 
@@ -61,7 +65,7 @@ class LoginRemoteDataSource @Inject constructor(
             }
             // idToken -> AT, RT 발급
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_OCID_FETCH, "idToken 발급 실패")
-            tokenApi.issueATRT(request = IssueATRTRequest(idToken))
+            noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
 
         } catch (e: Exception) { throw ErrorResponse(ERROR_KAKAO_LOGIN, "An error occurred: ${e.message}") }
     }
@@ -70,14 +74,7 @@ class LoginRemoteDataSource @Inject constructor(
     suspend fun loginWithToken(refreshToken: String, accessToken: String): TokenDto {
         return withContext(coroutineDispatcher) {
             try {
-                // 임시로 쓰레기값을 반환
-                val fakeTokenDto = TokenDto(
-                    grantType = "Bearer",
-                    accessToken = "fakeAccessToken1234",
-                    refreshToken = "fakeRefreshToken1234"
-                )
-                fakeTokenDto
-                // TODO : authApi.issueAT(IssueATRequest(refreshToken, accessToken)) + 서버 에러 세분화
+                tokenApi.issueAT(IssueATRequest(refreshToken, accessToken))
             } catch (e: Exception) { throw ErrorResponse(ERROR_AUTO_LOGIN, "Failed to refresh token: ${e.message}") }
         }
     }

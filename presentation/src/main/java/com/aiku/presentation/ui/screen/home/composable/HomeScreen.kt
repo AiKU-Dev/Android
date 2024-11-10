@@ -2,16 +2,19 @@ package com.aiku.presentation.ui.screen.home.composable
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -19,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,11 +32,13 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.aiku.core.R
 import com.aiku.core.theme.Body2
+import com.aiku.core.theme.Headline_3G
 import com.aiku.core.theme.Subtitle_2G
 import com.aiku.core.theme.Subtitle_4G
 import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.state.group.GroupOverviewState
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
+import com.aiku.presentation.theme.CobaltBlue
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.Purple5
@@ -43,6 +49,8 @@ import com.aiku.presentation.ui.component.button.FloatingActionPlusButton
 import com.aiku.presentation.ui.screen.home.viewmodel.GroupsUiState
 import com.aiku.presentation.ui.screen.home.viewmodel.HomeViewModel
 import com.aiku.presentation.ui.screen.home.viewmodel.TodayUserSchedulesUiState
+import com.aiku.presentation.ui.screen.home.viewmodel.UserSchedulesUiState
+import com.aiku.presentation.util.noRippleClickable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -51,15 +59,38 @@ import java.time.format.DateTimeFormatter
 fun HomeScreen(
     modifier: Modifier = Modifier,
     onGroupClicked: (groupId: Long, groupName: String) -> Unit,
-    onTodayScheduleClicked: () -> Unit
+    onTodayScheduleClicked: () -> Unit,
+    onNavigateToNotification: () -> Unit = {},
 ) {
     var showCreateGroupDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar( //TODO : Topbar 수정
-                title = { Text("Home") }
+            TopAppBar( //TODO : Topbar 수정
+                title = {
+                    Text(
+                        modifier = Modifier.padding(start = 10.dp),
+                        text = "AiKU",
+                        style = Headline_3G,
+                        color = CobaltBlue
+                    )
+                },
+                actions = {
+                    Icon(
+                        modifier = Modifier.noRippleClickable {
+                            onNavigateToNotification()
+                        },
+                        painter = painterResource(R.drawable.ic_notification),
+                        contentDescription = stringResource(R.string.notification)
+                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Icon(
+                        modifier = Modifier.padding(end = 22.dp),
+                        painter = painterResource(R.drawable.ic_store),
+                        contentDescription = stringResource(R.string.store)
+                    )
+                }
             )
         },
         floatingActionButton = { FloatingActionPlusButton(onClick = { showCreateGroupDialog = true }) }
