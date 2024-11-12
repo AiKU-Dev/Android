@@ -3,15 +3,15 @@ package com.aiku.presentation.ui.screen.login.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
-import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
-import com.aiku.domain.exception.ERROR_OCID_FETCH
+import com.aiku.domain.exception.ERROR_KAKAO_OIDC
+import com.aiku.domain.exception.ERROR_KAKAO_SERVER
+import com.aiku.domain.exception.ERROR_SERVER_ISSUE_ATRT
 import com.aiku.domain.exception.TOKEN_NOT_FOUND
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -49,8 +49,9 @@ class LoginViewModel @Inject constructor(
             }
             .onError { error ->
                 val uiState = when (error.code) {
-                    ERROR_OCID_FETCH -> LoginUiState.OCIDFetchFailed
-                    ERROR_KAKAO_LOGIN -> LoginUiState.ServerError
+                    ERROR_KAKAO_OIDC -> { LoginUiState.KakaoOIDCError }
+                    ERROR_KAKAO_SERVER -> { LoginUiState.KakaoServerError }
+                    ERROR_SERVER_ISSUE_ATRT -> {LoginUiState.ServerError}
                     else -> LoginUiState.Idle
                 }
                 _loginUiState.emit(uiState)
@@ -88,7 +89,8 @@ sealed interface LoginUiState {
     data object Idle : LoginUiState
     data object Loading : LoginUiState
     data object Success : LoginUiState
-    data object OCIDFetchFailed : LoginUiState
+    data object KakaoOIDCError : LoginUiState
+    data object KakaoServerError : LoginUiState
     data object ServerError : LoginUiState
 }
 

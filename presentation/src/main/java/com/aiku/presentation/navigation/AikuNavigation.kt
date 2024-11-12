@@ -78,7 +78,7 @@ fun AikuNavigation(
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = Routes.Main.Graph,
+            startDestination = Routes.Splash,
             modifier = Modifier,
             enterTransition = {
                 EnterTransition.None
@@ -103,8 +103,8 @@ fun AikuNavigation(
                 startDestination = Routes.Auth.Login,
             ) {
                 composable<Routes.Auth.Login> {
-                    LoginScreen(loginUseCase = loginUseCase, onLoginSuccess = {
-                        navController.navigate(Routes.Main.Graph) {
+                    LoginScreen(loginUseCase = loginUseCase, onComplete = { isSucessful ->
+                        navController.navigate(if(isSucessful) Routes.Main.Graph else Routes.Auth.TermAgreement) {
                             popUpTo<Routes.Auth.Login> {
                                 inclusive = true
                             }

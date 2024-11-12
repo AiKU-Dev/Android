@@ -1,9 +1,6 @@
 package com.aiku.data.repository
 
 import com.aiku.data.source.remote.LoginRemoteDataSource
-import com.aiku.domain.exception.ERROR_AUTO_LOGIN
-import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
-import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.model.token.Token
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.CoroutineDispatcher

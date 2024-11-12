@@ -16,6 +16,7 @@ import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
+import com.aiku.presentation.ui.screen.splash.composable.SplashScreen
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -35,12 +36,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    AikuNavigation(
-//                        modifier = Modifier.fillMaxSize(),
-//                        navController = navController,
-//                        loginUseCase = loginUseCase
-//                    )
-                    MyScheduleScreen(onUserScheduleClicked = {})
+                    AikuNavigation(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = navController,
+                        loginUseCase = loginUseCase
+                    )
                 }
             }
         }

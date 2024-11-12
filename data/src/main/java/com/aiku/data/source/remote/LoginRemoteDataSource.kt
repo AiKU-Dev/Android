@@ -1,15 +1,17 @@
 package com.aiku.data.source.remote
 
 import android.content.Context
+import android.util.Log
 import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.dto.TokenDto
 import com.aiku.data.dto.group.request.IssueATRTRequest
 import com.aiku.data.dto.group.request.IssueATRequest
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
-import com.aiku.domain.exception.ERROR_KAKAO_LOGIN
+import com.aiku.domain.exception.ERROR_KAKAO_OIDC
+import com.aiku.domain.exception.ERROR_KAKAO_SERVER
 import com.aiku.domain.exception.ERROR_KAKAO_USER_INFO_FETCH
-import com.aiku.domain.exception.ERROR_OCID_FETCH
+import com.aiku.domain.exception.ERROR_SERVER_ISSUE_ATRT
 import com.aiku.domain.exception.ErrorResponse
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
@@ -60,15 +62,30 @@ class LoginRemoteDataSource @Inject constructor(
                         continuation.resumeWith(Result.failure(error))
                     } else {
                         continuation.resumeWith(Result.success(token))
+                        Log.d("kakao login", "data remote 성공")
                     }
                 }
             }
-            // idToken -> AT, RT 발급
-            val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_OCID_FETCH, "idToken 발급 실패")
-            noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
 
-        } catch (e: Exception) { throw ErrorResponse(ERROR_KAKAO_LOGIN, "An error occurred: ${e.message}") }
+            // idToken 검증
+            val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "idToken 발급 실패")
+
+            try {
+                // idToken -> AT, RT 발급
+                noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
+            } catch (e: Exception) {
+                throw ErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}")
+            }
+
+        } catch (e: Exception) {
+            if (e is ErrorResponse && e.code == ERROR_KAKAO_OIDC) {
+                throw ErrorResponse(ERROR_KAKAO_OIDC, "Kakao login failed: ${e.message}")
+            } else {
+                throw ErrorResponse(ERROR_KAKAO_SERVER, "An error occurred: ${e.message}")
+            }
+        }
     }
+
 
     //RT -> AT 재발급
     suspend fun loginWithToken(refreshToken: String, accessToken: String): TokenDto {
