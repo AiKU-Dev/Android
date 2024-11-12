@@ -103,18 +103,26 @@ fun AikuNavigation(
                 startDestination = Routes.Auth.Login,
             ) {
                 composable<Routes.Auth.Login> {
-                    LoginScreen(loginUseCase = loginUseCase, onComplete = { isSucessful ->
-                        navController.navigate(if(isSucessful) Routes.Main.Graph else Routes.Auth.TermAgreement) {
+                    LoginScreen(loginUseCase = loginUseCase, onComplete = { isSucessful, idToken, email->
+                        navController.navigate(
+                            (if(isSucessful) Routes.Main.Graph
+                            else idToken?.let { it1 -> Routes.Auth.TermAgreement(it1, email) }) as Any
+                        ) {
                             popUpTo<Routes.Auth.Login> {
                                 inclusive = true
                             }
                         }
                     })
                 }
-                composable<Routes.Auth.TermAgreement> {
+                composable<Routes.Auth.TermAgreement> { backStackEntry ->
+                    val kakaoInfo = backStackEntry.toRoute<Routes.Auth.TermAgreement>()
+                    val idToken = kakaoInfo.idToken
+                    val email = kakaoInfo.email
                     TermsAgreementScreen(
-                        onNavigateToProfileEditScreen = {
-                            navController.navigate(Routes.Auth.ProfileEdit)
+                        idToken,
+                        email,
+                        onNavigateToProfileEditScreen = { idToken, email ->
+                            navController.navigate(Routes.Auth.ProfileEdit(idToken, email))
                         },
                         onNavigateToTermContentScreen = { identifier ->
                             navController.navigate(
@@ -128,8 +136,14 @@ fun AikuNavigation(
                     val identifier = termContent.identifier
                     TermsContentScreen(identifier)
                 }
-                composable<Routes.Auth.ProfileEdit> {
+                composable<Routes.Auth.ProfileEdit> { backStackEntry ->
+                    val kakaoInfo = backStackEntry.toRoute<Routes.Auth.ProfileEdit>()
+                    val idToken = kakaoInfo.idToken
+                    val email = kakaoInfo.email
+
                     ProfileEditScreen(
+                        idToken,
+                        email,
                         modifier = Modifier,
                         onCompleteEdit = {
                             navController.navigate(Routes.Main.Graph) {

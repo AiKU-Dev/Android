@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.login.composable
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,15 +44,12 @@ import com.aiku.presentation.ui.screen.login.viewmodel.LoginViewModel
 fun LoginScreen(
     loginUseCase: LoginUseCase,
     loginViewModel: LoginViewModel = hiltViewModel(),
-    onComplete: (isSuccessful: Boolean) -> Unit
+    onComplete: (isSuccessful: Boolean, idToken: String?, email: String?) -> Unit
 ) {
-
-    val scrollState = rememberScrollState()
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(state = scrollState)
             .background(PrimaryColor)
             .padding(horizontal = ScreenHorizontalPadding),
         verticalArrangement = Arrangement.Center,
@@ -125,9 +123,13 @@ fun LoginScreen(
             when (uiState) {
                 LoginUiState.Idle -> {}
                 LoginUiState.Loading -> {}
-                LoginUiState.Success -> onComplete(true)
-                LoginUiState.KakaoOIDCError, LoginUiState.KakaoServerError -> onComplete(false)
-                LoginUiState.ServerError -> onComplete(false)
+                LoginUiState.Success -> {
+                    onComplete(true, null, null)}
+                LoginUiState.KakaoOIDCError, LoginUiState.KakaoServerError -> {
+                }
+                is LoginUiState.ServerError -> {
+                    onComplete(false, uiState.idToken, uiState.email)
+                }
             }
         }
     }

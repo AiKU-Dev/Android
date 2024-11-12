@@ -10,9 +10,10 @@ import com.aiku.data.dto.group.request.IssueATRequest
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
 import com.aiku.domain.exception.ERROR_KAKAO_OIDC
 import com.aiku.domain.exception.ERROR_KAKAO_SERVER
-import com.aiku.domain.exception.ERROR_KAKAO_USER_INFO_FETCH
+import com.aiku.domain.exception.ERROR_KAKAO_USER_EMAIL
 import com.aiku.domain.exception.ERROR_SERVER_ISSUE_ATRT
 import com.aiku.domain.exception.ErrorResponse
+import com.aiku.domain.exception.TokenIssueErrorResponse
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.qualifiers.ActivityContext
@@ -62,21 +63,23 @@ class LoginRemoteDataSource @Inject constructor(
                         continuation.resumeWith(Result.failure(error))
                     } else {
                         continuation.resumeWith(Result.success(token))
-                        Log.d("kakao login", "data remote 성공")
                     }
                 }
             }
 
-            // idToken 검증
+
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "idToken 발급 실패")
+            // val email = getUserEmail() //TODO
 
             try {
                 // idToken -> AT, RT 발급
                 noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
             } catch (e: Exception) {
-                throw ErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}")
+                throw TokenIssueErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}", idToken = idToken, email = "email")
             }
 
+        } catch (e: TokenIssueErrorResponse) {
+            throw e
         } catch (e: Exception) {
             if (e is ErrorResponse && e.code == ERROR_KAKAO_OIDC) {
                 throw ErrorResponse(ERROR_KAKAO_OIDC, "Kakao login failed: ${e.message}")
@@ -101,9 +104,9 @@ class LoginRemoteDataSource @Inject constructor(
         suspendCoroutine { continuation ->
             UserApiClient.instance.me { user, error ->
                 when {
-                    error != null -> continuation.resumeWithException(ErrorResponse(ERROR_KAKAO_USER_INFO_FETCH, "Failed to fetch user email: ${error.message}"))
+                    error != null -> continuation.resumeWithException(ErrorResponse(ERROR_KAKAO_USER_EMAIL, "Failed to fetch user email: ${error.message}"))
                     user?.kakaoAccount?.email != null -> continuation.resume(user.kakaoAccount?.email!!)
-                    else -> continuation.resumeWithException(ErrorResponse( ERROR_KAKAO_USER_INFO_FETCH, "No email provided"))
+                    else -> continuation.resumeWithException(ErrorResponse( ERROR_KAKAO_USER_EMAIL, "No email provided"))
                 }
             }
         }

@@ -35,7 +35,9 @@ import com.aiku.presentation.ui.screen.signup.viewmodel.TermsViewModel
 
 @Composable
 fun TermsAgreementScreen(
-    onNavigateToProfileEditScreen: () -> Unit,
+    idToken: String,
+    email: String?,
+    onNavigateToProfileEditScreen: (idToken : String, email : String?) -> Unit,
     onNavigateToTermContentScreen: (identifier: Int) -> Unit,
     termsViewModel: TermsViewModel = hiltViewModel(),
 ) {
@@ -114,7 +116,7 @@ fun TermsAgreementScreen(
                 containerColor = Green5,
                 disabledContainerColor = Gray02
             ),
-            onClick = onNavigateToProfileEditScreen,
+            onClick = { onNavigateToProfileEditScreen(idToken, email) },
             content = {
                 Text(
                     text = stringResource(id = R.string.terms_agree_start),

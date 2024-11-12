@@ -56,6 +56,8 @@ import com.aiku.presentation.util.takePhotoFromAlbumIntent
 
 @Composable
 fun ProfileEditScreen(
+    idToken : String,
+    email : String?,
     modifier: Modifier = Modifier,
     viewModel: CreateProfileViewModel = hiltViewModel(),
     onCompleteEdit: () -> Unit

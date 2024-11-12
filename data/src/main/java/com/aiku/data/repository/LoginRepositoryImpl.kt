@@ -35,11 +35,4 @@ class LoginRepositoryImpl @Inject constructor(
     }.catch { e ->
         throw e
     }.flowOn(coroutineDispatcher)
-
-    override fun getUserEmail(): Flow<String> = flow {
-        val email = loginRemoteDataSource.getUserEmail()
-        emit(email)
-    }.catch { e ->
-        throw e
-    }.flowOn(coroutineDispatcher)
 }
