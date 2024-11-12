@@ -24,13 +24,13 @@ object Routes {
         object Login
 
         @Serializable
-        object TermAgreement
+        data class TermAgreement(val idToken: String, val email: String?)
 
         @Serializable
         data class TermContent(val identifier: Int)
 
         @Serializable
-        object ProfileEdit
+        data class ProfileEdit(val idToken: String, val email: String?)
     }
 
     object Main {
