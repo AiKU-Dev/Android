@@ -11,7 +11,6 @@ import com.aiku.domain.model.group.type.ProfileBackground
 import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.domain.model.group.type.ProfileType
 import com.aiku.domain.usecase.SaveUserUseCase
-import com.aiku.presentation.base.UserDataProvider
 import com.aiku.presentation.state.user.BadgeState
 import com.aiku.presentation.state.user.ProfileState
 import com.aiku.presentation.state.user.UserState
@@ -29,9 +28,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val saveUserUseCase: SaveUserUseCase,
-    userDataProvider: UserDataProvider
-): ViewModel(), UserDataProvider by userDataProvider {
+    private val saveUserUseCase: SaveUserUseCase
+): ViewModel() {
 
     val profileInput = savedStateHandle.getStateFlow(
         PROFILE_INPUT,

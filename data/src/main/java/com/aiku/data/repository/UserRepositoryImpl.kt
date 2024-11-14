@@ -34,7 +34,7 @@ class UserRepositoryImpl @Inject constructor(
         it.toUser()
     }.stateIn(
         scope = CoroutineScope(coroutineDispatcher),
-        started = SharingStarted.Eagerly,
+        started = SharingStarted.Lazily,
         initialValue = UserDto.EMPTY.toUser()
     )
 

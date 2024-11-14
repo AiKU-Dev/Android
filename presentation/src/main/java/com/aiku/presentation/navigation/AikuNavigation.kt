@@ -144,7 +144,7 @@ fun AikuNavigation(
                     ProfileEditScreen(
                         idToken,
                         email,
-                        modifier = Modifier,
+                        modifier = Modifier.padding(innerPadding).padding(horizontal = 20.dp),
                         onCompleteEdit = {
                             navController.navigate(Routes.Main.Graph) {
                                 popUpTo(Routes.Auth.Graph)

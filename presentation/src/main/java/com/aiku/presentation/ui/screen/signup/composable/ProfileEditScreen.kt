@@ -150,6 +150,7 @@ fun ProfileEditScreen(
         }
 
         Text(
+            modifier = Modifier.padding(top = 80.dp),
             text = stringResource(id = R.string.profile_setup_instruction),
             style = Headline2
         )
@@ -206,6 +207,7 @@ fun ProfileEditScreen(
                 .padding(top = 43.dp),
             singleLine = true,
             showLengthIndicator = true,
+            textStyle = Subtitle3,
             maxLength = CreateProfileViewModel.MAX_NICKNAME_LENGTH,
             placeholder = stringResource(id = R.string.profile_nickname_setup_placeholder),
             label = stringResource(id = R.string.profile_nickname_setup_label),

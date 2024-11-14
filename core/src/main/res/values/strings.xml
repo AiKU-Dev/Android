@@ -39,7 +39,7 @@
 
     <!-- 프로필 생성 -->
     <string name="profile_setup_instruction">친구들에게 보여질\n프로필을 만들어주세요!</string>
-    <string name="profile_nickname_setup_placeholder">이름을 입력하세요</string>
+    <string name="profile_nickname_setup_placeholder">닉네임을 입력하세요</string>
     <string name="profile_nickname_setup_label">최대 6자 입력이 가능합니다.</string>
     <string name="profile_image_setup_content_description">프로필 이미지 설정</string>
     <string name="profile_phone_number_setup_placeholder">010 0000 0000</string>
