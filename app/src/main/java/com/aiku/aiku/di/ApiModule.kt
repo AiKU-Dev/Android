@@ -7,6 +7,7 @@ import com.aiku.data.api.remote.GroupApi
 import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.ScheduleApi
 import com.aiku.data.api.remote.UserApi
+import com.aiku.data.api.remote.UserNoAuthApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,6 +43,13 @@ object ApiModule {
     fun provideUserApi(@Auth retrofit: Retrofit): UserApi {
         return retrofit.create(UserApi::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideUserNoAuthApi(@NoAuth retrofit: Retrofit): UserNoAuthApi {
+        return retrofit.create(UserNoAuthApi::class.java)
+    }
+
     @Provides
     @Singleton
     fun provideScheduleApi(@Auth retrofit: Retrofit): ScheduleApi {

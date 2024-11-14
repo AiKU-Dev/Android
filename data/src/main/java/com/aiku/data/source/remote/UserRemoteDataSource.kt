@@ -1,14 +1,15 @@
 package com.aiku.data.source.remote
 
 import com.aiku.data.api.remote.UserApi
-import com.aiku.data.dto.user.BadgeDto
-import com.aiku.data.dto.user.TermDto
+import com.aiku.data.api.remote.UserNoAuthApi
+import com.aiku.data.dto.user.NicknameExistDto
 import com.aiku.data.dto.user.TermsDto
 import com.aiku.data.dto.user.UserDto
 import javax.inject.Inject
 
 class UserRemoteDataSource @Inject constructor(
-    private val userApi: UserApi
+    private val userApi: UserApi,
+    private val userNoAuthApi: UserNoAuthApi
 ) {
 
     suspend fun saveUser(user: UserDto) {
@@ -21,5 +22,9 @@ class UserRemoteDataSource @Inject constructor(
 
     suspend fun fetchTerms(): TermsDto {
         return userApi.fetchTerms()
+    }
+
+    suspend fun fetchIsNicknameExist(nickname: String): NicknameExistDto {
+        return userNoAuthApi.fetchIsNicknameExist(nickname)
     }
 }

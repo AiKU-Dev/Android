@@ -40,10 +40,13 @@
     <!-- 프로필 생성 -->
     <string name="profile_setup_instruction">친구들에게 보여질\n프로필을 만들어주세요!</string>
     <string name="profile_nickname_setup_placeholder">닉네임을 입력하세요</string>
+    <string name="require_nickname_input">닉네임을 입력해주세요.</string>
+    <string name="check_nickname_exist">중복 확인</string>
     <string name="profile_nickname_setup_label">최대 6자 입력이 가능합니다.</string>
     <string name="profile_image_setup_content_description">프로필 이미지 설정</string>
     <string name="profile_phone_number_setup_placeholder">010 0000 0000</string>
     <string name="already_exist_nickname">이미 존재하는 닉네임입니다.</string>
+    <string name="available_nickname">사용 가능한 닉네임입니다!</string>
     <string name="select_using_default_character">기본 캐릭터로 선택</string>
     <string name="select_using_album">앨범에서 선택</string>
     <string name="select_character">캐릭터를 선택해주세요!</string>

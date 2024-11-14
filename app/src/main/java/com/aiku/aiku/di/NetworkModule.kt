@@ -89,24 +89,24 @@ object NetworkModule {
                 in 400 ..< 500 -> throw ClientNetworkException(response.code)
                 in 500 ..< 600 -> throw ServerNetworkException(response.code)
             }
-            val originalBody = response.body ?: throw UnknownError("response body is null")
+            response.body.use { originalBody ->
+                val bodyString =
+                    originalBody?.string() ?: throw UnknownError("response body is null")
 
-            val source = originalBody.source()
-            val buffer = source.buffer.clone()
-            val bodyString = buffer.readUtf8()
+                if (response.isSuccessful.not()) {
+                    val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
+                    throw exception ?: UnknownError("error response is null")
+                }
 
-            if (response.isSuccessful.not()) {
-                val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
-                throw exception ?: UnknownError("error response is null")
+                val jsonObject = JSONObject(bodyString)
+                val resultObject = jsonObject.getJSONObject("result")
+                val newResponseBody =
+                    resultObject.toString().toResponseBody(originalBody?.contentType())
+
+                response.newBuilder()
+                    .body(newResponseBody)
+                    .build()
             }
-
-            val jsonObject = JSONObject(bodyString)
-            val resultObject = jsonObject.getJSONObject("result")
-            val newResponseBody = resultObject.toString().toResponseBody(originalBody.contentType())
-
-            response.newBuilder()
-                .body(newResponseBody)
-                .build()
         }
     }
 

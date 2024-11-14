@@ -9,4 +9,5 @@ interface UserRepository {
     fun fetchUser(): Flow<User>
 
     suspend fun fetchTerms(): Terms
+    suspend fun fetchIsNicknameExist(nickname: String): Result<Unit>
 }

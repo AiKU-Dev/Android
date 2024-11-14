@@ -4,31 +4,39 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aiku.domain.exception.ALREADY_EXIST_NICKNAME
+import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.INVALID_NICKNAME_FORMAT
 import com.aiku.domain.exception.NICKNAME_LENGTH_EXCEED
 import com.aiku.domain.exception.REQUIRE_NICKNAME_INPUT
 import com.aiku.domain.model.group.type.ProfileBackground
 import com.aiku.domain.model.group.type.ProfileCharacter
 import com.aiku.domain.model.group.type.ProfileType
+import com.aiku.domain.repository.UserRepository
+import com.aiku.domain.usecase.CheckNicknameExistUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import com.aiku.presentation.state.user.BadgeState
 import com.aiku.presentation.state.user.ProfileState
 import com.aiku.presentation.state.user.UserState
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CreateProfileViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
-    private val saveUserUseCase: SaveUserUseCase
+    private val saveUserUseCase: SaveUserUseCase,
+    private val checkNicknameExistUseCase: CheckNicknameExistUseCase,
+    private val userRepository: UserRepository
 ): ViewModel() {
 
     val profileInput = savedStateHandle.getStateFlow(
@@ -59,6 +67,9 @@ class CreateProfileViewModel @Inject constructor(
             initialValue = SaveProfileUiState.Idle
         )
 
+    private val _checkNicknameValidUiState = MutableSharedFlow<CheckNicknameValidUiState>()
+    val checkNicknameValidUiState = _checkNicknameValidUiState.asSharedFlow()
+
     fun saveProfile() {
         saveUserUseCase(profileInput.value.toUser()).onStart {
             _saveProfileUiState.emit(SaveProfileUiState.Loading)
@@ -83,6 +94,20 @@ class CreateProfileViewModel @Inject constructor(
         //onProfileInputChanged(profileInput.value.copy(image = input))
     }
 
+    fun checkIsNicknameExist() {
+        viewModelScope.launch {
+            checkNicknameExistUseCase(profileInput.value.nickname).onSuccess {
+                _checkNicknameValidUiState.emit(CheckNicknameValidUiState.Success)
+            }.onFailure {
+                when ((it as ErrorResponse).code) {
+                    REQUIRE_NICKNAME_INPUT -> _checkNicknameValidUiState.emit(CheckNicknameValidUiState.Empty)
+                    NICKNAME_LENGTH_EXCEED -> _checkNicknameValidUiState.emit(CheckNicknameValidUiState.LengthExceed)
+                    else -> _checkNicknameValidUiState.emit(CheckNicknameValidUiState.AlreadyExist)
+                }
+            }
+        }
+    }
+
     private fun onProfileInputChanged(user: UserState) {
         savedStateHandle[PROFILE_INPUT] = user
         _saveProfileUiState.value = SaveProfileUiState.Idle
@@ -102,4 +127,11 @@ sealed interface SaveProfileUiState {
     data object AlreadyExistNickname : SaveProfileUiState
     data object InvalidNicknameFormat : SaveProfileUiState
     data object NicknameLengthExceed : SaveProfileUiState
+}
+
+sealed interface CheckNicknameValidUiState {
+    data object Success : CheckNicknameValidUiState
+    data object Empty : CheckNicknameValidUiState
+    data object LengthExceed : CheckNicknameValidUiState
+    data object AlreadyExist : CheckNicknameValidUiState
 }

@@ -1,17 +1,21 @@
 package com.aiku.presentation.ui.screen.signup.composable
 
-import androidx.compose.foundation.ExperimentalFoundationApi
+import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
@@ -37,8 +41,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.dialog
 import androidx.navigation.compose.rememberNavController
 import com.aiku.core.R
+import com.aiku.core.theme.Caption1
 import com.aiku.core.theme.Headline2
 import com.aiku.core.theme.Subtitle3
+import com.aiku.presentation.theme.Gray01
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.ui.component.background.CircularBackground
@@ -47,6 +53,7 @@ import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.dialog.DefaultCharacterDialog
 import com.aiku.presentation.ui.component.dialog.MinimalDialog
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
+import com.aiku.presentation.ui.screen.signup.viewmodel.CheckNicknameValidUiState
 import com.aiku.presentation.ui.screen.signup.viewmodel.CreateProfileViewModel
 import com.aiku.presentation.ui.screen.signup.viewmodel.SaveProfileUiState
 import com.aiku.presentation.util.asImageBitmap
@@ -213,6 +220,18 @@ fun ProfileEditScreen(
             label = stringResource(id = R.string.profile_nickname_setup_label),
         )
 
+        Button(
+            modifier = Modifier.padding(top = 4.dp),
+            onClick = viewModel::checkIsNicknameExist,
+            border = BorderStroke(width = 1.dp, color = Gray02),
+            shape = RoundedCornerShape(5.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Gray01
+            ), contentPadding = PaddingValues(vertical = 6.dp, horizontal = 10.dp),
+        ) {
+            Text(text = stringResource(id = R.string.check_nickname_exist), style = Caption1, color = Color.Black)
+        }
+
         Spacer(modifier = Modifier.weight(1f))
         FullWidthButton(
             background = ButtonDefaults.buttonColors(containerColor = Green5),
@@ -252,6 +271,44 @@ fun ProfileEditScreen(
 
     LaunchedEffect(key1 = selectedDefaultCharacter) {
         selectedImageBitmap = selectedDefaultCharacter.asImageBitmap(context)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.checkNicknameValidUiState.collect {
+            when(it) {
+                is CheckNicknameValidUiState.AlreadyExist -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.already_exist_nickname),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is CheckNicknameValidUiState.Empty -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.require_nickname_input),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is CheckNicknameValidUiState.LengthExceed -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.profile_nickname_setup_label),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                CheckNicknameValidUiState.Success -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.available_nickname),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }
 

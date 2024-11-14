@@ -3,10 +3,10 @@ package com.aiku.data.repository
 import com.aiku.data.dto.user.UserDto
 import com.aiku.data.dto.user.toTerms
 import com.aiku.data.dto.user.toUserDto
-import com.aiku.data.entity.toUser
-import com.aiku.data.entity.toUserEntity
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
+import com.aiku.domain.exception.ALREADY_EXIST_NICKNAME
+import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.model.user.Terms
 import com.aiku.domain.model.user.User
 import com.aiku.domain.repository.UserRepository
@@ -14,11 +14,9 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
@@ -41,7 +39,6 @@ class UserRepositoryImpl @Inject constructor(
     override fun saveUser(user: User): Flow<Unit> {
         return flow {
             emit(userRemoteDataSource.saveUser(user.toUserDto()))
-            emit(userLocalDataSource.saveUser(user.toUserEntity()))
         }.flowOn(coroutineDispatcher)
     }
 
@@ -51,5 +48,11 @@ class UserRepositoryImpl @Inject constructor(
 
     override suspend fun fetchTerms(): Terms {
         return userRemoteDataSource.fetchTerms().toTerms()
+    }
+
+    override suspend fun fetchIsNicknameExist(nickname: String): Result<Unit> {
+        return if (userRemoteDataSource.fetchIsNicknameExist(nickname).exist)
+            return Result.failure(ErrorResponse(ALREADY_EXIST_NICKNAME))
+        else Result.success(Unit)
     }
 }
