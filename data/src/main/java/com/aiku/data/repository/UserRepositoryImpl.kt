@@ -1,15 +1,18 @@
 package com.aiku.data.repository
 
 import com.aiku.data.dto.user.UserDto
+import com.aiku.data.dto.user.toNewUserDto
 import com.aiku.data.dto.user.toTerms
 import com.aiku.data.dto.user.toUserDto
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
 import com.aiku.domain.exception.ALREADY_EXIST_NICKNAME
 import com.aiku.domain.exception.ErrorResponse
+import com.aiku.domain.model.user.NewUser
 import com.aiku.domain.model.user.Terms
 import com.aiku.domain.model.user.User
 import com.aiku.domain.repository.UserRepository
+import com.aiku.domain.util.runSuspendCatching
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -36,10 +39,10 @@ class UserRepositoryImpl @Inject constructor(
         initialValue = UserDto.EMPTY.toUser()
     )
 
-    override fun saveUser(user: User): Flow<Unit> {
-        return flow {
-            emit(userRemoteDataSource.saveUser(user.toUserDto()))
-        }.flowOn(coroutineDispatcher)
+    override suspend fun saveUser(user: NewUser): Result<Unit> {
+        return runSuspendCatching {
+            userRemoteDataSource.saveUser(user.toNewUserDto())
+        }
     }
 
     override fun fetchUser(): Flow<User> {

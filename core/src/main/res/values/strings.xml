@@ -10,6 +10,7 @@
     <string name="chip_navigation_icon_content_description">칩 아이콘</string>
     <string name="empty_content_description">콘텐츠 없음</string>
     <string name="create">생성하기</string>
+    <string name="unknown_error">알 수 없는 오류가 발생했습니다.</string>
 
     <!-- 로그인 -->
     <string name="aiku_slogan">아이쿠! 또 지각이네?!</string>
@@ -40,6 +41,8 @@
     <!-- 프로필 생성 -->
     <string name="profile_setup_instruction">친구들에게 보여질\n프로필을 만들어주세요!</string>
     <string name="profile_nickname_setup_placeholder">닉네임을 입력하세요</string>
+    <string name="profile_email_setup_placeholder">이메일을 입력하세요</string>
+    <string name="recommender_setup_placeholder">추천인 닉네임 입력</string>
     <string name="require_nickname_input">닉네임을 입력해주세요.</string>
     <string name="check_nickname_exist">중복 확인</string>
     <string name="profile_nickname_setup_label">최대 6자 입력이 가능합니다.</string>

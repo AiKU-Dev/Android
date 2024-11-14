@@ -4,26 +4,21 @@ import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.INVALID_NICKNAME_FORMAT
 import com.aiku.domain.exception.NICKNAME_LENGTH_EXCEED
 import com.aiku.domain.exception.REQUIRE_NICKNAME_INPUT
-import com.aiku.domain.model.user.User
+import com.aiku.domain.model.user.NewUser
 import com.aiku.domain.repository.UserRepository
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class SaveUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
 
-    operator fun invoke(user: User): Flow<Unit> {
-        if (user.isNicknameEmpty())
-            throw ErrorResponse(REQUIRE_NICKNAME_INPUT)
-
-        if (user.isNicknameLengthExceed(MAX_NICKNAME_LENGTH))
-            throw ErrorResponse(NICKNAME_LENGTH_EXCEED)
-
-        if (user.isInvalidNicknameFormat())
-            throw ErrorResponse(INVALID_NICKNAME_FORMAT)
-
-        return userRepository.saveUser(user)
+    suspend operator fun invoke(user: NewUser): Result<Unit> {
+        return when {
+            user.isNicknameEmpty() -> Result.failure(ErrorResponse(REQUIRE_NICKNAME_INPUT))
+            user.isNicknameLengthExceed(MAX_NICKNAME_LENGTH) -> Result.failure(ErrorResponse(NICKNAME_LENGTH_EXCEED))
+            user.isInvalidNicknameFormat() -> Result.failure(ErrorResponse(INVALID_NICKNAME_FORMAT))
+            else -> userRepository.saveUser(user)
+        }
     }
 
     companion object {

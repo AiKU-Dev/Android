@@ -21,6 +21,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -72,10 +73,7 @@ fun ProfileEditScreen(
 
     val context = LocalContext.current
 
-    val saveProfileUiState by viewModel.saveProfileUiState.collectAsStateWithLifecycle()
-
     val profileInput by viewModel.profileInput.collectAsStateWithLifecycle()
-    var nicknameTextFieldLabel by remember { mutableStateOf("") }
 
     var showDialogNav by remember { mutableStateOf(false) }
     val dialogNavController = rememberNavController()
@@ -92,6 +90,7 @@ fun ProfileEditScreen(
         selectedImageBitmap = uri.parseImageBitmap(context)
     })
 
+    var saveButtonEnabled by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier,
@@ -232,41 +231,36 @@ fun ProfileEditScreen(
             Text(text = stringResource(id = R.string.check_nickname_exist), style = Caption1, color = Color.Black)
         }
 
+        BottomLinedTextField(
+            value = profileInput.email,
+            onValueChange = viewModel::onEmailInputChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 25.dp),
+            singleLine = true,
+            textStyle = Subtitle3,
+            placeholder = stringResource(id = R.string.profile_email_setup_placeholder),
+        )
+
+        BottomLinedTextField(
+            value = profileInput.recommenderNickname,
+            onValueChange = viewModel::onRecommenderNicknameInputChanged,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 38.dp),
+            singleLine = true,
+            textStyle = Subtitle3,
+            placeholder = stringResource(id = R.string.recommender_setup_placeholder),
+        )
+
         Spacer(modifier = Modifier.weight(1f))
         FullWidthButton(
-            background = ButtonDefaults.buttonColors(containerColor = Green5),
+            enabled = saveButtonEnabled,
+            background = ButtonDefaults.buttonColors(containerColor = Green5, disabledContainerColor = Gray02),
             content = {
                 Text(text = stringResource(id = R.string.next))
-            }, onClick = onCompleteEdit
+            }, onClick = viewModel::saveProfile
         )
-    }
-
-    when (saveProfileUiState) {
-        is SaveProfileUiState.Loading -> {
-            // 대충 로딩뷰
-        }
-
-        is SaveProfileUiState.Success -> {
-            // 대충 프로필 변경 성공
-            // 다음 페이지로 이동
-        }
-
-        is SaveProfileUiState.AlreadyExistNickname -> {
-            nicknameTextFieldLabel = stringResource(id = R.string.already_exist_nickname)
-        }
-
-        is SaveProfileUiState.InvalidNicknameFormat -> {
-            // 대충 잘못된 닉네임 형식일 때 UI
-        }
-
-        is SaveProfileUiState.NicknameLengthExceed -> {
-            // 대충 닉네임 길이 초과일 때 UI
-        }
-
-        SaveProfileUiState.RequireNicknameInput -> TODO()
-        is SaveProfileUiState.Idle -> {
-            nicknameTextFieldLabel = stringResource(id = R.string.profile_nickname_setup_label)
-        }
     }
 
     LaunchedEffect(key1 = selectedDefaultCharacter) {
@@ -274,8 +268,30 @@ fun ProfileEditScreen(
     }
 
     LaunchedEffect(Unit) {
+        viewModel.saveProfileUiState.collect {
+            when(it) {
+                is SaveProfileUiState.Loading -> {
+                    // 대충 로딩뷰
+                }
+
+                is SaveProfileUiState.Success -> {
+                    onCompleteEdit()
+                }
+                else -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.unknown_error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
         viewModel.checkNicknameValidUiState.collect {
             when(it) {
+                is CheckNicknameValidUiState.Waiting -> saveButtonEnabled = false
                 is CheckNicknameValidUiState.AlreadyExist -> {
                     Toast.makeText(
                         context,
@@ -306,6 +322,7 @@ fun ProfileEditScreen(
                         context.getString(R.string.available_nickname),
                         Toast.LENGTH_SHORT
                     ).show()
+                    saveButtonEnabled = true
                 }
             }
         }

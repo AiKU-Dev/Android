@@ -25,6 +25,15 @@ data class ProfileState(
         character = character,
         background = background
     )
+
+    companion object {
+        val EMPTY = ProfileState(
+            type = ProfileType.CHAR,
+            image = "",
+            character = ProfileCharacter.C01,
+            background = ProfileBackground.GREEN
+        )
+    }
 }
 
 fun Profile.toProfileState(): ProfileState = ProfileState(
