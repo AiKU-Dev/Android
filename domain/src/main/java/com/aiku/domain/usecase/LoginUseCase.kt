@@ -6,6 +6,8 @@ import com.aiku.domain.model.token.Token
 import com.aiku.domain.repository.TokenRepository
 import com.aiku.domain.repository.LoginRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
@@ -34,12 +36,14 @@ class LoginUseCase @Inject constructor(
 
     // 자동 로그인
     suspend fun autoLogin(): Flow<Token> {
-        val refreshToken = tokenRepository.getRefreshToken()
-        val accessToken = tokenRepository.getAccessToken()
-        if (refreshToken != null && accessToken != null){
-            return loginRepository.loginWithToken(refreshToken, accessToken)
-        }else {
-            throw ErrorResponse(TOKEN_NOT_FOUND, "저장된 토큰이 없습니다.")
+        return flow {
+            val refreshToken = tokenRepository.getRefreshToken()
+            val accessToken = tokenRepository.getAccessToken()
+            if (refreshToken != null && accessToken != null) {
+                emitAll(loginRepository.loginWithToken(refreshToken, accessToken))
+            } else {
+                throw ErrorResponse(TOKEN_NOT_FOUND, "저장된 토큰이 없습니다.")
+            }
         }
     }
 
