@@ -78,7 +78,7 @@ fun TermsAgreementScreen(
             }
 
             Text(
-                modifier = Modifier.padding(top = 4.dp),
+                modifier = Modifier.padding(top = 13.dp),
                 text = stringResource(id = R.string.terms_welcome_aiku),
                 style = Headline_2G
             )

@@ -1,17 +1,16 @@
 package com.aiku.data.source.remote
 
 import android.content.Context
-import android.util.Log
 import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.dto.TokenDto
 import com.aiku.data.dto.group.request.IssueATRTRequest
 import com.aiku.data.dto.group.request.IssueATRequest
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
+import com.aiku.domain.exception.ERROR_KAKAO_EMAIL_FETCH
 import com.aiku.domain.exception.ERROR_KAKAO_OIDC
 import com.aiku.domain.exception.ERROR_KAKAO_SERVER
-import com.aiku.domain.exception.ERROR_KAKAO_USER_EMAIL
-import com.aiku.domain.exception.ERROR_SERVER_ISSUE_ATRT
+import com.aiku.domain.exception.ERROR_USER_NOT_FOUND
 import com.aiku.domain.exception.ErrorResponse
 import com.aiku.domain.exception.TokenIssueErrorResponse
 import com.kakao.sdk.auth.model.OAuthToken
@@ -35,7 +34,12 @@ class LoginRemoteDataSource @Inject constructor(
         return withContext(coroutineDispatcher) {
             try {
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
-                    performLogin { callback -> UserApiClient.instance.loginWithKakaoTalk(context, callback = callback) }
+                    performLogin { callback ->
+                        UserApiClient.instance.loginWithKakaoTalk(
+                            context,
+                            callback = callback
+                        )
+                    }
                 } else {
                     loginWithKakaoAccount()
                 }
@@ -47,8 +51,16 @@ class LoginRemoteDataSource @Inject constructor(
 
     suspend fun loginWithKakaoAccount(): TokenDto {
         return withContext(coroutineDispatcher) {
-            try { performLogin { callback -> UserApiClient.instance.loginWithKakaoAccount(context, callback = callback) }
-            } catch (e: ErrorResponse) { throw e }
+            try {
+                performLogin { callback ->
+                    UserApiClient.instance.loginWithKakaoAccount(
+                        context,
+                        callback = callback
+                    )
+                }
+            } catch (e: ErrorResponse) {
+                throw e
+            }
         }
     }
 
@@ -56,7 +68,7 @@ class LoginRemoteDataSource @Inject constructor(
         loginAction: (callback: (token: OAuthToken?, error: Throwable?) -> Unit) -> Unit
     ): TokenDto {
         return try {
-            // Kakao 로그인
+            /** 카카오 로그인 */
             val tokenResult = suspendCoroutine<OAuthToken?> { continuation ->
                 loginAction { token, error ->
                     if (error != null) {
@@ -67,24 +79,23 @@ class LoginRemoteDataSource @Inject constructor(
                 }
             }
 
+            val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "카카오 OIDC 발급 실패")
+            val email = getUserEmail()
 
-            val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "idToken 발급 실패")
-            // val email = getUserEmail() //TODO
-
+            /** AT, RT 발행 */
             try {
-                // idToken -> AT, RT 발급
                 noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
             } catch (e: Exception) {
-                throw TokenIssueErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}", idToken = idToken, email = "email")
+                if (e is ErrorResponse && e.code == ERROR_USER_NOT_FOUND) {
+                    throw TokenIssueErrorResponse(ERROR_USER_NOT_FOUND, e.message, e.requestId, idToken, email)
+                }
+                throw e
             }
 
-        } catch (e: TokenIssueErrorResponse) {
-            throw e
         } catch (e: Exception) {
-            if (e is ErrorResponse && e.code == ERROR_KAKAO_OIDC) {
-                throw ErrorResponse(ERROR_KAKAO_OIDC, "Kakao login failed: ${e.message}")
-            } else {
-                throw ErrorResponse(ERROR_KAKAO_SERVER, "An error occurred: ${e.message}")
+            when (e) {
+                is TokenIssueErrorResponse, is ErrorResponse -> { throw e }
+                else -> throw ErrorResponse(ERROR_KAKAO_SERVER, "카카오 서버 연결 실패: ${e.message}")
             }
         }
     }
@@ -95,18 +106,20 @@ class LoginRemoteDataSource @Inject constructor(
         return withContext(coroutineDispatcher) {
             try {
                 tokenApi.issueAT(IssueATRequest(refreshToken, accessToken))
-            } catch (e: Exception) { throw ErrorResponse(ERROR_AUTO_LOGIN, "Failed to refresh token: ${e.message}") }
+            } catch (e: Exception) {
+                throw ErrorResponse(ERROR_AUTO_LOGIN, "Failed to refresh token: ${e.message}")
+            }
         }
     }
 
-    // 이메일 정보 가져오기
-    suspend fun getUserEmail(): String = withContext(coroutineDispatcher) {
+    /** 카카오 이메일 fetch */
+    private suspend fun getUserEmail(): String = withContext(coroutineDispatcher) {
         suspendCoroutine { continuation ->
             UserApiClient.instance.me { user, error ->
                 when {
-                    error != null -> continuation.resumeWithException(ErrorResponse(ERROR_KAKAO_USER_EMAIL, "Failed to fetch user email: ${error.message}"))
+                    error != null -> continuation.resumeWithException(ErrorResponse(ERROR_KAKAO_EMAIL_FETCH, "카카오 이메일 fetch 실패 : ${error.message}"))
                     user?.kakaoAccount?.email != null -> continuation.resume(user.kakaoAccount?.email!!)
-                    else -> continuation.resumeWithException(ErrorResponse( ERROR_KAKAO_USER_EMAIL, "No email provided"))
+                    else -> continuation.resumeWithException(ErrorResponse(ERROR_KAKAO_EMAIL_FETCH, "카카오 이메일 fetch 실패 : 저장된 이메일이 없습니다."))
                 }
             }
         }

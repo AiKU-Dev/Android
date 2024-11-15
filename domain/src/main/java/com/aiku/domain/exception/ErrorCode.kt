@@ -2,14 +2,15 @@ package com.aiku.domain.exception
 
 /** Server-side Error code */
 const val UNKNOWN = 0
+const val ERROR_SERVER = 5000 // 기본 서버 에러
 const val ALREADY_EXIST_NICKNAME = 10002
 
 /** Login - kakao */
 const val ERROR_KAKAO_SERVER = 3000 //kakao server
 const val ERROR_KAKAO_OIDC = 3001 //open id connect
-const val ERROR_KAKAO_USER_EMAIL = 3001 //user email
+const val ERROR_KAKAO_EMAIL_FETCH = 3002 //user email
 /** Login - server */
-const val ERROR_SERVER_ISSUE_ATRT = 3003 //회원가입 필요
+const val ERROR_USER_NOT_FOUND = 40401
 const val ERROR_AUTO_LOGIN = 3004
 
 

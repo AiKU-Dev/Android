@@ -1,5 +1,6 @@
 package com.aiku.aiku.di
 
+import android.util.Log
 import com.aiku.aiku.BuildConfig
 import com.aiku.core.adapter.LocalDateTimeAdapter
 import com.aiku.core.qualifer.Auth
@@ -89,6 +90,7 @@ object NetworkModule {
                 in 400 ..< 500 -> throw ClientNetworkException(response.code)
                 in 500 ..< 600 -> throw ServerNetworkException(response.code)
             }
+
             val originalBody = response.body ?: throw UnknownError("response body is null")
 
             val source = originalBody.source()

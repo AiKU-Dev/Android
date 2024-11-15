@@ -123,13 +123,9 @@ fun LoginScreen(
             when (uiState) {
                 LoginUiState.Idle -> {}
                 LoginUiState.Loading -> {}
-                LoginUiState.Success -> {
-                    onComplete(true, null, null)}
-                LoginUiState.KakaoOIDCError, LoginUiState.KakaoServerError -> {
-                }
-                is LoginUiState.ServerError -> {
-                    onComplete(false, uiState.idToken, uiState.email)
-                }
+                LoginUiState.Success -> { onComplete(true, null, null)}
+                LoginUiState.KaKaoServerError, LoginUiState.ServerError -> {}
+                is LoginUiState.UserNotFound -> { onComplete(false, uiState.idToken, uiState.email) }
             }
         }
     }

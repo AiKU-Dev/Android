@@ -4,9 +4,10 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aiku.domain.exception.ERROR_AUTO_LOGIN
+import com.aiku.domain.exception.ERROR_KAKAO_EMAIL_FETCH
 import com.aiku.domain.exception.ERROR_KAKAO_OIDC
 import com.aiku.domain.exception.ERROR_KAKAO_SERVER
-import com.aiku.domain.exception.ERROR_SERVER_ISSUE_ATRT
+import com.aiku.domain.exception.ERROR_USER_NOT_FOUND
 import com.aiku.domain.exception.TOKEN_NOT_FOUND
 import com.aiku.domain.exception.TokenIssueErrorResponse
 import com.aiku.domain.usecase.LoginUseCase
@@ -14,6 +15,7 @@ import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -50,21 +52,17 @@ class LoginViewModel @Inject constructor(
                 _loginUiState.emit(LoginUiState.Success)
             }
             .onError { error ->
+                Log.d("login", error.message)
                 val uiState = when (error.code) {
-                    ERROR_KAKAO_OIDC -> {
-                        LoginUiState.KakaoOIDCError
-                    }
-                    ERROR_KAKAO_SERVER -> {
-                        LoginUiState.KakaoServerError
-                    }
-                    ERROR_SERVER_ISSUE_ATRT -> {
+                    ERROR_KAKAO_OIDC, ERROR_KAKAO_EMAIL_FETCH, ERROR_KAKAO_SERVER -> { LoginUiState.KaKaoServerError }
+                    ERROR_USER_NOT_FOUND -> {
                         if (error is TokenIssueErrorResponse) {
-                            LoginUiState.ServerError(idToken = error.idToken, email = error.email)
+                            LoginUiState.UserNotFound(idToken = error.idToken, email = error.email)
                         } else {
-                            LoginUiState.Idle
+                            LoginUiState.ServerError
                         }
                     }
-                    else -> LoginUiState.Idle
+                    else -> LoginUiState.ServerError
                 }
                 _loginUiState.emit(uiState)
             }
@@ -101,9 +99,9 @@ sealed interface LoginUiState {
     data object Idle : LoginUiState
     data object Loading : LoginUiState
     data object Success : LoginUiState
-    data object KakaoOIDCError : LoginUiState
-    data object KakaoServerError : LoginUiState
-    data class ServerError(val idToken: String, val email: String?) : LoginUiState
+    data object KaKaoServerError : LoginUiState
+    data class UserNotFound(val idToken: String, val email: String?) : LoginUiState
+    data object ServerError : LoginUiState
 }
 
 sealed interface AutoLoginUiState {
