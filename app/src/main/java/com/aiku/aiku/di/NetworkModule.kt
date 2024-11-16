@@ -90,7 +90,7 @@ object NetworkModule {
                 in 400 ..< 500 -> throw ClientNetworkException(response.code)
                 in 500 ..< 600 -> throw ServerNetworkException(response.code)
             }
-
+            Log.d("response code", response.code.toString())
             val originalBody = response.body ?: throw UnknownError("response body is null")
 
             val source = originalBody.source()
