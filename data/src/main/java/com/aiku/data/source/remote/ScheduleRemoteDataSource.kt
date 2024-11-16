@@ -11,7 +11,9 @@ import com.aiku.data.dto.schedule.ScheduleDto
 import com.aiku.data.dto.schedule.request.BetAkuReqDto
 import com.aiku.data.dto.schedule.request.CreateScheduleReqDto
 import com.aiku.domain.model.schedule.type.ScheduleStatus
+import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.YearMonth
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -66,5 +68,13 @@ class ScheduleRemoteDataSource @Inject constructor(
                 )
             }
         )
+    }
+
+    suspend fun fetchUserScheduledDates(year: Int, month: Int) : List<LocalDate> {
+        //TODO : return scheduleApi.fetchUserScheduledDates(year, month)
+        val maxDay = YearMonth.of(year, month).lengthOfMonth() // 해당 월의 최대 일수
+        return List(5) { // 5개의 랜덤 날짜 생성
+            LocalDate.of(year, month, Random.nextInt(1, maxDay + 1))
+        }.distinct() // 중복 제거
     }
 }

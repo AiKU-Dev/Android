@@ -11,6 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface ScheduleApi {
@@ -47,5 +48,11 @@ interface ScheduleApi {
         @Query("startDate") startDate: LocalDateTime,
         @Query("endDate") endDate: LocalDateTime
     ): UserScheduleOverviewPaginationDto
+
+    @GET("/member/schedules/dates")
+    suspend fun fetchUserScheduledDates(
+        @Query("year") year: Int,
+        @Query("month") month: Int
+    ): List<LocalDate>
 
 }

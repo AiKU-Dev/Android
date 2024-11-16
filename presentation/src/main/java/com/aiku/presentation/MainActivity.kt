@@ -37,11 +37,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AikuNavigation(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = navController,
-                        loginUseCase = loginUseCase
-                    )
+//                    AikuNavigation(
+//                        modifier = Modifier.fillMaxSize(),
+//                        navController = navController,
+//                        loginUseCase = loginUseCase
+//                    )
+
+                    MyScheduleScreen {}
                 }
             }
         }

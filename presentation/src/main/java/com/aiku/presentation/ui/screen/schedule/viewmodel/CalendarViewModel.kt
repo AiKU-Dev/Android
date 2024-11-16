@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.paging.filter
 import androidx.paging.map
+import com.aiku.domain.usecase.schedule.FetchUserScheduledDatesUseCase
 import com.aiku.domain.usecase.schedule.FetchUserSchedulesUseCase
 import com.aiku.presentation.state.schedule.UserScheduleOverviewState
 import com.aiku.presentation.state.schedule.toUserScheduleOverviewState
-import com.aiku.presentation.ui.screen.home.viewmodel.TodayUserSchedulesUiState
 import com.aiku.presentation.util.onError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
@@ -30,6 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
+    private val fetchUserScheduledDatesUseCase: FetchUserScheduledDatesUseCase,
     private val fetchUserSchedulesUseCase: FetchUserSchedulesUseCase
 ) : ViewModel() {
 
@@ -37,24 +36,19 @@ class CalendarViewModel @Inject constructor(
     private val _currentYearMonth = MutableStateFlow(YearMonth.now())
     val currentYearMonth: StateFlow<YearMonth> = _currentYearMonth.asStateFlow()
 
-    private val _userMonthlySchedulesUiState = MutableStateFlow<UserMonthlySchedulesUiState>(UserMonthlySchedulesUiState.Loading)
-    val userMonthlySchedulesUiState: StateFlow<UserMonthlySchedulesUiState> = _userMonthlySchedulesUiState.asStateFlow()
+    private val _userScheduledDatesUiState = MutableStateFlow<UserScheduledDatesUiState>(UserScheduledDatesUiState.Loading)
+    val userScheduledDatesUiState: StateFlow<UserScheduledDatesUiState> = _userScheduledDatesUiState.asStateFlow()
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val userMonthlySchedules: Flow<PagingData<UserScheduleOverviewState>> = _currentYearMonth
-        .filterNotNull()
+    val userScheduledDates: Flow<List<LocalDate>> = _currentYearMonth
         .flatMapLatest { yearMonth ->
-            val startDate = yearMonth.atDay(1).atStartOfDay()
-            val endDate = yearMonth.atEndOfMonth().atTime(23, 59, 59)
-
-            fetchUserSchedulesUseCase(startDate, endDate, false)
-                .map { pagingData ->
-                    pagingData.map { it.toUserScheduleOverviewState() }
-                }
-                .onStart { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Loading) }
-                .onEach { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Success) }
-                .onError { _userMonthlySchedulesUiState.emit(UserMonthlySchedulesUiState.Error) }
-                .cachedIn(viewModelScope)
+            fetchUserScheduledDatesUseCase(
+                year = yearMonth.year,
+                month = yearMonth.monthValue
+            )
+                .onStart { _userScheduledDatesUiState.emit(UserScheduledDatesUiState.Loading) }
+                .onEach { _userScheduledDatesUiState.emit(UserScheduledDatesUiState.Success) }
+                .onError { _userScheduledDatesUiState.emit(UserScheduledDatesUiState.Error) }
         }
 
 
@@ -106,9 +100,9 @@ sealed interface UserSchedulesUiState {
     data object Error : UserSchedulesUiState
 }
 
-sealed interface UserMonthlySchedulesUiState {
-    data object Loading : UserMonthlySchedulesUiState
-    data object Success : UserMonthlySchedulesUiState
-    data object Error : UserMonthlySchedulesUiState
+sealed interface UserScheduledDatesUiState {
+    data object Loading : UserScheduledDatesUiState
+    data object Success : UserScheduledDatesUiState
+    data object Error : UserScheduledDatesUiState
 }
 

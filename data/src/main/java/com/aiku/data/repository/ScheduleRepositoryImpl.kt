@@ -19,6 +19,7 @@ import com.aiku.domain.model.schedule.type.ScheduleStatus
 import com.aiku.domain.repository.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -95,6 +96,15 @@ class ScheduleRepositoryImpl @Inject constructor(
                     pagination.userScheduleOverview
                 }
             )
+        }
+    }
+
+    override fun fetchUserScheduledDates(
+        year: Int,
+        month: Int
+    ): Flow<List<LocalDate>> {
+        return flow {
+            emit(scheduleRemoteDateSource.fetchUserScheduledDates(year, month))
         }
     }
 }

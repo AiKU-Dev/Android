@@ -96,6 +96,7 @@
     <string name="schedule_calendar_content_description">날짜</string>
     <string name="remaining_time">남은 시간</string>
     <string name="participated_members">참여 멤버</string>
+    <string name="user_no_schedule_content_description">약속이 없는 날~</string>
 
     <!-- 알림 -->
     <string name="notification">알림</string>

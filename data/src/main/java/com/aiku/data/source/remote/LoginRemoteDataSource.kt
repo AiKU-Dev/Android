@@ -1,6 +1,7 @@
 package com.aiku.data.source.remote
 
 import android.content.Context
+import android.util.Log
 import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.dto.TokenDto
@@ -80,6 +81,7 @@ class LoginRemoteDataSource @Inject constructor(
             }
 
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "카카오 OIDC 발급 실패")
+            Log.d("카카오 로그인", idToken)
             val email = getUserEmail()
 
             /** AT, RT 발행 */
