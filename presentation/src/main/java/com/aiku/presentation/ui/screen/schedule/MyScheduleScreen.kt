@@ -12,13 +12,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.aiku.core.R
 import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.ui.component.calendar.Calendar
 import com.aiku.presentation.ui.component.card.ScheduleCard
+import com.aiku.presentation.ui.component.layout.EmptyContentView
 import com.aiku.presentation.ui.screen.schedule.viewmodel.CalendarViewModel
 import com.aiku.presentation.ui.screen.schedule.viewmodel.UserScheduledDatesUiState
 import com.aiku.presentation.ui.screen.schedule.viewmodel.UserSchedulesUiState
@@ -78,8 +81,10 @@ fun MyScheduleScreen(
                 UserSchedulesUiState.Error -> {}
                 UserSchedulesUiState.Success -> {
                     if (lazyUserSchedulePagingItems.itemCount == 0) {
-                        //TODO : EmptyContentView
-                        //user_no_schedule_content_description
+                        EmptyContentView(
+                            text = stringResource(id = R.string.user_no_schedule_content_description),
+                            bottomChipEnabled = false
+                        )
                     } else {
                         LazyColumn(
                             modifier = Modifier.padding(top = 28.dp),

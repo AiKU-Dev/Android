@@ -97,7 +97,7 @@ fun NotificationScreen(
         item {
             if (notificationUiState is NotificationUiState.Empty) {
                 EmptyContentView(
-                    title = stringResource(R.string.no_notification_yet),
+                    text = stringResource(R.string.no_notification_yet),
                     bottomChipEnabled = false
                 )
             }

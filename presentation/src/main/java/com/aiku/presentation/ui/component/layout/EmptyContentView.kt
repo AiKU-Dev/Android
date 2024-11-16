@@ -20,7 +20,8 @@ import com.aiku.presentation.ui.component.chip.OutlinedChip
 @Composable
 fun EmptyContentView(
     modifier: Modifier = Modifier,
-    title: String,
+    text : String,
+    title: String = "",
     bottomChipEnabled: Boolean = true,
     onBottomChipClicked: () -> Unit = {}
 ) {
@@ -31,7 +32,7 @@ fun EmptyContentView(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = stringResource(id = R.string.suggest_create_schedule),
+            text = text,
             style = Subtitle_2G
         )
         Image(

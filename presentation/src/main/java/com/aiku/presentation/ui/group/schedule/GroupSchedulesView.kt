@@ -109,6 +109,7 @@ fun GroupSchedulesView(
     } else {
         EmptyContentView(
             modifier = modifier,
+            text = stringResource(id = R.string.suggest_create_schedule),
             title = stringResource(id = R.string.create_schedule),
             onBottomChipClicked = onScheduleCreateClicked
         )

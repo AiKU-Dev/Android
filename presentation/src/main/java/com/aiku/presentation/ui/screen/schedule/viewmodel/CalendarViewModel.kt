@@ -67,7 +67,7 @@ class CalendarViewModel @Inject constructor(
     }
 
     /** 선택된 날짜 약속 **/
-    private val _selectedDate = MutableStateFlow<LocalDate?>(null)
+    private val _selectedDate = MutableStateFlow<LocalDate?>(LocalDate.now())
     val selectedDate: StateFlow<LocalDate?> = _selectedDate.asStateFlow()
 
     private val _userSchedulesUiState = MutableStateFlow<UserSchedulesUiState>(UserSchedulesUiState.Loading)
