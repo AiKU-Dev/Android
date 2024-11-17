@@ -95,7 +95,7 @@ fun BottomLinedTextField(
                     }
                 }
                 HorizontalDivider(
-                    modifier = Modifier.padding(top = 4.dp),
+                    modifier = Modifier.padding(top = 8.dp),
                     color = lineColor,
                     thickness = 1.dp
                 )

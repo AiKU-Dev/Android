@@ -46,6 +46,7 @@ import com.aiku.core.theme.Subtitle3_Medium
 import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
+import com.aiku.presentation.theme.Gray04
 import com.aiku.presentation.theme.Gray05
 import com.aiku.presentation.theme.Green5
 import com.aiku.presentation.theme.ScreenBottomPadding
@@ -73,6 +74,7 @@ fun CreateScheduleScreen(
     val scheduleNameInput by createScheduleViewModel.scheduleNameInput.collectAsStateWithLifecycle()
     val scheduleDateInput by createScheduleViewModel.scheduleDateInput.collectAsStateWithLifecycle()
     val scheduleTimeInput by createScheduleViewModel.scheduleTimeInput.collectAsStateWithLifecycle()
+    val scheduleLocationInput by createScheduleViewModel.scheduleLocationInput.collectAsStateWithLifecycle()
     val isButtonEnabled by createScheduleViewModel.isBtnEnabled.collectAsStateWithLifecycle()
 
 
@@ -157,7 +159,8 @@ fun CreateScheduleScreen(
                         )
                     } else {
                         Text(
-                            text = scheduleDateInput!!.atStartOfDay().toDefaultDateFormat(withDayOfWeek = false),
+                            text = scheduleDateInput!!.atStartOfDay()
+                                .toDefaultDateFormat(withDayOfWeek = false),
                             style = Body2_Medium,
                             color = Typo
                         )
@@ -196,7 +199,37 @@ fun CreateScheduleScreen(
                 style = Headline_3G,
                 color = Typo
             )
-            
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 32.dp),
+                contentAlignment = Alignment.CenterEnd
+            ) {
+                Icon(
+                    modifier = Modifier.size(22.dp),
+                    painter = painterResource(id = R.drawable.ic_search),
+                    tint = Gray04,
+                    contentDescription = "검색"
+                )
+
+                BottomLinedTextField(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { }, //TODO : 장소 검색 화면
+                    enabled = false,
+                    value = if (scheduleLocationInput != null) scheduleLocationInput!!.name else "",
+                    onValueChange = {},
+                    maxLines = 1,
+                    showLengthIndicator = false,
+                    showLabel = false,
+                    placeholder = stringResource(id = R.string.schedule_location_setup_placeholder),
+                    maxLength = CreateScheduleViewModel.MAX_SCHEDULE_NAME_LENGTH,
+                    textStyle = Subtitle3_Medium
+                )
+
+            }
+
             Spacer(modifier = Modifier.weight(1f))
 
             FullWidthButton(

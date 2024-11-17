@@ -82,7 +82,7 @@
     <string name="schedule_name_setup_label">최대 15자 입력이 가능합니다</string>
     <string name="schedule_datetime">약속 시간</string>
     <string name="schedule_location">약속 장소</string>
-    <string name="schedule_location_setup_placeholder">약속 장소을 검색하세요</string>
+    <string name="schedule_location_setup_placeholder">약속 장소를 검색하세요</string>
 
     <!-- 약속 -->
     <string name="schedule_running">진행 중</string>
