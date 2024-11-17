@@ -76,6 +76,14 @@
     <string name="group_no_member_content_description">그룹에 멤버 없음</string>
     <string name="suggest_invite_member">멤버를 초대해 보세요!</string>
 
+    <!-- 약속 생성 -->
+    <string name="schedule_name">약속 이름</string>
+    <string name="schedule_name_setup_placeholder">약속 이름을 입력하세요</string>
+    <string name="schedule_name_setup_label">최대 15자 입력이 가능합니다</string>
+    <string name="schedule_datetime">약속 시간</string>
+    <string name="schedule_location">약속 장소</string>
+    <string name="schedule_location_setup_placeholder">약속 장소을 검색하세요</string>
+
     <!-- 약속 -->
     <string name="schedule_running">진행 중</string>
     <string name="schedule_waiting">대기 중</string>

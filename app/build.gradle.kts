@@ -40,6 +40,8 @@ android {
         // Define manifestPlaceholders
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] =
             "kakao" + properties.getProperty("native_app_key")
+        manifestPlaceholders["NATIVE_APP_KEY"] =
+            properties.getProperty("native_app_key")
     }
 
     buildTypes {
@@ -88,6 +90,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.media3.exoplayer.dash)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -109,6 +112,7 @@ dependencies {
     implementation(libs.protobuf.javalite)
 
     implementation(libs.v2.all) //kakao sdk
+    implementation(libs.android) //kakao map
 
     implementation(libs.room)
     kapt(libs.room.compiler)

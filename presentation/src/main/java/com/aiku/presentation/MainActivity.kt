@@ -15,6 +15,7 @@ import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.ui.screen.home.composable.HomeScreen
 import com.aiku.presentation.ui.screen.login.composable.LoginScreen
+import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
 import com.aiku.presentation.ui.screen.splash.composable.SplashScreen
 
@@ -36,10 +37,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AikuNavigation(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = navController,
-                        loginUseCase = loginUseCase
+//                    AikuNavigation(
+//                        modifier = Modifier.fillMaxSize(),
+//                        navController = navController,
+//                        loginUseCase = loginUseCase
+//                    )
+
+                    CreateScheduleScreen(
+                        groupId = 1
                     )
                 }
             }

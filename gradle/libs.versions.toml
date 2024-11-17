@@ -34,6 +34,7 @@ media3ExoplayerDash = "1.4.1"
 pagingRuntime = "3.3.2"
 pagingCompose = "3.3.2"
 pagingCommon = "3.3.2"
+android = "2.12.8"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -87,6 +88,7 @@ androidx-paging-common = { group = "androidx.paging", name = "paging-common", ve
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+android = { group = "com.kakao.maps.open", name = "android", version.ref = "android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

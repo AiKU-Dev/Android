@@ -11,6 +11,10 @@ class CreateScheduleUseCase @Inject constructor(
     private val scheduleRepository: ScheduleRepository
 ) {
 
+    companion object {
+        const val MAX_SCHEDULENAME_LENGTH = 15
+    }
+
     operator fun invoke(
         groupId: Long,
         scheduleName: String,
