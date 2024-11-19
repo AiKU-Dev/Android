@@ -1,6 +1,7 @@
 package com.aiku.aiku.di
 
 import com.aiku.domain.repository.GroupRepository
+import com.aiku.domain.repository.KakaoRepository
 import com.aiku.domain.repository.ScheduleRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.UserRepository
@@ -10,6 +11,7 @@ import com.aiku.domain.usecase.ReadTermsUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import com.aiku.domain.usecase.group.FetchGroupsUseCase
 import com.aiku.domain.usecase.schedule.FetchUserSchedulesUseCase
+import com.aiku.domain.usecase.schedule.SearchPlacesByKeywordUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -66,6 +68,14 @@ object UseCaseModule {
         scheduleRepository: ScheduleRepository
     ): FetchUserSchedulesUseCase {
         return FetchUserSchedulesUseCase(scheduleRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchPlacesByKeywordUseCase(
+        kakaoRepository: KakaoRepository
+    ): SearchPlacesByKeywordUseCase {
+        return SearchPlacesByKeywordUseCase(kakaoRepository)
     }
 
 }

@@ -69,13 +69,14 @@ class LoginRemoteDataSource @Inject constructor(
 
 
             val idToken = tokenResult?.idToken ?: throw ErrorResponse(ERROR_KAKAO_OIDC, "idToken 발급 실패")
-            // val email = getUserEmail() //TODO
+            Log.d("idToken", idToken)
+            val email = getUserEmail()
 
             try {
                 // idToken -> AT, RT 발급
                 noAuthTokenApi.issueATRT(request = IssueATRTRequest(idToken))
             } catch (e: Exception) {
-                throw TokenIssueErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}", idToken = idToken, email = "email")
+                throw TokenIssueErrorResponse(ERROR_SERVER_ISSUE_ATRT, "Token issuance failed: ${e.message}", idToken = idToken, email = email)
             }
 
         } catch (e: TokenIssueErrorResponse) {

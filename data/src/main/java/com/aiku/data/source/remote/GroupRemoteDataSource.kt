@@ -26,19 +26,7 @@ class GroupRemoteDataSource @Inject constructor(
     }
 
     suspend fun fetchGroups(page:Int): GroupOverviewPaginationDto {
-        //TODO : return groupApi.fetchGroups(page)
-        return GroupOverviewPaginationDto(
-            page = page,
-            data = List(11) { index ->
-                // 임의의 더미 데이터 생성
-                GroupOverviewPaginationDto.GroupOverviewDto(
-                    id = index.toLong(),
-                    name = "Dummy Group $index",
-                    memberSize = Random.nextInt(1, 10), // 1부터 10 사이의 랜덤 멤버 수
-                    lastScheduleTime = LocalDateTime.now().plusHours(Random.nextLong(-24, 24)),
-                )
-            }
-        )
+        return groupApi.fetchGroups(page)
     }
 
     suspend fun fetchGroup(groupId: Long): GroupDto {

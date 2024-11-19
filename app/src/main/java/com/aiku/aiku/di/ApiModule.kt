@@ -1,11 +1,13 @@
 package com.aiku.aiku.di
 
 import com.aiku.core.qualifer.Auth
+import com.aiku.core.qualifer.KakaoAuth
 import com.aiku.core.qualifer.NoAuth
-import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.api.remote.GroupApi
+import com.aiku.data.api.remote.KakaoRestApi
 import com.aiku.data.api.remote.NoAuthTokenApi
 import com.aiku.data.api.remote.ScheduleApi
+import com.aiku.data.api.remote.TokenApi
 import com.aiku.data.api.remote.UserApi
 import dagger.Module
 import dagger.Provides
@@ -30,6 +32,13 @@ object ApiModule {
     @Singleton
     fun provideNoAuthTokenApi(@NoAuth retrofit: Retrofit): NoAuthTokenApi {
         return retrofit.create(NoAuthTokenApi::class.java)
+    }
+
+    /** Kakao Rest Api 연결 전용 */
+    @Provides
+    @Singleton
+    fun provideKakaoAuthRestApi(@KakaoAuth retrofit: Retrofit): KakaoRestApi {
+        return retrofit.create(KakaoRestApi::class.java)
     }
 
     @Provides

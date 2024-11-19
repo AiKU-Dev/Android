@@ -31,17 +31,12 @@ android {
         }
 
         // Define buildConfigField with proper formatting
-        buildConfigField(
-            "String",
-            "NATIVE_APP_KEY",
-            "\"${properties.getProperty("native_app_key")}\""
-        )
+        buildConfigField("String", "NATIVE_APP_KEY", "\"${properties.getProperty("native_app_key")}\"")
+        buildConfigField("String", "REST_API_KEY", "\"${properties.getProperty("rest_api_key")}\"")
 
         // Define manifestPlaceholders
-        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] =
-            "kakao" + properties.getProperty("native_app_key")
-        manifestPlaceholders["NATIVE_APP_KEY"] =
-            properties.getProperty("native_app_key")
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = "kakao" + properties.getProperty("native_app_key")
+        manifestPlaceholders["NATIVE_APP_KEY"] = properties.getProperty("native_app_key")
     }
 
     buildTypes {

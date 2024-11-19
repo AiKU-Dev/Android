@@ -2,6 +2,7 @@ package com.aiku.aiku.di
 
 import com.aiku.core.qualifer.IoDispatcher
 import com.aiku.data.repository.GroupRepositoryImpl
+import com.aiku.data.repository.KakaoRepositoryImpl
 import com.aiku.data.repository.NotificationRepositoryImpl
 import com.aiku.data.repository.TermsRepositoryImpl
 import com.aiku.data.repository.ScheduleRepositoryImpl
@@ -12,9 +13,11 @@ import com.aiku.data.source.local.TermsLocalDataSource
 import com.aiku.data.source.local.TokenLocalDataSource
 import com.aiku.data.source.local.UserLocalDataSource
 import com.aiku.data.source.remote.GroupRemoteDataSource
+import com.aiku.data.source.remote.KakaoRemoteDataSource
 import com.aiku.data.source.remote.ScheduleRemoteDataSource
 import com.aiku.data.source.remote.UserRemoteDataSource
 import com.aiku.domain.repository.GroupRepository
+import com.aiku.domain.repository.KakaoRepository
 import com.aiku.domain.repository.NotificationRepository
 import com.aiku.domain.repository.TermsRepository
 import com.aiku.domain.repository.TokenRepository
@@ -81,5 +84,13 @@ object RepositoryModule {
         notificationLocalDataSource: NotificationLocalDataSource
     ): NotificationRepository {
         return NotificationRepositoryImpl(notificationLocalDataSource)
+    }
+
+    @Provides
+    @Singleton
+    fun provideKakaoRepository(
+        kakaoRemoteDataSource: KakaoRemoteDataSource
+    ): KakaoRepository {
+        return KakaoRepositoryImpl(kakaoRemoteDataSource)
     }
 }

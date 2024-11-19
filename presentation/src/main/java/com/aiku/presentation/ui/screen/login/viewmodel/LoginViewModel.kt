@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.login.viewmodel
 
+import android.media.session.MediaSession.Token
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -85,7 +86,7 @@ class LoginViewModel @Inject constructor(
                 }
                 .onError { error ->
                     val uiState = when (error.code) {
-                        TOKEN_NOT_FOUND -> AutoLoginUiState.TokenNotFound
+                        //TOKEN_NOT_FOUND -> AutoLoginUiState.TokenNotFound
                         ERROR_AUTO_LOGIN -> AutoLoginUiState.ServerError
                         else -> AutoLoginUiState.Idle
                     }

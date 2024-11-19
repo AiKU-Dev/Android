@@ -10,14 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
-import com.aiku.presentation.navigation.AikuNavigation
-import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
-import com.aiku.presentation.ui.screen.home.composable.HomeScreen
-import com.aiku.presentation.ui.screen.login.composable.LoginScreen
-import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
-import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
-import com.aiku.presentation.ui.screen.splash.composable.SplashScreen
+import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -42,10 +36,7 @@ class MainActivity : ComponentActivity() {
 //                        navController = navController,
 //                        loginUseCase = loginUseCase
 //                    )
-
-                    CreateScheduleScreen(
-                        groupId = 1
-                    )
+                    SearchPlacesByKeywordScreen(groupId = 1)
                 }
             }
         }

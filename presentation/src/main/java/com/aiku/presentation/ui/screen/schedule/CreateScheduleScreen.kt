@@ -74,7 +74,7 @@ fun CreateScheduleScreen(
     val scheduleNameInput by createScheduleViewModel.scheduleNameInput.collectAsStateWithLifecycle()
     val scheduleDateInput by createScheduleViewModel.scheduleDateInput.collectAsStateWithLifecycle()
     val scheduleTimeInput by createScheduleViewModel.scheduleTimeInput.collectAsStateWithLifecycle()
-    val scheduleLocationInput by createScheduleViewModel.scheduleLocationInput.collectAsStateWithLifecycle()
+    val scheduleLocationNameInput by createScheduleViewModel.scheduleLocationNameInput.collectAsStateWithLifecycle()
     val isButtonEnabled by createScheduleViewModel.isBtnEnabled.collectAsStateWithLifecycle()
 
 
@@ -218,7 +218,7 @@ fun CreateScheduleScreen(
                         .fillMaxWidth()
                         .clickable { }, //TODO : 장소 검색 화면
                     enabled = false,
-                    value = if (scheduleLocationInput != null) scheduleLocationInput!!.name else "",
+                    value = scheduleLocationNameInput,
                     onValueChange = {},
                     maxLines = 1,
                     showLengthIndicator = false,

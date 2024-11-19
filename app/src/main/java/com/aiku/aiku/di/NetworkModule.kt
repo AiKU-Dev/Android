@@ -1,10 +1,15 @@
 package com.aiku.aiku.di
 
+import android.util.Log
 import com.aiku.aiku.BuildConfig
 import com.aiku.core.adapter.LocalDateTimeAdapter
 import com.aiku.core.qualifer.Auth
 import com.aiku.core.qualifer.AuthHeaderInterceptor
 import com.aiku.core.qualifer.BaseUrl
+import com.aiku.core.qualifer.KakaoAuth
+import com.aiku.core.qualifer.KakaoAuthHeaderInterceptor
+import com.aiku.core.qualifer.KakaoBaseUrl
+import com.aiku.core.qualifer.KakaoResponseInterceptor
 import com.aiku.core.qualifer.NoAuth
 import com.aiku.core.qualifer.ResponseInterceptor
 import com.aiku.data.source.local.TokenLocalDataSource
@@ -39,6 +44,14 @@ object NetworkModule {
     @Singleton
     fun provideBaseUrl() : String {
         return "http://3.36.49.12:8080/"
+    }
+
+    /** Kakao Rest Api 연결 전용 : BaseUrl */
+    @KakaoBaseUrl
+    @Provides
+    @Singleton
+    fun provideKakaoBaseUrl() : String {
+        return "https://dapi.kakao.com/"
     }
 
     @Provides
@@ -77,6 +90,19 @@ object NetworkModule {
         }
     }
 
+    /** Kakao Rest Api 연결 전용 : Header Interceptor */
+    @KakaoAuthHeaderInterceptor
+    @Provides
+    @Singleton
+    fun provideKakaoAuthInterceptor(): Interceptor {
+        return Interceptor { chain: Interceptor.Chain ->
+            val newRequest = chain.request().newBuilder()
+                .addHeader("Authorization", "KakaoAK ${BuildConfig.REST_API_KEY}")
+                .build()
+            chain.proceed(newRequest)
+        }
+    }
+
     @ResponseInterceptor
     @Provides
     @Singleton
@@ -85,28 +111,75 @@ object NetworkModule {
     ) : Interceptor {
         return Interceptor { chain ->
             val response = chain.proceed(chain.request())
+            Log.d("response code", response.code.toString())
             when (response.code) {
-                in 400 ..< 500 -> throw ClientNetworkException(response.code)
-                in 500 ..< 600 -> throw ServerNetworkException(response.code)
+                in 400 ..< 500 -> {
+                    throw ClientNetworkException(response.code)
+                }
+                in 500 ..< 600 -> {
+                    throw ServerNetworkException(response.code)
+                }
             }
-            val originalBody = response.body ?: throw UnknownError("response body is null")
+            response.body.use { originalBody ->
+                val bodyString =
+                    originalBody?.string() ?: throw UnknownError("response body is null")
 
-            val source = originalBody.source()
-            val buffer = source.buffer.clone()
-            val bodyString = buffer.readUtf8()
+                if (response.isSuccessful.not()) {
+                    val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
+                    throw exception ?: UnknownError("error response is null")
+                }
 
-            if (response.isSuccessful.not()) {
-                val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
-                throw exception ?: UnknownError("error response is null")
+                val jsonObject = JSONObject(bodyString)
+                val resultObject = jsonObject.getJSONObject("result")
+                val newResponseBody =
+                    resultObject.toString().toResponseBody(originalBody.contentType())
+
+                response.newBuilder()
+                    .body(newResponseBody)
+                    .build()
+            }
+        }
+    }
+
+    /** Kakao Rest Api 연결 전용 : Response Interceptor */
+    @KakaoResponseInterceptor
+    @Provides
+    @Singleton
+    fun provideKakaoResponseInterceptor(
+        moshi: Moshi
+    ): Interceptor {
+        return Interceptor { chain ->
+            val response = chain.proceed(chain.request())
+            Log.d("response code", response.code.toString())
+
+            // HTTP 에러 코드 처리
+            when (response.code) {
+                in 400..499 -> throw ClientNetworkException(response.code)
+                in 500..599 -> throw ServerNetworkException(response.code)
             }
 
-            val jsonObject = JSONObject(bodyString)
-            val resultObject = jsonObject.getJSONObject("result")
-            val newResponseBody = resultObject.toString().toResponseBody(originalBody.contentType())
+            response.body.use { originalBody ->
+                val bodyString =
+                    originalBody?.string() ?: throw UnknownError("Response body is null")
 
-            response.newBuilder()
-                .body(newResponseBody)
-                .build()
+                // 성공하지 않은 경우 에러를 처리
+                if (!response.isSuccessful) {
+                    val exception = moshi.adapter(ErrorResponse::class.java).fromJson(bodyString)
+                    throw exception ?: UnknownError("Error response is null")
+                }
+
+                // documents 항목 추출
+                val jsonObject = JSONObject(bodyString)
+                if (!jsonObject.has("documents")) {
+                    throw UnknownError("Response does not contain documents field")
+                }
+                val documentsArray = jsonObject.getJSONArray("documents")
+                val newResponseBody =
+                    documentsArray.toString().toResponseBody(originalBody.contentType())
+                response.newBuilder()
+                    .body(newResponseBody)
+                    .build()
+            }
         }
     }
 
@@ -144,6 +217,23 @@ object NetworkModule {
             .build()
     }
 
+    /** Kakao Rest Api 연결 전용 : Okhttp */
+    @KakaoAuth
+    @Provides
+    @Singleton
+    fun provideKakaoAuthOkHttpClient(
+        @KakaoAuthHeaderInterceptor kakaoAuthHeaderInterceptor: Interceptor,
+        @KakaoResponseInterceptor kakaoResponseInterceptor: Interceptor,
+    ) : OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(kakaoAuthHeaderInterceptor)
+            .addInterceptor(kakaoResponseInterceptor)
+            .build()
+    }
+
     @Auth
     @Provides
     @Singleton
@@ -170,6 +260,22 @@ object NetworkModule {
         return Retrofit.Builder()
             .client(okHttpClient)
             .baseUrl(baseUrl)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .build()
+    }
+
+    /** Kakao Rest Api 연결 전용 : Retrofit */
+    @KakaoAuth
+    @Provides
+    @Singleton
+    fun provideKakaoAuthRetrofit(
+        @KakaoBaseUrl kakaoBaseUrl: String,
+        @KakaoAuth okHttpClient: OkHttpClient,
+        moshi: Moshi,
+    ): Retrofit {
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(kakaoBaseUrl)
             .addConverterFactory(MoshiConverterFactory.create(moshi))
             .build()
     }

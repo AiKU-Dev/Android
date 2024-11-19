@@ -125,8 +125,7 @@ fun LoginScreen(
                 LoginUiState.Loading -> {}
                 LoginUiState.Success -> {
                     onComplete(true, null, null)}
-                LoginUiState.KakaoOIDCError, LoginUiState.KakaoServerError -> {
-                }
+                LoginUiState.KakaoOIDCError, LoginUiState.KakaoServerError -> {}
                 is LoginUiState.ServerError -> {
                     onComplete(false, uiState.idToken, uiState.email)
                 }

@@ -34,12 +34,12 @@ fun SplashScreen(
 
     // 자동 로그인 시도
     LaunchedEffect(Unit) {
-        loginViewModel.autoLogin(loginUseCase)
+        //loginViewModel.autoLogin(loginUseCase)
     }
     LaunchedEffect(autoLoginUiState) {
         delay(2000)
         when (autoLoginUiState) {
-            AutoLoginUiState.Idle -> Unit
+            AutoLoginUiState.Idle -> onComplete(false)
             AutoLoginUiState.Loading -> Unit
             AutoLoginUiState.Success -> {
                 onComplete(true)
