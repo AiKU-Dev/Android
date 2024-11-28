@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.screen.home.composable
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

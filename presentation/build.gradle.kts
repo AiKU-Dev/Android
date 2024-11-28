@@ -77,4 +77,6 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.paging.compose) //paging
+
+    implementation(libs.android) //kakao map
 }

@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
@@ -44,7 +45,11 @@ import com.aiku.presentation.ui.screen.my.composable.NotificationSettingScreen
 import com.aiku.presentation.ui.screen.my.composable.SeeTermDetailScreen
 import com.aiku.presentation.ui.screen.my.composable.SeeTermsScreen
 import com.aiku.presentation.ui.screen.notification.composable.NotificationScreen
+import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
 import com.aiku.presentation.ui.screen.schedule.MyScheduleScreen
+import com.aiku.presentation.ui.screen.schedule.SearchPlaceByMapScreen
+import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
+import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleViewModel
 import com.aiku.presentation.ui.screen.signup.composable.ProfileEditScreen
 import com.aiku.presentation.ui.screen.signup.composable.TermsAgreementScreen
 import com.aiku.presentation.ui.screen.signup.composable.TermsContentScreen
@@ -180,7 +185,9 @@ fun AikuNavigation(
                 }
                 composable<Routes.Main.MyPage> {
                     MyPageScreen(
-                        modifier = Modifier.fillMaxSize().background(Gray01),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Gray01),
                         onListItemClicked = {
                             when(it) {
                                 MyPageListType.NOTIFICATION -> {
@@ -236,12 +243,52 @@ fun AikuNavigation(
                 }
 
                 navigation<Routes.Main.CreateSchedule.Graph>(
-                    startDestination = Routes.Main.CreateSchedule.First,
+                    startDestination = Routes.Main.CreateSchedule.CreateSchedule,
                 ) {
-                    composable<Routes.Main.CreateSchedule.First> {
 
+                    composable<Routes.Main.CreateSchedule.CreateSchedule> {
+                        val parentEntry = remember(navController.currentBackStackEntry) {
+                            navController.getBackStackEntry(Routes.Main.CreateSchedule.Graph)
+                        }
+                        val createScheduleViewModel = hiltViewModel<CreateScheduleViewModel>(parentEntry)
+
+                        CreateScheduleScreen(
+                            groupId = 1, //TODO : 수정
+                            onNavigateToSearchPlacesByKeywordScreen = {
+                                navController.navigate(Routes.Main.CreateSchedule.SearchPlacesByKeyword)
+                            },
+                            createScheduleViewModel = createScheduleViewModel
+                        )
                     }
-                    // 약속 생성 화면 그래프
+                    composable<Routes.Main.CreateSchedule.SearchPlacesByKeyword> {
+                        val parentEntry = remember(navController.currentBackStackEntry) {
+                            navController.getBackStackEntry(Routes.Main.CreateSchedule.Graph)
+                        }
+                        val createScheduleViewModel = hiltViewModel<CreateScheduleViewModel>(parentEntry)
+
+                        SearchPlacesByKeywordScreen(
+                            onNavigateToSearchPlaceByMapScreen = {
+                                navController.navigate(Routes.Main.CreateSchedule.SearchPlaceByMap)
+                            },
+                            createScheduleViewModel = createScheduleViewModel
+                        )
+                    }
+                    composable<Routes.Main.CreateSchedule.SearchPlaceByMap> {
+                        val parentEntry = remember(navController.currentBackStackEntry) {
+                            navController.getBackStackEntry(Routes.Main.CreateSchedule.Graph)
+                        }
+                        val createScheduleViewModel = hiltViewModel<CreateScheduleViewModel>(parentEntry)
+
+                        SearchPlaceByMapScreen(
+                            onNavigateToSearchPlacesByKeywordScreen = {
+                                navController.navigate(Routes.Main.CreateSchedule.SearchPlacesByKeyword)
+                            },
+                            onNavigateToCreateScheduleScreen = {
+                                navController.navigate(Routes.Main.CreateSchedule.CreateSchedule)
+                            },
+                            createScheduleViewModel = createScheduleViewModel
+                        )
+                    }
                 }
 
                 composable<Routes.Main.Shop> {
@@ -249,12 +296,16 @@ fun AikuNavigation(
                 }
                 composable<Routes.Main.Notification> {
                     NotificationScreen(
-                        modifier = Modifier.fillMaxSize().background(Gray01)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Gray01)
                     )
                 }
                 composable<Routes.Main.NotificationSetting> {
                     NotificationSettingScreen(
-                        modifier = Modifier.fillMaxSize().background(Color.White)
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
                     )
                 }
             }
@@ -309,7 +360,9 @@ fun AikuNavigation(
 
                 composable<Routes.Main.SeeTerms> {
                     SeeTermsScreen(
-                        modifier = Modifier.fillMaxSize().background(Color.White),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White),
                         onTermItemClicked = {
                             navController.navigate(Routes.Main.SeeTermDetail(it))
                         }
@@ -329,7 +382,11 @@ fun AikuNavigation(
 
                 composable<Routes.Main.Inquiry> {
                     InquiryScreen(
-                        modifier = Modifier.fillMaxSize().background(Color.White).padding(horizontal = 20.dp).padding(bottom = 36.dp),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.White)
+                            .padding(horizontal = 20.dp)
+                            .padding(bottom = 36.dp),
                         onNavigateTermDetailScreen = {
                             navController.navigate(Routes.Main.SeeTermDetail(it))
                         }

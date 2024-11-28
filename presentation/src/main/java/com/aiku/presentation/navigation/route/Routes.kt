@@ -57,8 +57,13 @@ object Routes {
             object Graph
 
             @Serializable
-            object First
-            // TODO : 약속 생성 Route 추가
+            object CreateSchedule
+
+            @Serializable
+            object SearchPlacesByKeyword
+
+            @Serializable
+            object SearchPlaceByMap
         }
 
         @Serializable

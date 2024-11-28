@@ -10,7 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
+import com.aiku.presentation.navigation.AikuNavigation
+import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
+import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
+import com.aiku.presentation.ui.screen.schedule.SearchPlaceByMapScreen
 import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,12 +35,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    AikuNavigation(
-//                        modifier = Modifier.fillMaxSize(),
-//                        navController = navController,
-//                        loginUseCase = loginUseCase
-//                    )
-                    SearchPlacesByKeywordScreen(groupId = 1)
+                    AikuNavigation(
+                        modifier = Modifier.fillMaxSize(),
+                        navController = navController,
+                        loginUseCase = loginUseCase
+                    )
                 }
             }
         }

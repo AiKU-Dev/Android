@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aiku.domain.model.schedule.Location
+import com.aiku.domain.model.schedule.Schedule
 import com.aiku.domain.usecase.CreateScheduleUseCase
 import com.aiku.domain.usecase.schedule.SearchPlacesByKeywordUseCase
 import com.aiku.presentation.state.schedule.PlaceState
@@ -60,11 +61,8 @@ class CreateScheduleViewModel @Inject constructor(
     }.stateIn(viewModelScope, SharingStarted.Eagerly, null)
 
     /** 약속 장소 */
-    private val _scheduleLocationNameInput = MutableStateFlow("")
-    val scheduleLocationNameInput: StateFlow<String> = _scheduleLocationNameInput.asStateFlow()
-
-    private val _scheduleLocation = MutableStateFlow<Location?>(null)
-    val scheduleLocation: StateFlow<Location?> = _scheduleLocation.asStateFlow()
+    private val _scheduleLocation = MutableStateFlow<PlaceState?>(null)
+    val scheduleLocation: StateFlow<PlaceState?> = _scheduleLocation.asStateFlow()
 
     /** 약속 생성 버튼 */
     private val _isBtnEnabled = MutableStateFlow(false)
@@ -98,6 +96,10 @@ class CreateScheduleViewModel @Inject constructor(
         _scheduleTimeInput.value = selectedTime
     }
 
+    fun updateScheduleLocation(place: PlaceState) {
+        _scheduleLocation.value = place
+    }
+
     /** 약속 생성 */
     fun createSchedule(groupId: Long) {
         _scheduleLocation.value?.let {
@@ -105,7 +107,7 @@ class CreateScheduleViewModel @Inject constructor(
                 createScheduleUseCase(
                     groupId = groupId,
                     scheduleName = _scheduleNameInput.value,
-                    location = it,
+                    location = Location(it.latitude, it.longitude, it.placeName),
                     scheduleTime = it1,
                     pointAmount = 0 //TODO : 디자인 수정중
                 )

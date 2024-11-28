@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.schedule
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aiku.core.R
 import com.aiku.core.theme.Body2_SemiBold
@@ -40,10 +40,11 @@ import com.aiku.presentation.ui.screen.schedule.viewmodel.SearchPlacesByKeywordU
 @Composable
 fun SearchPlacesByKeywordScreen(
     modifier: Modifier = Modifier,
-    groupId: Long,
-    createScheduleViewModel: CreateScheduleViewModel = hiltViewModel(),
+    onNavigateToSearchPlaceByMapScreen: () -> Unit,
+    createScheduleViewModel: CreateScheduleViewModel
 ) {
 
+    Log.d("ViewModelInstance", "SearchPlaceByMapScreen: ${createScheduleViewModel.hashCode()}")
     val placeNameInput by createScheduleViewModel.placeNameInput.collectAsStateWithLifecycle()
     val searchResults by createScheduleViewModel.searchResults.collectAsStateWithLifecycle()
     val searchPlacesByKeywordUiState by createScheduleViewModel.searchPlacesByKeywordUiState.collectAsStateWithLifecycle()
@@ -76,9 +77,7 @@ fun SearchPlacesByKeywordScreen(
                 )
 
                 BottomLinedTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { }, //TODO : 지도 화면
+                    modifier = Modifier.fillMaxWidth(),
                     value = placeNameInput,
                     onValueChange = {
                         createScheduleViewModel.onPlaceNameChanged(it)
@@ -105,7 +104,11 @@ fun SearchPlacesByKeywordScreen(
                         items(searchResults.size) { index ->
                             PlaceListItem(
                                 placeName = searchResults[index].placeName,
-                                addressName = searchResults[index].addressName
+                                addressName = searchResults[index].addressName,
+                                onClick = {
+                                    createScheduleViewModel.updateScheduleLocation(searchResults[index])
+                                    onNavigateToSearchPlaceByMapScreen()
+                                }
                             )
                         }
                     }
@@ -118,10 +121,13 @@ fun SearchPlacesByKeywordScreen(
 @Composable
 fun PlaceListItem(
     placeName: String,
-    addressName: String
+    addressName: String,
+    onClick: () -> Unit
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() }
     ) {
         Icon(
             modifier = Modifier.size(20.dp, 22.dp),

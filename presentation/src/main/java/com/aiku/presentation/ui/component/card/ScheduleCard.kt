@@ -2,18 +2,15 @@ package com.aiku.presentation.ui.component.card
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -46,8 +43,6 @@ import com.aiku.presentation.theme.Purple5
 import com.aiku.presentation.theme.Yellow5
 import com.aiku.presentation.ui.component.chip.ScheduleStatusChip
 import com.aiku.presentation.ui.component.row.TimeIndicationRow
-import com.aiku.presentation.util.to12TimeFormat
-import com.aiku.presentation.util.toDefaultDateFormat
 import java.time.LocalDateTime
 
 @Composable

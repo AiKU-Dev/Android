@@ -66,7 +66,6 @@ class HomeViewModel @Inject constructor(
         .onError { _groupsUiState.emit(GroupsUiState.Error) }
 
     /** 그룹 생성하기 **/
-    // 그룹 이름의 최대 길이 상수
     companion object {
         const val MAX_GROUPNAME_LENGTH = CreateGroupUseCase.MAX_GROUPNAME_LENGTH
     }

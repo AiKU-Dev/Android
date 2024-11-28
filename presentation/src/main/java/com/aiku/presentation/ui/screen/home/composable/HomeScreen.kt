@@ -1,5 +1,6 @@
 package com.aiku.presentation.ui.screen.home.composable
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -185,7 +186,7 @@ fun HomeContent(
                 GroupsUiState.Error -> { }
 
                 GroupsUiState.Success -> {
-                    if (lazyUserSchedulePagingItems.itemCount == 0) {
+                    if (lazyGroupPagingItems.itemCount == 0) {
                         //TODO : 그룹 empty
                     } else {
                         Groups(
