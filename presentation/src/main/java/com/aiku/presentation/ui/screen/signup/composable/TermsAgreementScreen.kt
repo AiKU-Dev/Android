@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -89,11 +90,14 @@ fun TermsAgreementScreen(
         // "전체 동의" 체크박스
         CheckBoxWithText(
             modifier = Modifier.padding(bottom = TermsItemSpacing),
+            backgroundColor = if (checkedAll) Green5 else Gray02,
+            shape = RoundedCornerShape(5.dp),
             checkedState = checkedAll,
             onCheckedChange = { isChecked ->
                 termsViewModel.onCheckedChanged(-1, isChecked)
             },
-            content = stringResource(id = R.string.terms_agree_all)
+            text = stringResource(id = R.string.terms_agree_all),
+            textStyle = Subtitle3_SemiBold
         )
 
         // 각각의 항목 체크박스

@@ -35,7 +35,7 @@ class TermsViewModel @Inject constructor(
     val checkedStates: StateFlow<List<Boolean>> = _checkedStates
 
     // 모든 체크박스가 체크되었는지 확인
-    val checkedAll: StateFlow<Boolean> = _checkedStates.map { it.all { checked -> checked } }.stateIn(
+    var checkedAll: StateFlow<Boolean> = _checkedStates.map { it.all { checked -> checked } }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.Eagerly,
         initialValue = false
