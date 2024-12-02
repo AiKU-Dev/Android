@@ -1,5 +1,6 @@
 package com.aiku.data.repository
 
+import com.aiku.data.dto.schedule.toPlace
 import com.aiku.data.dto.schedule.toPlaceList
 import com.aiku.data.source.remote.KakaoRemoteDataSource
 import com.aiku.domain.model.schedule.Place
@@ -15,6 +16,12 @@ class KakaoRepositoryImpl @Inject constructor(
     override suspend fun searchPlacesByKeyword(query: String): Flow<List<Place>> {
         return flow {
             emit(kakaoRemoteDataSource.searchPlacesByKeyword(query).toPlaceList())
+        }
+    }
+
+    override suspend fun convertLatLngToAddress(latitude: String, longitude: String): Flow<List<Place>> {
+        return flow {
+            emit(kakaoRemoteDataSource.convertLatLngToAddress(latitude, longitude).toPlace(latitude = latitude, longitude = longitude))
         }
     }
 }

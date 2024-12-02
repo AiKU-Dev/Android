@@ -1,6 +1,8 @@
 package com.aiku.data.source.remote
 
+import android.util.Log
 import com.aiku.data.api.remote.KakaoRestApi
+import com.aiku.data.dto.schedule.KakaoConvertLatLngToAddressDto
 import com.aiku.data.dto.schedule.KakaoPlaceSearchDto
 import com.aiku.domain.exception.ErrorResponse
 import retrofit2.HttpException
@@ -31,4 +33,26 @@ class KakaoRemoteDataSource @Inject constructor(
             )
         }
     }
+
+    suspend fun convertLatLngToAddress(latitude: String, longitude: String): List<KakaoConvertLatLngToAddressDto> {
+        return try {
+            kakaoRestApi.convertLatLngToAddress(latitude = latitude, longitude = longitude)
+        } catch (e: HttpException) {
+            throw ErrorResponse(
+                code = e.code(),
+                message = e.response()?.errorBody()?.string() ?: "Unknown HTTP error"
+            )
+        } catch (e: IOException) {
+            throw ErrorResponse(
+                code = -1,
+                message = "Network connection error: ${e.message}"
+            )
+        } catch (e: Exception) {
+            throw ErrorResponse(
+                code = -2,
+                message = "Unexpected error: ${e.message}"
+            )
+        }
+    }
 }
+

@@ -1,7 +1,9 @@
 package com.aiku.presentation.ui.screen.schedule
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -18,6 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,6 +37,7 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body2_SemiBold
 import com.aiku.core.theme.Caption1
 import com.aiku.core.theme.Subtitle3_SemiBold
+import com.aiku.presentation.state.schedule.PlaceState
 import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Gray04
@@ -41,7 +46,10 @@ import com.aiku.presentation.theme.ScreenBottomPadding
 import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.ui.component.button.FullWidthButton
+import com.aiku.presentation.ui.component.card.ScheduleCard
+import com.aiku.presentation.ui.screen.schedule.viewmodel.ConvertLatLngToAddressUiState
 import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleViewModel
+import com.aiku.presentation.ui.screen.schedule.viewmodel.UserSchedulesUiState
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -53,12 +61,12 @@ import com.kakao.vectormap.camera.CameraUpdateFactory
 @Composable
 fun SearchPlaceByMapScreen(
     modifier: Modifier = Modifier,
-    onNavigateToSearchPlacesByKeywordScreen : () -> Unit,
-    onNavigateToCreateScheduleScreen : () -> Unit,
+    onNavigateToSearchPlacesByKeywordScreen: () -> Unit, //TODO : 뒤로가기?
+    onNavigateToCreateScheduleScreen: () -> Unit,
     createScheduleViewModel: CreateScheduleViewModel
 ) {
-    Log.d("ViewModelInstance", "SearchPlaceByMapScreen: ${createScheduleViewModel.hashCode()}")
     val scheduleLocation by createScheduleViewModel.scheduleLocation.collectAsStateWithLifecycle()
+    val convertLatLngToAddressUiState by createScheduleViewModel.convertLatLngToAddressUiState.collectAsState()
 
     val context = LocalContext.current
     val mapView = remember { MapView(context) }
@@ -91,7 +99,6 @@ fun SearchPlaceByMapScreen(
                 ) {
 
                     /** 장소 정보 */
-                    Log.d("create schedule ui", scheduleLocation.toString())
                     scheduleLocation?.let {
                         Text(
                             text = it.placeName,
@@ -156,23 +163,24 @@ fun SearchPlaceByMapScreen(
                                                     })
                                             kakaoMap.moveCamera(cameraUpdate)
 
-                                        }
+                                            kakaoMap.setOnCameraMoveEndListener { _, position, gestureType ->
+                                                createScheduleViewModel.convertLatLngToAddress(
+                                                    position.position.latitude.toString(), position.position.longitude.toString()
+                                                )
+                                            }
 
-//                                    override fun getPosition(): LatLng {
-//                                        // 현재 위치를 반환
-//                                        return LatLng.from(locationY, locationX)
-//                                    }
+                                        }
                                     },
                                 )
                             }
                         },
                     )
 
-                    Icon(
+                    Image(
                         modifier = Modifier
                             .size(78.dp, 80.dp)
                             .offset(y = (-40).dp),
-                        painter = painterResource(id = R.drawable.ic_mark),
+                        painter = painterResource(id = R.drawable.img_mark),
                         contentDescription = "목적지"
                     )
 
@@ -198,6 +206,12 @@ fun SearchPlaceByMapScreen(
                 }
             )
         }
+    }
+
+    when (convertLatLngToAddressUiState) {
+        ConvertLatLngToAddressUiState.Loading -> {}
+        ConvertLatLngToAddressUiState.Error -> {}
+        ConvertLatLngToAddressUiState.Success -> {}
     }
 }
 

@@ -168,8 +168,11 @@ fun AikuNavigation(
                         modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding()),
                         onGroupClicked = { groupId, groupName ->
                             navController.navigate(
-                                Routes.Main.Group(groupId, groupName)
+                                Routes.Main.CreateSchedule.Graph
                             )
+//                            navController.navigate(
+//                                Routes.Main.Group(groupId, groupName)
+//                            )
                         },
                         onTodayScheduleClicked = {},
                         onNavigateToNotification = {
@@ -257,6 +260,7 @@ fun AikuNavigation(
                             onNavigateToSearchPlacesByKeywordScreen = {
                                 navController.navigate(Routes.Main.CreateSchedule.SearchPlacesByKeyword)
                             },
+                            onComplete = {}, //TODO : 약속 대기화면으로 이동
                             createScheduleViewModel = createScheduleViewModel
                         )
                     }

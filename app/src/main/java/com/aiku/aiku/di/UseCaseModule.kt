@@ -10,6 +10,7 @@ import com.aiku.domain.usecase.CreateGroupUseCase
 import com.aiku.domain.usecase.ReadTermsUseCase
 import com.aiku.domain.usecase.SaveUserUseCase
 import com.aiku.domain.usecase.group.FetchGroupsUseCase
+import com.aiku.domain.usecase.schedule.ConvertLatLngToAddressUseCase
 import com.aiku.domain.usecase.schedule.FetchUserSchedulesUseCase
 import com.aiku.domain.usecase.schedule.SearchPlacesByKeywordUseCase
 import dagger.Module
@@ -76,6 +77,14 @@ object UseCaseModule {
         kakaoRepository: KakaoRepository
     ): SearchPlacesByKeywordUseCase {
         return SearchPlacesByKeywordUseCase(kakaoRepository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideConvertLatLngToAddressUseCase(
+        kakaoRepository: KakaoRepository
+    ): ConvertLatLngToAddressUseCase {
+        return ConvertLatLngToAddressUseCase(kakaoRepository)
     }
 
 }

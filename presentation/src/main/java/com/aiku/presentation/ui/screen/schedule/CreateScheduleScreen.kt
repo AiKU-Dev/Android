@@ -1,6 +1,5 @@
 package com.aiku.presentation.ui.screen.schedule
 
-import android.util.Log
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -50,6 +49,7 @@ import com.aiku.presentation.theme.ScreenHorizontalPadding
 import com.aiku.presentation.theme.Typo
 import com.aiku.presentation.ui.component.button.FullWidthButton
 import com.aiku.presentation.ui.component.textfield.BottomLinedTextField
+import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleUiState
 import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleViewModel
 import com.aiku.presentation.util.to12TimeFormat
 import com.aiku.presentation.util.toDefaultDateFormat
@@ -61,18 +61,22 @@ fun CreateScheduleScreen(
     modifier: Modifier = Modifier,
     groupId: Long,
     onNavigateToSearchPlacesByKeywordScreen: () -> Unit,
+    onComplete: () -> Unit,
     createScheduleViewModel: CreateScheduleViewModel
 ) {
-    Log.d("ViewModelInstance", "SearchPlaceByMapScreen: ${createScheduleViewModel.hashCode()}")
+    /** dialog */
     var showSelectDateDialog by remember { mutableStateOf(false) }
     var showSelectTimeDialog by remember { mutableStateOf(false) }
+    var showEntryFeeDialog by remember { mutableStateOf(false) }
 
     val scheduleNameInput by createScheduleViewModel.scheduleNameInput.collectAsStateWithLifecycle()
     val scheduleDateInput by createScheduleViewModel.scheduleDateInput.collectAsStateWithLifecycle()
     val scheduleTimeInput by createScheduleViewModel.scheduleTimeInput.collectAsStateWithLifecycle()
     val scheduleLocation by createScheduleViewModel.scheduleLocation.collectAsStateWithLifecycle()
-    val isButtonEnabled by createScheduleViewModel.isBtnEnabled.collectAsStateWithLifecycle()
+    val isCreateScheduleBtnEnabled by createScheduleViewModel.isCreateScheduleBtnEnabled.collectAsStateWithLifecycle()
+    val isEntryFeeBtnEnabled by createScheduleViewModel.isEntryFeeBtnEnabled.collectAsStateWithLifecycle()
 
+    val createScheduleUiState by createScheduleViewModel.createScheduleUiState.collectAsStateWithLifecycle()
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
@@ -235,12 +239,12 @@ fun CreateScheduleScreen(
 
             FullWidthButton(
                 modifier = Modifier.padding(top = 57.dp),
-                enabled = isButtonEnabled,
+                enabled = isCreateScheduleBtnEnabled,
                 background = ButtonDefaults.buttonColors(
                     containerColor = Green5,
                     disabledContainerColor = Gray02
                 ),
-                onClick = { createScheduleViewModel.createSchedule(groupId = groupId) },
+                onClick = { createScheduleViewModel.createSchedule(groupId = groupId) }, //TODO : 참가비 선택 다이얼로그로 변경
                 content = {
                     Text(
                         text = stringResource(id = R.string.create),
@@ -273,5 +277,13 @@ fun CreateScheduleScreen(
                 onDismissRequest = { showSelectTimeDialog = false }
             )
         }
+
     }
+
+    when (createScheduleUiState) {
+        CreateScheduleUiState.Loading -> {}
+        CreateScheduleUiState.Error -> {}
+        CreateScheduleUiState.Success -> { onComplete() }
+    }
+
 }
