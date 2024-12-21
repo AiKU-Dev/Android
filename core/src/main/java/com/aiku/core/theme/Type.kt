@@ -220,3 +220,19 @@ val Caption1_Medium = TextStyle(
     lineHeight = 16.sp,
     letterSpacing = 0.sp
 )
+
+val Caption1_SemiBold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.SemiBold,
+    fontSize = 12.sp,
+    lineHeight = 16.sp,
+    letterSpacing = 0.sp
+)
+
+val Caption1_Bold = TextStyle(
+    fontFamily = pretendardFontFamily,
+    fontWeight = FontWeight.Bold,
+    fontSize = 12.sp,
+    lineHeight = 16.sp,
+    letterSpacing = 0.sp
+)

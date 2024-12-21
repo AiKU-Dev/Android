@@ -3,7 +3,12 @@ package com.aiku.presentation
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
@@ -14,6 +19,7 @@ import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
 import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
+import com.aiku.presentation.ui.screen.map.composable.MemberBottomSheet
 import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
 import com.aiku.presentation.ui.screen.schedule.SearchPlaceByMapScreen
 import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
@@ -34,14 +40,18 @@ class MainActivity : ComponentActivity() {
             AiKUTheme {
                 val navController = rememberNavController()
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(WindowInsets.systemBars.asPaddingValues()),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    AikuNavigation(
-                        modifier = Modifier.fillMaxSize(),
-                        navController = navController,
-                        loginUseCase = loginUseCase
-                    )
+//                    AikuNavigation(
+//                        modifier = Modifier.fillMaxSize(),
+//                        navController = navController,
+//                        loginUseCase = loginUseCase
+//                    )
+
+                    MemberBottomSheet()
                 }
             }
         }
