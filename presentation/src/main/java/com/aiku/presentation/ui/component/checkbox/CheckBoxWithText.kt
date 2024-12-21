@@ -44,6 +44,11 @@ import com.aiku.presentation.theme.Typo
  * @param textStyle 텍스트에 적용할 스타일 : 기본값은 Caption1_Medium
  */
 
+
+private val CheckBoxSize = 22.dp
+private val CheckMarkSize = 22.dp
+private val CheckBoxContentPadding = 10.dp
+
 @Composable
 fun CheckBoxWithText(
     modifier: Modifier,
@@ -51,7 +56,7 @@ fun CheckBoxWithText(
     checkedState: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     backgroundColor: Color?, // null : 배경 없음
-    borderColor: Color? = backgroundColor,
+    borderColor: Color? = backgroundColor, //null : 윤곽선 없음
     shape: Shape = RoundedCornerShape(5.dp),
     text: String,
     textStyle: TextStyle = Caption1_Medium,
@@ -95,10 +100,6 @@ fun CheckBoxWithText(
         )
     }
 }
-
-private val CheckBoxSize = 22.dp
-private val CheckMarkSize = 22.dp
-private val CheckBoxContentPadding = 10.dp
 
 @Preview(showBackground = true)
 @Composable

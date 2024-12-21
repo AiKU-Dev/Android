@@ -35,6 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.aiku.core.R
+import com.aiku.core.theme.Body2
 import com.aiku.core.theme.Body2_Medium
 import com.aiku.core.theme.Headline_3G
 import com.aiku.core.theme.Subtitle3_Medium
@@ -237,14 +238,20 @@ fun CreateScheduleScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
+            Text(
+                text = stringResource(id = R.string.notification_cost),
+                style = Body2,
+                color = Color.Black
+            )
+
             FullWidthButton(
-                modifier = Modifier.padding(top = 57.dp),
+                modifier = Modifier.padding(top = 10.dp),
                 enabled = isCreateScheduleBtnEnabled,
                 background = ButtonDefaults.buttonColors(
                     containerColor = Green5,
                     disabledContainerColor = Gray02
                 ),
-                onClick = { createScheduleViewModel.createSchedule(groupId = groupId) }, //TODO : 참가비 선택 다이얼로그로 변경
+                onClick = { createScheduleViewModel.createSchedule(groupId = groupId) }, //TODO : 내 아쿠 체크하고, 충전할 건지 말건지
                 content = {
                     Text(
                         text = stringResource(id = R.string.create),

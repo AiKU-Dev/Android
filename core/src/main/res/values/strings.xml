@@ -10,6 +10,7 @@
     <string name="chip_navigation_icon_content_description">칩 아이콘</string>
     <string name="empty_content_description">콘텐츠 없음</string>
     <string name="create">생성하기</string>
+    <string name="notification_cost">약속 생성 시, 10아쿠가 소모됩니다.</string>
 
     <!-- 로그인 -->
     <string name="aiku_slogan">아이쿠! 또 지각이네?!</string>

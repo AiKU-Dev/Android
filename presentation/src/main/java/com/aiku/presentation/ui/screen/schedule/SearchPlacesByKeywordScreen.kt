@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body2_SemiBold
 import com.aiku.core.theme.Caption1
 import com.aiku.core.theme.Subtitle3_Medium
+import com.aiku.presentation.theme.Gray02
 import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Gray04
 import com.aiku.presentation.theme.ScreenBottomPadding
@@ -99,7 +101,7 @@ fun SearchPlacesByKeywordScreen(
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 16.dp)
+                            .padding(top = 18.dp)
                     ) {
                         items(searchResults.size) { index ->
                             PlaceListItem(
@@ -110,6 +112,15 @@ fun SearchPlacesByKeywordScreen(
                                     onNavigateToSearchPlaceByMapScreen()
                                 }
                             )
+
+                            // 마지막 아이템이 아닐 경우 Divider 추가
+                            if (index < searchResults.size - 1) {
+                                HorizontalDivider(
+                                    thickness = 1.dp,
+                                    color = Gray02,
+                                    modifier = Modifier.padding(top = 10.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -145,7 +156,7 @@ fun PlaceListItem(
                 color = Typo
             )
             Text(
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(top = 8.dp),
                 text = addressName,
                 style = Caption1,
                 color = Gray03
@@ -153,8 +164,5 @@ fun PlaceListItem(
         }
 
     }
-
-
-
 }
 

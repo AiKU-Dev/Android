@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
@@ -16,6 +17,7 @@ import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
 import com.aiku.presentation.ui.screen.schedule.SearchPlaceByMapScreen
 import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
+import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
