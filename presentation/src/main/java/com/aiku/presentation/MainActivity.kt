@@ -18,6 +18,7 @@ import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.ui.screen.map.composable.OngoingRacingListItem
+import com.aiku.presentation.ui.screen.map.composable.RacingResponseDialog
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -45,7 +46,7 @@ class MainActivity : ComponentActivity() {
 //                        loginUseCase = loginUseCase
 //                    )
 
-                    OngoingRacingListItem()
+                    RacingResponseDialog()
                 }
             }
         }
