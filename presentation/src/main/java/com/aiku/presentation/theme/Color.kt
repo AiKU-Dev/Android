@@ -53,3 +53,5 @@ val CobaltBlue = Color(0xFF201CAF)
 
 val Typo = Color(0xFF1E1927)
 
+val AkuYellow = Color(0xFFF6D72F)
+

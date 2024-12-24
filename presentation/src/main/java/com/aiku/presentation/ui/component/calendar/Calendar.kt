@@ -30,6 +30,7 @@ import com.aiku.core.theme.Body2_Medium
 import com.aiku.core.theme.Body2_SemiBold
 import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.presentation.theme.CobaltBlue
+import com.aiku.presentation.theme.Gray03
 import com.aiku.presentation.theme.Gray04
 import com.aiku.presentation.theme.Green5
 import java.time.LocalDate
@@ -66,7 +67,7 @@ fun Calendar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_left),
                     contentDescription = "Previous Month",
-                    tint = Color.Gray
+                    tint = Gray03
                 )
             }
 
@@ -80,7 +81,7 @@ fun Calendar(
                 Icon(
                     painter = painterResource(id = R.drawable.ic_arrow_right),
                     contentDescription = "Next Month",
-                    tint = Color.Gray
+                    tint = Gray03
                 )
             }
         }

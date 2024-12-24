@@ -19,6 +19,7 @@ import com.aiku.core.R
 import com.aiku.core.theme.Body1_SemiBold
 import com.aiku.core.theme.Caption1_Bold
 import com.aiku.presentation.theme.ScreenHorizontalPadding
+import com.aiku.presentation.theme.Typo
 
 @Composable
 fun OngoingScheduleMemberListItem(
@@ -46,7 +47,7 @@ fun OngoingScheduleMemberListItem(
             Text(
                 text = "닉네임 여섯자", //TODO : 닉네임
                 style = Body1_SemiBold,
-                color = Color.Black
+                color = Typo
             )
             Text(
                 text = "멤버",
