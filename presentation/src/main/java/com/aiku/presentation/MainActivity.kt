@@ -18,6 +18,7 @@ import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
 import com.aiku.presentation.theme.AiKUTheme
 import com.aiku.presentation.ui.screen.map.composable.OngoingRacingListItem
+import com.aiku.presentation.ui.screen.map.composable.RacingRejectionDialog
 import com.aiku.presentation.ui.screen.map.composable.RacingResponseDialog
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,7 +47,10 @@ class MainActivity : ComponentActivity() {
 //                        loginUseCase = loginUseCase
 //                    )
 
-                    RacingResponseDialog()
+                    RacingRejectionDialog(
+                        message = "닉네임여섯자 님의 레이싱 신청을 거절했습니다!",
+                        onDismissRequest = { /* 다이얼로그 닫기 */ }
+                    )
                 }
             }
         }
