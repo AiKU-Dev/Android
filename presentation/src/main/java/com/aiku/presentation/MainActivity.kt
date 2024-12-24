@@ -1,5 +1,6 @@
 package com.aiku.presentation
 
+import ReactionBalloonPopup
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -51,7 +52,12 @@ class MainActivity : ComponentActivity() {
 //                        loginUseCase = loginUseCase
 //                    )
 
-                    MemberBottomSheet()
+                    ReactionBalloonPopup(
+                        onDismiss = {  },
+                        onReactionClick = { reaction ->
+
+                        }
+                    )
                 }
             }
         }
