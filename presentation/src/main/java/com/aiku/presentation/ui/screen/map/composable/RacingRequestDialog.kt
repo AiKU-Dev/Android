@@ -123,7 +123,7 @@ fun RacingRequestDialog(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(16.dp)
+                                    .size(18.dp)
                                     .background(color = AkuYellow, shape = CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -188,7 +188,7 @@ fun RacingRequestDialog(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(16.dp)
+                                    .size(18.dp)
                                     .background(color = AkuYellow, shape = CircleShape),
                                 contentAlignment = Alignment.Center
                             ) {

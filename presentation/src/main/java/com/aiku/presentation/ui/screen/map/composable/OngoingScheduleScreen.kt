@@ -1,39 +1,27 @@
 package com.aiku.presentation.ui.screen.map.composable
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -42,18 +30,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.aiku.core.R
-import com.aiku.core.theme.Caption1
-import com.aiku.core.theme.Caption1_SemiBold
-import com.aiku.core.theme.Subtitle3_SemiBold
 import com.aiku.core.theme.Subtitle_3G
-import com.aiku.presentation.theme.CobaltBlue
-import com.aiku.presentation.theme.Gray02
-import com.aiku.presentation.theme.Gray04
 import com.aiku.presentation.theme.ScreenHorizontalPadding
-import com.aiku.presentation.theme.Typo
-import com.aiku.presentation.ui.component.topbar.DefaultTopAppBar
 import com.aiku.presentation.ui.group.GroupTopAppBar
-import com.aiku.presentation.ui.screen.schedule.PlaceListItem
 import com.kakao.vectormap.KakaoMap
 import com.kakao.vectormap.KakaoMapReadyCallback
 import com.kakao.vectormap.LatLng
@@ -63,7 +42,7 @@ import com.kakao.vectormap.camera.CameraUpdateFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MemberBottomSheet(
+fun OngoingScheduleScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -133,15 +112,15 @@ fun MemberBottomSheet(
                 GroupTopAppBar(
                     title = "그룹이름", //TODO : 그룹이름으로 변경
                     actions = {
-                    IconButton(onClick = { /* BACK */ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_exit),
-                            contentDescription = stringResource(
-                                id = R.string.group_more_icon_content_description
+                        IconButton(onClick = { /* BACK */ }) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_exit),
+                                contentDescription = stringResource(
+                                    id = R.string.group_more_icon_content_description
+                                )
                             )
-                        )
-                    }
-                })
+                        }
+                    })
             }
         ) { innerPadding ->
             Column(
@@ -194,6 +173,6 @@ fun MemberBottomSheet(
 @Preview(showBackground = true)
 @Composable
 private fun MemberBottomSheetPreview() {
-    MemberBottomSheet()
+    OngoingScheduleScreen()
 }
 

@@ -6,7 +6,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
@@ -14,17 +13,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.aiku.domain.usecase.LoginUseCase
 import com.aiku.presentation.navigation.AikuNavigation
-import com.aiku.presentation.navigation.route.Routes
 import com.aiku.presentation.theme.AiKUTheme
-import com.aiku.presentation.ui.screen.map.composable.MemberBottomSheet
-import com.aiku.presentation.ui.screen.schedule.CreateScheduleScreen
-import com.aiku.presentation.ui.screen.schedule.SearchPlaceByMapScreen
-import com.aiku.presentation.ui.screen.schedule.SearchPlacesByKeywordScreen
-import com.aiku.presentation.ui.screen.schedule.viewmodel.CreateScheduleViewModel
+import com.aiku.presentation.ui.screen.map.composable.OngoingRacingListItem
 
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -52,12 +45,7 @@ class MainActivity : ComponentActivity() {
 //                        loginUseCase = loginUseCase
 //                    )
 
-                    ReactionBalloonPopup(
-                        onDismiss = {  },
-                        onReactionClick = { reaction ->
-
-                        }
-                    )
+                    OngoingRacingListItem()
                 }
             }
         }
